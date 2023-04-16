@@ -4,6 +4,8 @@
 #include "CumpleJuan/Game/CompasManager/Notes/NotesRegister.h"
 #include <CumpleJuan/Game/CompasManager/CompasManager.h>
 
+const FString DATATABLE_PATH = TEXT("/Game/Datatables/NotesRegister");
+
 UNotesRegister* UNotesRegister::instance = nullptr;
 
 UNotesRegister* UNotesRegister::GetInstance()
@@ -16,10 +18,28 @@ UNotesRegister* UNotesRegister::GetInstance()
 	return instance;
 }
 
-void UNotesRegister::AddNoteToCompass(FCompasssHandler compassHandler)
+UNotesRegister::UNotesRegister()
+{
+	static ConstructorHelpers::FObjectFinder<UDataTable> datatable(*DATATABLE_PATH);
+	ensure(datatable.Object);
+
+	notesDatatable = datatable.Object;
+}
+
+void UNotesRegister::AddNoteToCompass(UCompass* compass, FName noteData)
 {
 	UBaseNote* newNote = NewObject<UBaseNote>();
-	UCompass* compass = UCompassManager::GetInstance()->GetCompass(compassHandler);
+
+	FString ContextString = TEXT("Data table context");
+	FNoteDataRow* row = nullptr;
+	TArray<FName> RowNames = notesDatatable->GetRowNames();
+
+	row = notesDatatable->FindRow<FNoteDataRow>(RowNames[0], ContextString, true);
+
+	if (row)
+	{
+		newNote->ConfigureNote(row);
+	}
 
 	ensure(compass);
 	if (compass)

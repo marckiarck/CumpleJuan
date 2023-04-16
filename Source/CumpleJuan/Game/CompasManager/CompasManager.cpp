@@ -13,16 +13,20 @@ UCompassManager* UCompassManager::instance = nullptr;
 
 UCompassManager* UCompassManager::GetInstance(AActor* requestingActor)
 {
-	if (instance == nullptr && requestingActor)
+	if (instance == nullptr)
 	{
 		instance = NewObject<UCompassManager>();
+	}
+
+	if (requestingActor)
+	{
 		instance->contextWorld = requestingActor->GetWorld();
 	}
 
 	return instance;
 }
 
-const FCompasssHandler UCompassManager::RegisterCompass(UCompassConfiguration* compassConfiguration, bool addedTicking)
+UCompass* UCompassManager::RegisterCompass(UCompassConfiguration* compassConfiguration, bool addedTicking)
 {
 	UCompass* newCompass = NewObject<UCompass>();
 
@@ -31,36 +35,14 @@ const FCompasssHandler UCompassManager::RegisterCompass(UCompassConfiguration* c
 	if (addedTicking)
 	{
 		tickingCompasses.Add(newCompass);
+		StartCompassTick(); //Ensure all the compasses has the same start time
 	}
 	else
 	{
 		unTickingCompasses.Add(newCompass);
 	}
 
-	FCompasssHandler newCompassHandler = FCompasssHandler();
-	newCompassHandler.storedCompass = newCompass;
-	return newCompassHandler;
-}
-
-UCompass* UCompassManager::GetCompass(FCompasssHandler compassHandler)
-{
-	for (UCompass* tickingCompass : tickingCompasses)
-	{
-		if (tickingCompass == compassHandler.storedCompass)
-		{
-			return tickingCompass;
-		}
-	}
-
-	for (UCompass* unTickingCompass : unTickingCompasses)
-	{
-		if (unTickingCompass == compassHandler.storedCompass)
-		{
-			return unTickingCompass;
-		}
-	}
-
-	return nullptr;
+	return newCompass;
 }
 
 void UCompassManager::StartCompassTick()
@@ -79,10 +61,4 @@ void UCompassManager::ShutDownCompassTick()
 	{
 		tickingCompass->ShutDownCompass();
 	}
-}
-
-int FCompasssHandler::handlerIdSequence = 0;
-
-FCompasssHandler::FCompasssHandler() : handlerId(++handlerIdSequence)
-{
 }

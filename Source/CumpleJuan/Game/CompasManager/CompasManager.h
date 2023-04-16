@@ -8,22 +8,6 @@
 #include "CompasManager.generated.h"
 
 
-USTRUCT(BlueprintType)
-struct CUMPLEJUAN_API FCompasssHandler
-{
-	friend class UCompassManager;
-	GENERATED_BODY()
-
-	FCompasssHandler();
-
-	static int handlerIdSequence;
-
-private:
-	int handlerId;
-	UCompass* storedCompass;
-
-};
-
 UCLASS()
 class CUMPLEJUAN_API UCompassManager : public UObject
 {
@@ -51,9 +35,7 @@ private:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	const FCompasssHandler RegisterCompass(UCompassConfiguration* compassConfiguration, bool isRegistered = true);
-	UFUNCTION(BlueprintCallable)
-	UCompass* GetCompass(FCompasssHandler compassHandler);
+	UCompass* RegisterCompass(UCompassConfiguration* compassConfiguration, bool isRegistered = true);
 
 	UFUNCTION(BlueprintCallable)
 	void StartCompassTick();

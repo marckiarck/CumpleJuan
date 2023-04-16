@@ -34,6 +34,7 @@ void UCompass::RecieveNote(UBaseNote* recievedNote)
 		GEngine->AddOnScreenDebugMessage(-1, 0.17f, FColor::Green, TEXT("Added Note"));
 
 		tickPortionFilled += recievedNote->GetUnitCost();
+		OnNoteRecievedDelegate.Broadcast(recievedNote);
 	}
 	else
 	{
@@ -57,4 +58,9 @@ void UCompass::CompassTick()
 FOnCompassTickDelegate& UCompass::GetOnCompassTick()
 {
 	return OnCompassTickDelegate;
+}
+
+FOnNoteRecievedDelegate& UCompass::GetOnNoteRecievedDelegate()
+{
+	return OnNoteRecievedDelegate;
 }

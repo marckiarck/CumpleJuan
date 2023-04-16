@@ -8,6 +8,7 @@
 #include "Compass.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCompassTickDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNoteRecievedDelegate, UBaseNote*, recievedNote);
 
 UCLASS(BlueprintType)
 class CUMPLEJUAN_API UCompassConfiguration : public UDataAsset
@@ -24,6 +25,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Time Unit Duration"))
 		float tickfrequency = 1.f;
+
 };
 
 UCLASS()
@@ -55,6 +57,7 @@ private:
 		FTimerHandle compassTickTimerHandle;
 
 	FOnCompassTickDelegate OnCompassTickDelegate;
+	FOnNoteRecievedDelegate OnNoteRecievedDelegate;
 
 public:
 	void ConfigureCompass(UCompassConfiguration* compassConfiguration);
@@ -64,6 +67,7 @@ public:
 	void RecieveNote(UBaseNote* recievedNote);
 
 	FOnCompassTickDelegate& GetOnCompassTick();
+	FOnNoteRecievedDelegate& GetOnNoteRecievedDelegate();
 
 	UFUNCTION()
 		void CompassTick();

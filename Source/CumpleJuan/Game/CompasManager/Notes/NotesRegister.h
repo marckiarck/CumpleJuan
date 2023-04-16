@@ -17,9 +17,16 @@ class CUMPLEJUAN_API UNotesRegister : public UObject
 public:
 	static UNotesRegister* instance;
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName="GetNotesRegister"))
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "GetNotesRegister"))
 		static UNotesRegister* GetInstance();
 
-	UFUNCTION(BlueprintCallable, Category="NotesRegister")
-	void AddNoteToCompass(struct FCompasssHandler compassHandler);
+	UNotesRegister();
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+		UDataTable* notesDatatable;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "NotesRegister")
+		void AddNoteToCompass(class UCompass* compass, FName noteData);
 };
