@@ -7,17 +7,18 @@
 #include "CumpleJuan/Game/CompasManager/Compass.h"
 #include "CompasManager.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCompassTickDelegate);
 
 USTRUCT(BlueprintType)
 struct CUMPLEJUAN_API FCompasssHandler
 {
+	friend class UCompassManager;
 	GENERATED_BODY()
 
 	FCompasssHandler();
 
 	static int handlerIdSequence;
 
+private:
 	int handlerId;
 	UCompass* storedCompass;
 
@@ -31,24 +32,14 @@ class CUMPLEJUAN_API UCompassManager : public UObject
 public:
 	UCompassManager();
 
-private:
 	static UCompassManager* instance;
 
 	UFUNCTION(BlueprintPure)
-	static UCompassManager* GetInstance(UWorld* world);
+	static UCompassManager* GetInstance(AActor* requestingActor = nullptr);
 
 private:
 	UPROPERTY()
 	UWorld* contextWorld;
-
-	UPROPERTY()
-	FTimerHandle compassTickTimerHandle;
-
-	UPROPERTY()
-	float compassTickfrecuency = 1.f;
-
-	UPROPERTY(Transient)
-	TArray<UCompass*> registeredCompasses;
 
 	UPROPERTY(Transient)
 		TArray<UCompass*> tickingCompasses;
@@ -56,18 +47,17 @@ private:
 	UPROPERTY(Transient)
 		TArray<UCompass*> unTickingCompasses;
 
-	FOnCompassTickDelegate OnCompassTickDelegate;
 
 
 public:
+	UFUNCTION(BlueprintCallable)
 	const FCompasssHandler RegisterCompass(UCompassConfiguration* compassConfiguration, bool isRegistered = true);
+	UFUNCTION(BlueprintCallable)
+	UCompass* GetCompass(FCompasssHandler compassHandler);
 
+	UFUNCTION(BlueprintCallable)
 	void StartCompassTick();
+	UFUNCTION(BlueprintCallable)
 	void ShutDownCompassTick();
 
-	FOnCompassTickDelegate& GetOnCompassTick();
-
-private:
-	UFUNCTION()
-	void OnCompassTick();
 };

@@ -5,19 +5,18 @@
 
 UCompassManager::UCompassManager()
 {
-	registeredCompasses = TArray<UCompass*>();
 	tickingCompasses = TArray<UCompass*>();
 	unTickingCompasses = TArray<UCompass*>();
 }
 
 UCompassManager* UCompassManager::instance = nullptr;
 
-UCompassManager* UCompassManager::GetInstance(UWorld* world)
+UCompassManager* UCompassManager::GetInstance(AActor* requestingActor)
 {
-	if (instance == nullptr)
+	if (instance == nullptr && requestingActor)
 	{
 		instance = NewObject<UCompassManager>();
-		instance->contextWorld = world;
+		instance->contextWorld = requestingActor->GetWorld();
 	}
 
 	return instance;
@@ -28,7 +27,7 @@ const FCompasssHandler UCompassManager::RegisterCompass(UCompassConfiguration* c
 	UCompass* newCompass = NewObject<UCompass>();
 
 	newCompass->ConfigureCompass(compassConfiguration);
-	registeredCompasses.Add(newCompass);
+
 	if (addedTicking)
 	{
 		tickingCompasses.Add(newCompass);
@@ -43,29 +42,43 @@ const FCompasssHandler UCompassManager::RegisterCompass(UCompassConfiguration* c
 	return newCompassHandler;
 }
 
+UCompass* UCompassManager::GetCompass(FCompasssHandler compassHandler)
+{
+	for (UCompass* tickingCompass : tickingCompasses)
+	{
+		if (tickingCompass == compassHandler.storedCompass)
+		{
+			return tickingCompass;
+		}
+	}
+
+	for (UCompass* unTickingCompass : unTickingCompasses)
+	{
+		if (unTickingCompass == compassHandler.storedCompass)
+		{
+			return unTickingCompass;
+		}
+	}
+
+	return nullptr;
+}
+
 void UCompassManager::StartCompassTick()
 {
-	contextWorld->GetTimerManager().SetTimer(compassTickTimerHandle, this, &UCompassManager::OnCompassTick, compassTickfrecuency, true, compassTickfrecuency);
+	ShutDownCompassTick();
+
+	for (UCompass* tickingCompass : tickingCompasses)
+	{
+		tickingCompass->InitialzeCompass(contextWorld);
+	}
 }
 
 void UCompassManager::ShutDownCompassTick()
 {
-	contextWorld->GetTimerManager().ClearTimer(compassTickTimerHandle);
-}
-
-FOnCompassTickDelegate& UCompassManager::GetOnCompassTick()
-{
-	return OnCompassTickDelegate;
-}
-
-void UCompassManager::OnCompassTick()
-{
-	if (GEngine)
+	for (UCompass* tickingCompass : tickingCompasses)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.17f, FColor::Green, TEXT("Compas Tick"));
+		tickingCompass->ShutDownCompass();
 	}
-
-	OnCompassTickDelegate.Broadcast();
 }
 
 int FCompasssHandler::handlerIdSequence = 0;

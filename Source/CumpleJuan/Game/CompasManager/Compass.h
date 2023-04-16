@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include <CumpleJuan/Game/CompasManager/Notes/BaseNote.h>
 #include "Compass.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCompassTickDelegate);
 
 UCLASS(BlueprintType)
 class CUMPLEJUAN_API UCompassConfiguration : public UDataAsset
@@ -19,6 +21,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Time Unit"))
 		int tickTime = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Time Unit Duration"))
+		float tickfrequency = 1.f;
 };
 
 UCLASS()
@@ -27,14 +32,39 @@ class CUMPLEJUAN_API UCompass : public UObject
 	GENERATED_BODY()
 
 private:
+
+	UPROPERTY()
+		UWorld* compassWorld;
+
 	UPROPERTY()
 		int numTicks = 4.f;
 
 	UPROPERTY()
 		int tickTime = 1;
 
+	UPROPERTY()
+		float tickfrequency = 1.f;
+
+	UPROPERTY()
+		int tickIndex = 0;
+
+	UPROPERTY()
+		float tickPortionFilled = 0.f;
+
+	UPROPERTY()
+		FTimerHandle compassTickTimerHandle;
+
+	FOnCompassTickDelegate OnCompassTickDelegate;
+
 public:
 	void ConfigureCompass(UCompassConfiguration* compassConfiguration);
+	void InitialzeCompass(UWorld* contextWorld);
+	void ShutDownCompass();
 
-	void CompassTick();
+	void RecieveNote(UBaseNote* recievedNote);
+
+	FOnCompassTickDelegate& GetOnCompassTick();
+
+	UFUNCTION()
+		void CompassTick();
 };
