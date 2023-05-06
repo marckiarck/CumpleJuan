@@ -14,7 +14,10 @@ struct CUMPLEJUAN_API FNoteDataRow : public FTableRowBase
 	GENERATED_USTRUCT_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly , meta = (DisplayName = "Note Sound"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		FName noteID = TEXT("Invalid");
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Note Sound"))
 		USoundCue* sound = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -28,6 +31,9 @@ class CUMPLEJUAN_API UBaseNote : public UObject
 
 private:
 	UPROPERTY()
+		FName noteID;
+
+	UPROPERTY()
 		float unitCost = 1.f;
 
 	UPROPERTY()
@@ -36,6 +42,7 @@ private:
 public:
 	void ConfigureNote(FNoteDataRow* noteData);
 
+	FName GetNoteID();
 	float GetUnitCost();
 	USoundCue* GetNoteSound();
 };

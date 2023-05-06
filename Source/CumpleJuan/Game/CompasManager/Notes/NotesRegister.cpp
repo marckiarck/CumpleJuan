@@ -32,9 +32,9 @@ void UNotesRegister::AddNoteToCompass(UCompass* compass, FName noteData)
 
 	FString ContextString = TEXT("Data table context");
 	FNoteDataRow* row = nullptr;
-	TArray<FName> RowNames = notesDatatable->GetRowNames();
 
-	row = notesDatatable->FindRow<FNoteDataRow>(RowNames[0], ContextString, true);
+
+	row = notesDatatable->FindRow<FNoteDataRow>(noteData, ContextString, true);
 
 	if (row)
 	{

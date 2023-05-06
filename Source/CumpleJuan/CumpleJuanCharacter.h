@@ -37,6 +37,12 @@ class ACumpleJuanCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	UPROPERTY(VisibleAnywhere)
+	class UAbilitySystemComponent* attachedAbilitySystemomponent;
+
+	UPROPERTY(EditAnywhere)
+	class UAbilitySystemDataComponent* abilitySystemData;
+
 public:
 	ACumpleJuanCharacter();
 	

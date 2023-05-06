@@ -6,8 +6,14 @@
 
 void UBaseNote::ConfigureNote(FNoteDataRow* noteData)
 {
+	noteID = noteData->noteID;
 	unitCost = noteData->unitCost;
 	noteSound = noteData->sound;
+}
+
+FName UBaseNote::GetNoteID()
+{
+	return noteID;
 }
 
 float UBaseNote::GetUnitCost()
