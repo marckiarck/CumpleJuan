@@ -38,7 +38,7 @@ void UNotesRegister::AddNoteToCompass(UCompass* compass, FName noteData)
 
 	if (row)
 	{
-		newNote->ConfigureNote(row);
+		newNote->ConfigureNote(*row);
 	}
 
 	ensure(compass);

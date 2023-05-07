@@ -40,9 +40,9 @@ private:
 		USoundCue* noteSound = nullptr;
 
 public:
-	void ConfigureNote(FNoteDataRow* noteData);
+	void ConfigureNote(FNoteDataRow& noteData);
 
-	FName GetNoteID();
-	float GetUnitCost();
+	const FName GetNoteID();
+	const float GetUnitCost();
 	USoundCue* GetNoteSound();
 };

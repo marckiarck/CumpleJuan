@@ -5,6 +5,7 @@
 #include "CumpleJuan/Game/CompasManager/Notes/NotesRegister.h"
 #include "EnhancedInputComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include <CumpleJuan/Game/GAS/AbilityData/NoteAbilityData.h>
 
 UCompassComponent::UCompassComponent()
 {
@@ -38,8 +39,12 @@ void UCompassComponent::BeginPlay()
 		enhancedInputComponent->BindAction(blackNoteBind, ETriggerEvent::Completed, this, &UCompassComponent::AddBlackNoteToCompass);
 		enhancedInputComponent->BindAction(whiteNoteBind, ETriggerEvent::Completed, this, &UCompassComponent::AddWhiteNoteToCompass);
 		enhancedInputComponent->BindAction(corcheaNoteBind, ETriggerEvent::Completed, this, &UCompassComponent::AddCorcheaNoteToCompass);
-
 	}
+
+	FActorSpawnParameters params;
+	blackNoteActor = GetWorld()->SpawnActor<ANoteActor>(blackNoteClass, params);
+	whiteNoteActor = GetWorld()->SpawnActor<ANoteActor>(whiteNoteClass, params);
+	corcheaNoteActor = GetWorld()->SpawnActor<ANoteActor>(corcheaNoteClass, params);
 }
 
 
@@ -74,12 +79,36 @@ void UCompassComponent::OnCompassTick()
 
 void UCompassComponent::OnCompassRecieveNote(UBaseNote* recievedNote)
 {
-	audioComponent->SetSound(recievedNote->GetNoteSound());
-	audioComponent->Play();
 
-	FString tagString = FString::Printf(TEXT("Compass.Trigger.%s"), *recievedNote->GetNoteID().ToString());
-	FGameplayEventData eventData;
-	FGameplayTag abilityTag = FGameplayTag::RequestGameplayTag(FName(tagString), true);
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner<AActor>(), abilityTag, eventData);
+	if (recievedNote)
+	{
+		ANoteActor* recievedNoteActor = nullptr;
+		if (blackNoteActor->GetBaseNote()->GetNoteID() == recievedNote->GetNoteID())
+		{
+			recievedNoteActor = blackNoteActor;
+		}
+		else if (whiteNoteActor->GetBaseNote()->GetNoteID() == recievedNote->GetNoteID())
+		{
+			recievedNoteActor = whiteNoteActor;
+		}
+		else if (corcheaNoteActor->GetBaseNote()->GetNoteID() == recievedNote->GetNoteID())
+		{
+			recievedNoteActor = whiteNoteActor;
+		}
+
+		if (recievedNoteActor)
+		{
+			FString tagString = FString::Printf(TEXT("Compass.Trigger.%s"), *recievedNote->GetNoteID().ToString());
+			FGameplayTag abilityTag = FGameplayTag::RequestGameplayTag(FName(tagString), false);
+
+			UNoteAbilityData* noteData = NewObject<UNoteAbilityData>();
+			noteData->noteActor = recievedNoteActor;
+			FGameplayEventData DataEvent;
+			DataEvent.OptionalObject = noteData;
+			UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner<AActor>(), abilityTag, DataEvent);
+
+		}
+	}
+
 }
 

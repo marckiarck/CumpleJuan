@@ -57,8 +57,24 @@ void UCompassManager::StartCompassTick()
 
 void UCompassManager::ShutDownCompassTick()
 {
+	TArray<int> invalidIndexes;
+	int currentIndex = 0;
 	for (UCompass* tickingCompass : tickingCompasses)
 	{
-		tickingCompass->ShutDownCompass();
+		if (tickingCompass)
+		{
+			tickingCompass->ShutDownCompass();
+		}
+		else
+		{
+			invalidIndexes.Add(currentIndex);
+		}
+
+		++currentIndex;
+	}
+
+	for (int index : invalidIndexes)
+	{
+		tickingCompasses.RemoveAt(index);
 	}
 }

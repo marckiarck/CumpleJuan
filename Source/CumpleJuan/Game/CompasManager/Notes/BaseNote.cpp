@@ -4,19 +4,19 @@
 #include "CumpleJuan/Game/CompasManager/Notes/BaseNote.h"
 #include "BaseNote.h"
 
-void UBaseNote::ConfigureNote(FNoteDataRow* noteData)
+void UBaseNote::ConfigureNote(FNoteDataRow& noteData)
 {
-	noteID = noteData->noteID;
-	unitCost = noteData->unitCost;
-	noteSound = noteData->sound;
+	noteID = noteData.noteID;
+	unitCost = noteData.unitCost;
+	noteSound = noteData.sound;
 }
 
-FName UBaseNote::GetNoteID()
+const FName UBaseNote::GetNoteID()
 {
 	return noteID;
 }
 
-float UBaseNote::GetUnitCost()
+const float UBaseNote::GetUnitCost()
 {
 	return unitCost;
 }

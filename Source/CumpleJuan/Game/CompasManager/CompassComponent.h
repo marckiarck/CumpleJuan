@@ -10,6 +10,7 @@
 #include <GameplayAbilities/Public/AbilitySystemInterface.h>
 #include "AbilitySystemComponent.h"
 #include "InputMappingContext.h"
+#include <CumpleJuan/Game/CompasManager/Notes/NoteActor.h>
 #include "CompassComponent.generated.h"
 
 UCLASS(BlueprintType, Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -22,6 +23,11 @@ public:
 	UCompassComponent();
 
 private:
+
+	const FName BLACK_NOTE_ROW = TEXT("Black");
+	const FName WHITE_NOTE_ROW = TEXT("White");
+	const FName CORCHEA_NOTE_ROW = TEXT("Corchea");
+
 	UPROPERTY(Transient)
 		UCompass* compass;
 
@@ -43,9 +49,23 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* corcheaNoteBind;
 
-	FName BLACK_NOTE_ROW = TEXT("Black");
-	FName WHITE_NOTE_ROW = TEXT("White");
-	FName CORCHEA_NOTE_ROW = TEXT("Corchea");
+	UPROPERTY(EditAnywhere, DisplayName = "Black Note")
+		TSubclassOf<ANoteActor> blackNoteClass;
+
+	UPROPERTY(EditAnywhere, DisplayName = "White Note")
+		TSubclassOf<ANoteActor> whiteNoteClass;
+
+	UPROPERTY(EditAnywhere, DisplayName = "Corchea Note")
+		TSubclassOf<ANoteActor> corcheaNoteClass;
+
+	UPROPERTY(Transient)
+		ANoteActor* blackNoteActor;
+
+	UPROPERTY(Transient)
+		ANoteActor* whiteNoteActor;
+
+	UPROPERTY(Transient)
+		ANoteActor* corcheaNoteActor;
 
 	UPROPERTY(Transient)
 		UAbilitySystemComponent* abilitySystemComponent;
