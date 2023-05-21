@@ -10,7 +10,7 @@ UNotesRegister* UNotesRegister::instance = nullptr;
 
 UNotesRegister* UNotesRegister::GetInstance()
 {
-	if (instance == nullptr)
+	if (instance == nullptr || instance->IsValidLowLevel() == false)
 	{
 		instance = NewObject<UNotesRegister>();
 	}

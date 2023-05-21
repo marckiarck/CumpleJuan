@@ -23,7 +23,11 @@ void UCompass::ShutDownCompass()
 {
 	if (compassWorld)
 	{
-		compassWorld->GetTimerManager().ClearTimer(compassTickTimerHandle);
+		if (compassWorld->GetTimerManager().IsTimerActive(compassTickTimerHandle))
+		{
+			compassWorld->GetTimerManager().ClearTimer(compassTickTimerHandle);
+		}
+		
 	}
 }
 

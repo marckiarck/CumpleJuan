@@ -13,7 +13,7 @@ UCompassManager* UCompassManager::instance = nullptr;
 
 UCompassManager* UCompassManager::GetInstance(AActor* requestingActor)
 {
-	if (instance == nullptr)
+	if (instance == nullptr || instance->IsValidLowLevel() == false)
 	{
 		instance = NewObject<UCompassManager>();
 	}

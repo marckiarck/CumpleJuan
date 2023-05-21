@@ -12,6 +12,6 @@ class CUMPLEJUAN_API UNoteAbilityData : public UObject
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(Transient)
+	UPROPERTY(Transient, BlueprintReadOnly)
 	class ANoteActor* noteActor;
 };

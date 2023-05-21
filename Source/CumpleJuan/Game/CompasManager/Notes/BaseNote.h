@@ -42,6 +42,9 @@ private:
 public:
 	void ConfigureNote(FNoteDataRow& noteData);
 
+	UFUNCTION(BlueprintCallable)
+	const void PlayNoteSound(AActor* soundOwner);
+
 	const FName GetNoteID();
 	const float GetUnitCost();
 	USoundCue* GetNoteSound();
