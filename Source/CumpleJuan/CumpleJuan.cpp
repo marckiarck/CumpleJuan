@@ -2,6 +2,27 @@
 
 #include "CumpleJuan.h"
 #include "Modules/ModuleManager.h"
+#include "GameplayDebugger.h"
+#include "Game/GAS/DebugCategories/PlayerAttriutesDebugCategory.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, CumpleJuan, "CumpleJuan" );
- 
+IMPLEMENT_PRIMARY_GAME_MODULE(CumpleJuan, CumpleJuan, "CumpleJuan" );
+
+
+void CumpleJuan::StartupModule()
+{
+#if WITH_GAMEPLAY_DEBUGGER
+	IGameplayDebugger& GameplayDebuggerModule = IGameplayDebugger::Get();
+
+	GameplayDebuggerModule.RegisterCategory(TEXT("PlayerAttributes"), IGameplayDebugger::FOnGetCategory::CreateStatic(&FPlayerAttriutesDebugCategory::MakeInstance),
+		EGameplayDebuggerCategoryState::EnabledInGameAndSimulate);
+	GameplayDebuggerModule.NotifyCategoriesChanged();
+#endif
+}
+
+void CumpleJuan::ShutdownModule()
+{
+#if WITH_GAMEPLAY_DEBUGGER
+	IGameplayDebugger& GameplayDebuggerModule = IGameplayDebugger::Get();
+	GameplayDebuggerModule.UnregisterCategory(TEXT("PlayerAttributes"));
+#endif
+}

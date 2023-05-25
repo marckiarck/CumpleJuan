@@ -2,6 +2,7 @@
 
 
 #include "CumpleJuan/Game/GAS/AbilitySystemDataComponent.h"
+#include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
 
 // Sets default values for this component's properties
@@ -28,8 +29,27 @@ void UAbilitySystemDataComponent::BeginPlay()
 				abilitySystem->GiveAbility(FGameplayAbilitySpec(ability.GetDefaultObject(), 1, 0));
 			}
 		}
+
+		for (TSubclassOf<UAttributeSet> attributeClassIt : addedAtributeSets)
+		{
+			const FString attributesSetHash = GetAttributeSetKey(attributeClassIt);
+			if (attributesMap.Contains(attributesSetHash) == false)
+			{
+				const UAttributeSet* instancedAttributes = NewObject<UAttributeSet>(attributeClassIt);
+				instancedAttributes = abilitySystem->InitStats(attributeClassIt, attributtesDatatable);
+
+				attributesMap.Add(attributesSetHash, instancedAttributes);
+			}
+
+		}
+
 	}
 	
+}
+
+const FString UAbilitySystemDataComponent::GetAttributeSetKey(TSubclassOf<UAttributeSet> attributeSetClass)
+{
+	return attributeSetClass->GetName();
 }
 
 
