@@ -13,7 +13,7 @@ void CumpleJuan::StartupModule()
 #if WITH_GAMEPLAY_DEBUGGER
 	IGameplayDebugger& GameplayDebuggerModule = IGameplayDebugger::Get();
 
-	GameplayDebuggerModule.RegisterCategory(TEXT("PlayerAttributes"), IGameplayDebugger::FOnGetCategory::CreateStatic(&FPlayerAttriutesDebugCategory::MakeInstance),
+	GameplayDebuggerModule.RegisterCategory(TEXT("GAS_Attributes"), IGameplayDebugger::FOnGetCategory::CreateStatic(&FPlayerAttriutesDebugCategory::MakeInstance),
 		EGameplayDebuggerCategoryState::EnabledInGameAndSimulate);
 	GameplayDebuggerModule.NotifyCategoriesChanged();
 #endif
@@ -23,6 +23,6 @@ void CumpleJuan::ShutdownModule()
 {
 #if WITH_GAMEPLAY_DEBUGGER
 	IGameplayDebugger& GameplayDebuggerModule = IGameplayDebugger::Get();
-	GameplayDebuggerModule.UnregisterCategory(TEXT("PlayerAttributes"));
+	GameplayDebuggerModule.UnregisterCategory(TEXT("GAS_Attributes"));
 #endif
 }

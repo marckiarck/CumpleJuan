@@ -16,25 +16,40 @@ FPlayerAttriutesDebugCategory::FPlayerAttriutesDebugCategory()
 
 void FPlayerAttriutesDebugCategory::CollectData(APlayerController* OwnerPC, AActor* DebugActor)
 {
-	if (OwnerPC)
+	UAbilitySystemDataComponent* abilityData = nullptr;
+
+
+	if (DebugActor == nullptr)
 	{
-		APawn* player = OwnerPC->GetPawn();
-		if (player)
+		if (OwnerPC == nullptr)
 		{
-			UAbilitySystemDataComponent* playerAbilityData = player->FindComponentByClass<UAbilitySystemDataComponent>();
-			if (playerAbilityData)
+			return;
+		}
+		else
+		{
+			APawn* player = OwnerPC->GetPawn();
+			if (player)
 			{
-				const UCharacterAttributes* characterAttributes = playerAbilityData->GetAttributes<UCharacterAttributes>();
-				if (characterAttributes)
-				{
-					DataPack.actorName = OwnerPC->GetPawn()->GetName();
-					DataPack.maxHealth = FString::SanitizeFloat(characterAttributes->GetmaxHealth());
-					DataPack.health = FString::SanitizeFloat(characterAttributes->Gethealth());
-					DataPack.damage = FString::SanitizeFloat(characterAttributes->Getdamage());
-				}
-				
+				abilityData = player->FindComponentByClass<UAbilitySystemDataComponent>();
 			}
 		}
+	}
+	else
+	{
+		abilityData = DebugActor->FindComponentByClass<UAbilitySystemDataComponent>();
+	}
+
+	if (abilityData)
+	{
+		const UCharacterAttributes* characterAttributes = abilityData->GetAttributes<UCharacterAttributes>();
+		if (characterAttributes)
+		{
+			DataPack.actorName = OwnerPC->GetPawn()->GetName();
+			DataPack.maxHealth = FString::SanitizeFloat(characterAttributes->GetmaxHealth());
+			DataPack.health = FString::SanitizeFloat(characterAttributes->Gethealth());
+			DataPack.damage = FString::SanitizeFloat(characterAttributes->Getdamage());
+		}
+
 	}
 	
 }
