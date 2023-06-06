@@ -27,7 +27,7 @@ const float UBaseNote::GetUnitCost()
 	return unitCost;
 }
 
-USoundCue* UBaseNote::GetNoteSound()
+const USoundCue* UBaseNote::GetNoteSound()
 {
 	return noteSound;
 }

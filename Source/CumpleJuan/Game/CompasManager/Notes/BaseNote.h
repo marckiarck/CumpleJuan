@@ -8,7 +8,7 @@
 #include "Sound/SoundCue.h"
 #include "BaseNote.generated.h"
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Blueprintable)
 struct CUMPLEJUAN_API FNoteDataRow : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
@@ -24,7 +24,7 @@ public:
 		float unitCost = 1.f;
 };
 
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class CUMPLEJUAN_API UBaseNote : public UObject
 {
 	GENERATED_BODY()
@@ -45,7 +45,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	const void PlayNoteSound(AActor* soundOwner);
 
+	UFUNCTION(BlueprintPure)
 	const FName GetNoteID();
+	UFUNCTION(BlueprintPure)
 	const float GetUnitCost();
-	USoundCue* GetNoteSound();
+	UFUNCTION(BlueprintPure)
+	const USoundCue* GetNoteSound();
 };

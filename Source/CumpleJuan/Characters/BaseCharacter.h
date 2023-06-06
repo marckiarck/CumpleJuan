@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../Game/GAS/AbilitySystemDataComponent.h"
+#include "AbilitySystemComponent.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS()
@@ -15,12 +17,8 @@ public:
 	// Sets default values for this character's properties
 	ABaseCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	UPROPERTY(Transient)
+	UAbilitySystemComponent* abilitySystemComponent = nullptr;
+	UPROPERTY(EditAnywhere, Category=AbilitySystem)
+	UAbilitySystemDataComponent* abilitySystemDataComponent = nullptr;
 };

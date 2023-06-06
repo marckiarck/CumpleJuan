@@ -27,7 +27,7 @@ private:
 	UPROPERTY(Transient)
 	TMap<FString,const class UAttributeSet*> attributesMap;
 
-	UPROPERTY(EditAnywhere, meta = (RequiredAssetDataTags = "RowStructure=AttributeMetaData"))
+	UPROPERTY(EditAnywhere)//, meta = (RequiredAssetDataTags = "RowStructure=AttributeMetaData"))
 	UDataTable* attributtesDatatable;
 
 protected:

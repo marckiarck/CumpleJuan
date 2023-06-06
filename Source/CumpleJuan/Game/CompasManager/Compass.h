@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Time Unit Duration"))
 		float tickfrequency = 1.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Fail Recieving Sound"))
+		USoundCue* failRecieveNoteSound = nullptr;
+
 };
 
 UCLASS()
@@ -54,10 +57,14 @@ private:
 		float tickPortionFilled = 0.f;
 
 	UPROPERTY()
+		USoundCue* failRecieveNoteSound = nullptr;
+
+	UPROPERTY()
 		FTimerHandle compassTickTimerHandle;
 
 	FOnCompassTickDelegate OnCompassTickDelegate;
 	FOnNoteRecievedDelegate OnNoteRecievedDelegate;
+	FOnNoteRecievedDelegate OnNoteFailedDelegate;
 
 public:
 	void ConfigureCompass(UCompassConfiguration* compassConfiguration);
@@ -66,8 +73,11 @@ public:
 
 	void RecieveNote(UBaseNote* recievedNote);
 
+	USoundCue* GetFailRecieveNoteSoud();
+
 	FOnCompassTickDelegate& GetOnCompassTick();
 	FOnNoteRecievedDelegate& GetOnNoteRecievedDelegate();
+	FOnNoteRecievedDelegate& GetOnNoteFailedDelegate();
 
 	UFUNCTION()
 		void CompassTick();

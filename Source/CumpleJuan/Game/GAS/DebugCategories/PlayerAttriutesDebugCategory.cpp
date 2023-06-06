@@ -17,7 +17,7 @@ FPlayerAttriutesDebugCategory::FPlayerAttriutesDebugCategory()
 void FPlayerAttriutesDebugCategory::CollectData(APlayerController* OwnerPC, AActor* DebugActor)
 {
 	UAbilitySystemDataComponent* abilityData = nullptr;
-
+	FString focusActorName = TEXT("NONE");
 
 	if (DebugActor == nullptr)
 	{
@@ -31,12 +31,14 @@ void FPlayerAttriutesDebugCategory::CollectData(APlayerController* OwnerPC, AAct
 			if (player)
 			{
 				abilityData = player->FindComponentByClass<UAbilitySystemDataComponent>();
+				focusActorName = player->GetName();
 			}
 		}
 	}
 	else
 	{
 		abilityData = DebugActor->FindComponentByClass<UAbilitySystemDataComponent>();
+		focusActorName = DebugActor->GetName();
 	}
 
 	if (abilityData)
@@ -44,7 +46,7 @@ void FPlayerAttriutesDebugCategory::CollectData(APlayerController* OwnerPC, AAct
 		const UCharacterAttributes* characterAttributes = abilityData->GetAttributes<UCharacterAttributes>();
 		if (characterAttributes)
 		{
-			DataPack.actorName = OwnerPC->GetPawn()->GetName();
+			DataPack.actorName = focusActorName;
 			DataPack.maxHealth = FString::SanitizeFloat(characterAttributes->GetmaxHealth());
 			DataPack.health = FString::SanitizeFloat(characterAttributes->Gethealth());
 			DataPack.damage = FString::SanitizeFloat(characterAttributes->Getdamage());

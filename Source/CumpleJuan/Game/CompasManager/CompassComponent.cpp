@@ -30,6 +30,7 @@ void UCompassComponent::BeginPlay()
 
 	compass->GetOnCompassTick().AddDynamic(this, &UCompassComponent::OnCompassTick);
 	compass->GetOnNoteRecievedDelegate().AddDynamic(this, &UCompassComponent::OnCompassRecieveNote);
+	compass->GetOnNoteFailedDelegate().AddDynamic(this, &UCompassComponent::OnCompassFailedNote);
 
 	AActor* owner = GetOwner<AActor>();
 	abilitySystemComponent = owner->FindComponentByClass<UAbilitySystemComponent>();
@@ -71,6 +72,46 @@ void UCompassComponent::AddCorcheaNoteToCompass()
 	AddNoteToCompass(CORCHEA_NOTE_ROW);
 }
 
+void UCompassComponent::LaunchNoteAbility(FString tagString, UBaseNote* recievedNote)
+{
+	if (recievedNote == nullptr)
+	{
+		return;
+	}
+
+	ANoteActor* recievedNoteActor = GetNoteActor(recievedNote);
+	if (recievedNoteActor)
+	{
+		FGameplayTag abilityTag = FGameplayTag::RequestGameplayTag(FName(tagString), false);
+
+		UNoteAbilityData* noteData = NewObject<UNoteAbilityData>();
+		noteData->noteActor = recievedNoteActor;
+		noteData->failRecieveNoteSound = compass->GetFailRecieveNoteSoud();
+		FGameplayEventData DataEvent;
+		DataEvent.OptionalObject = noteData;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner<AActor>(), abilityTag, DataEvent);
+	}
+	
+}
+
+ANoteActor* UCompassComponent::GetNoteActor(UBaseNote* referenceNote)
+{
+	if (blackNoteActor->GetBaseNote()->GetNoteID() == referenceNote->GetNoteID())
+	{
+		return blackNoteActor;
+	}
+	else if (whiteNoteActor->GetBaseNote()->GetNoteID() == referenceNote->GetNoteID())
+	{
+		return whiteNoteActor;
+	}
+	else if (corcheaNoteActor->GetBaseNote()->GetNoteID() == referenceNote->GetNoteID())
+	{
+		return whiteNoteActor;
+	}
+
+	return nullptr;
+}
+
 void UCompassComponent::OnCompassTick()
 {
 	audioComponent->SetSound(compassSound);
@@ -82,33 +123,17 @@ void UCompassComponent::OnCompassRecieveNote(UBaseNote* recievedNote)
 
 	if (recievedNote)
 	{
-		ANoteActor* recievedNoteActor = nullptr;
-		if (blackNoteActor->GetBaseNote()->GetNoteID() == recievedNote->GetNoteID())
-		{
-			recievedNoteActor = blackNoteActor;
-		}
-		else if (whiteNoteActor->GetBaseNote()->GetNoteID() == recievedNote->GetNoteID())
-		{
-			recievedNoteActor = whiteNoteActor;
-		}
-		else if (corcheaNoteActor->GetBaseNote()->GetNoteID() == recievedNote->GetNoteID())
-		{
-			recievedNoteActor = whiteNoteActor;
-		}
-
-		if (recievedNoteActor)
-		{
-			FString tagString = FString::Printf(TEXT("Compass.Trigger.%s"), *recievedNote->GetNoteID().ToString());
-			FGameplayTag abilityTag = FGameplayTag::RequestGameplayTag(FName(tagString), false);
-
-			UNoteAbilityData* noteData = NewObject<UNoteAbilityData>();
-			noteData->noteActor = recievedNoteActor;
-			FGameplayEventData DataEvent;
-			DataEvent.OptionalObject = noteData;
-			UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner<AActor>(), abilityTag, DataEvent);
-
-		}
+		FString tagString = FString::Printf(TEXT("Compass.Trigger.%s"), *recievedNote->GetNoteID().ToString());
+		LaunchNoteAbility(tagString, recievedNote);
 	}
 
 }
 
+void UCompassComponent::OnCompassFailedNote(UBaseNote* recievedNote)
+{
+	if (recievedNote)
+	{
+		FString tagString = TEXT("Compass.Trigger.Fail");
+		LaunchNoteAbility(tagString, recievedNote);
+	}
+}

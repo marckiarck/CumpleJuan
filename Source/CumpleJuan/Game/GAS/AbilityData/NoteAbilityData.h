@@ -10,8 +10,11 @@ UCLASS(BlueprintType, Blueprintable)
 class CUMPLEJUAN_API UNoteAbilityData : public UObject
 {
 	GENERATED_BODY()
-	
+
 public:
 	UPROPERTY(Transient, BlueprintReadOnly)
-	class ANoteActor* noteActor;
+		class ANoteActor* noteActor;
+
+	UPROPERTY(Transient, BlueprintReadOnly)
+		class USoundCue* failRecieveNoteSound = nullptr;
 };

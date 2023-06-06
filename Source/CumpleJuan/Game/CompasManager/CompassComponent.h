@@ -91,10 +91,17 @@ private:
 	UFUNCTION()
 		void AddCorcheaNoteToCompass();
 
+	void LaunchNoteAbility(FString tagString, UBaseNote* recievedNote);
+
+	ANoteActor* GetNoteActor(UBaseNote* referenceNote);
+
 	UFUNCTION()
 		void OnCompassTick();
 
 	UFUNCTION()
 		void OnCompassRecieveNote(UBaseNote* recievedNote);
+
+	UFUNCTION()
+		void OnCompassFailedNote(UBaseNote* recievedNote);
 
 };

@@ -8,6 +8,7 @@ void UCompass::ConfigureCompass(UCompassConfiguration* compassConfiguration)
 	numTicks = compassConfiguration->numTicks;
 	tickTime = compassConfiguration->tickTime;
 	tickfrequency = compassConfiguration->tickfrequency;
+	failRecieveNoteSound = compassConfiguration->failRecieveNoteSound;
 }
 
 void UCompass::InitialzeCompass(UWorld* contextWorld)
@@ -43,7 +44,14 @@ void UCompass::RecieveNote(UBaseNote* recievedNote)
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 0.17f, FColor::Green, TEXT("Failed Adding Note"));
+		OnNoteFailedDelegate.Broadcast(recievedNote);
+		tickPortionFilled = 0.f;
 	}
+}
+
+USoundCue* UCompass::GetFailRecieveNoteSoud()
+{
+	return failRecieveNoteSound;
 }
 
 void UCompass::CompassTick()
@@ -67,4 +75,9 @@ FOnCompassTickDelegate& UCompass::GetOnCompassTick()
 FOnNoteRecievedDelegate& UCompass::GetOnNoteRecievedDelegate()
 {
 	return OnNoteRecievedDelegate;
+}
+
+FOnNoteRecievedDelegate& UCompass::GetOnNoteFailedDelegate()
+{
+	return OnNoteFailedDelegate;
 }
