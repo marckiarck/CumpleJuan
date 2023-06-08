@@ -24,10 +24,6 @@ public:
 
 private:
 
-	const FName BLACK_NOTE_ROW = TEXT("Black");
-	const FName WHITE_NOTE_ROW = TEXT("White");
-	const FName CORCHEA_NOTE_ROW = TEXT("Corchea");
-
 	UPROPERTY(Transient)
 		UCompass* compass;
 
@@ -40,38 +36,21 @@ private:
 	UPROPERTY(EditAnywhere, meta = (DisplayName = "Compass Sound"))
 		USoundCue* compassSound = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* blackNoteBind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* whiteNoteBind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* corcheaNoteBind;
-
-	UPROPERTY(EditAnywhere, DisplayName = "Black Note")
-		TSubclassOf<ANoteActor> blackNoteClass;
-
-	UPROPERTY(EditAnywhere, DisplayName = "White Note")
-		TSubclassOf<ANoteActor> whiteNoteClass;
-
-	UPROPERTY(EditAnywhere, DisplayName = "Corchea Note")
-		TSubclassOf<ANoteActor> corcheaNoteClass;
-
-	UPROPERTY(Transient)
-		ANoteActor* blackNoteActor;
-
-	UPROPERTY(Transient)
-		ANoteActor* whiteNoteActor;
-
-	UPROPERTY(Transient)
-		ANoteActor* corcheaNoteActor;
-
 	UPROPERTY(Transient)
 		UAbilitySystemComponent* abilitySystemComponent;
 
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<ANoteActor>> noteActors;
+
+	UPROPERTY(Transient)
+	TMap<FName, ANoteActor*> noteActorsMap;
+
 
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+public:
+	UFUNCTION(BlueprintCallable)
+		void AddNoteToCompass(FName noteRow);
 
 protected:
 	// Called when the game starts
@@ -79,21 +58,7 @@ protected:
 
 private:
 
-	UFUNCTION(BlueprintCallable)
-		void AddNoteToCompass(FName noteRow);
-
-	UFUNCTION()
-		void AddBlackNoteToCompass();
-
-	UFUNCTION()
-		void AddWhiteNoteToCompass();
-
-	UFUNCTION()
-		void AddCorcheaNoteToCompass();
-
 	void LaunchNoteAbility(FString tagString, UBaseNote* recievedNote);
-
-	ANoteActor* GetNoteActor(UBaseNote* referenceNote);
 
 	UFUNCTION()
 		void OnCompassTick();

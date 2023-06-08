@@ -11,6 +11,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystemComponent.h"
 #include "Game/GAS/AbilitySystemDataComponent.h"
+#include "Game/GAS/AttributeSets/MoveSpeedAttributeSet.h"
+#include "Game/CompasManager/CompassComponent.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -34,7 +36,6 @@ ACumpleJuanCharacter::ACumpleJuanCharacter()
 	// instead of recompiling to adjust them
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
@@ -51,6 +52,8 @@ ACumpleJuanCharacter::ACumpleJuanCharacter()
 
 	attachedAbilitySystemomponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("Attached Ablity System"));
 	abilitySystemData = CreateDefaultSubobject<UAbilitySystemDataComponent>(TEXT("Ability System Data"));
+
+	compassComponent = CreateDefaultSubobject<UCompassComponent>(TEXT("CompassComponent"));
 }
 
 void ACumpleJuanCharacter::BeginPlay()
@@ -66,6 +69,9 @@ void ACumpleJuanCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+
+	GetCharacterMovement()->MaxWalkSpeed = abilitySystemData->GetAttributes<UMoveSpeedAttributeSet>()->GetmoveSpeed();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -85,6 +91,9 @@ void ACumpleJuanCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACumpleJuanCharacter::Look);
+
+		//Black Note
+		EnhancedInputComponent->BindAction(BlackNoteAction, ETriggerEvent::Started, this, &ACumpleJuanCharacter::SendBlackNote);
 
 	}
 
@@ -117,6 +126,10 @@ void ACumpleJuanCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void ACumpleJuanCharacter::SendBlackNote()
+{
+	compassComponent->AddNoteToCompass(BLACK_NOTE_ROW);
+}
 
 
 

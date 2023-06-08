@@ -46,6 +46,7 @@ public:
 		}
 		else
 		{
+			ensureMsgf(true, TEXT("Attribute Set class passed as template wasn't added to the AddedAttributeSets"));
 			return nullptr;
 		}
 	}

@@ -45,7 +45,6 @@ void UCompass::RecieveNote(UBaseNote* recievedNote)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 0.17f, FColor::Green, TEXT("Failed Adding Note"));
 		OnNoteFailedDelegate.Broadcast(recievedNote);
-		tickPortionFilled = 0.f;
 	}
 }
 

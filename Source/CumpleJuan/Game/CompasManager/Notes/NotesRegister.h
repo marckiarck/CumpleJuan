@@ -28,5 +28,8 @@ private:
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "NotesRegister")
-		void AddNoteToCompass(class UCompass* compass, FName noteData);
+		void AddNoteToCompassByRow(class UCompass* compass, FName noteData);
+
+	UFUNCTION(BlueprintCallable, Category = "NotesRegister")
+		void AddNoteToCompass(class UCompass* compass, UBaseNote* addedNote);
 };

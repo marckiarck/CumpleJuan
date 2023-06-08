@@ -35,41 +35,19 @@ void UCompassComponent::BeginPlay()
 	AActor* owner = GetOwner<AActor>();
 	abilitySystemComponent = owner->FindComponentByClass<UAbilitySystemComponent>();
 
-	if (UEnhancedInputComponent* enhancedInputComponent = CastChecked<UEnhancedInputComponent>(owner->FindComponentByClass<UInputComponent>()))
-	{
-		enhancedInputComponent->BindAction(blackNoteBind, ETriggerEvent::Completed, this, &UCompassComponent::AddBlackNoteToCompass);
-		enhancedInputComponent->BindAction(whiteNoteBind, ETriggerEvent::Completed, this, &UCompassComponent::AddWhiteNoteToCompass);
-		enhancedInputComponent->BindAction(corcheaNoteBind, ETriggerEvent::Completed, this, &UCompassComponent::AddCorcheaNoteToCompass);
-	}
-
+	noteActorsMap.Empty();
 	FActorSpawnParameters params;
-	blackNoteActor = GetWorld()->SpawnActor<ANoteActor>(blackNoteClass, params);
-	whiteNoteActor = GetWorld()->SpawnActor<ANoteActor>(whiteNoteClass, params);
-	corcheaNoteActor = GetWorld()->SpawnActor<ANoteActor>(corcheaNoteClass, params);
+	for (TSubclassOf<ANoteActor> noteActorClassIt : noteActors)
+	{
+		ANoteActor* spawnedNoteActor = GetWorld()->SpawnActor<ANoteActor>(noteActorClassIt, params);
+		noteActorsMap.Add(spawnedNoteActor->GetBaseNote()->GetNoteID(), spawnedNoteActor);
+	}
 }
 
 
 void UCompassComponent::AddNoteToCompass(FName noteRow)
 {
-	UNotesRegister::GetInstance()->AddNoteToCompass(compass, noteRow);
-}
-
-void UCompassComponent::AddBlackNoteToCompass()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, TEXT("Black note"));
-	AddNoteToCompass(BLACK_NOTE_ROW);
-}
-
-void UCompassComponent::AddWhiteNoteToCompass()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, TEXT("White note"));
-	AddNoteToCompass(WHITE_NOTE_ROW);
-}
-
-void UCompassComponent::AddCorcheaNoteToCompass()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, TEXT("Corchea note"));
-	AddNoteToCompass(CORCHEA_NOTE_ROW);
+	UNotesRegister::GetInstance()->AddNoteToCompassByRow(compass, noteRow);
 }
 
 void UCompassComponent::LaunchNoteAbility(FString tagString, UBaseNote* recievedNote)
@@ -79,37 +57,22 @@ void UCompassComponent::LaunchNoteAbility(FString tagString, UBaseNote* recieved
 		return;
 	}
 
-	ANoteActor* recievedNoteActor = GetNoteActor(recievedNote);
-	if (recievedNoteActor)
+	ANoteActor* noteActor = nullptr;
+	FName noteID = recievedNote->GetNoteID();
+	if (noteActorsMap.Contains(noteID))
 	{
-		FGameplayTag abilityTag = FGameplayTag::RequestGameplayTag(FName(tagString), false);
-
-		UNoteAbilityData* noteData = NewObject<UNoteAbilityData>();
-		noteData->noteActor = recievedNoteActor;
-		noteData->failRecieveNoteSound = compass->GetFailRecieveNoteSoud();
-		FGameplayEventData DataEvent;
-		DataEvent.OptionalObject = noteData;
-		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner<AActor>(), abilityTag, DataEvent);
+		noteActor = noteActorsMap[noteID];
 	}
+
+	FGameplayTag abilityTag = FGameplayTag::RequestGameplayTag(FName(tagString), false);
+
+	UNoteAbilityData* noteData = NewObject<UNoteAbilityData>();
+	noteData->noteActor = noteActor;
+	noteData->failRecieveNoteSound = compass->GetFailRecieveNoteSoud();
+	FGameplayEventData DataEvent;
+	DataEvent.OptionalObject = noteData;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetOwner<AActor>(), abilityTag, DataEvent);
 	
-}
-
-ANoteActor* UCompassComponent::GetNoteActor(UBaseNote* referenceNote)
-{
-	if (blackNoteActor->GetBaseNote()->GetNoteID() == referenceNote->GetNoteID())
-	{
-		return blackNoteActor;
-	}
-	else if (whiteNoteActor->GetBaseNote()->GetNoteID() == referenceNote->GetNoteID())
-	{
-		return whiteNoteActor;
-	}
-	else if (corcheaNoteActor->GetBaseNote()->GetNoteID() == referenceNote->GetNoteID())
-	{
-		return whiteNoteActor;
-	}
-
-	return nullptr;
 }
 
 void UCompassComponent::OnCompassTick()

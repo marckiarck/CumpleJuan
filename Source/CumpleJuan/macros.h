@@ -1,3 +1,6 @@
+//Compas macros
+#define BLACK_NOTE_ROW TEXT("Black")
+
 //GAS macros
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \

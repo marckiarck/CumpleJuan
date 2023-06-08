@@ -26,7 +26,7 @@ UNotesRegister::UNotesRegister()
 	notesDatatable = datatable.Object;
 }
 
-void UNotesRegister::AddNoteToCompass(UCompass* compass, FName noteData)
+void UNotesRegister::AddNoteToCompassByRow(UCompass* compass, FName noteData)
 {
 	UBaseNote* newNote = NewObject<UBaseNote>();
 
@@ -41,9 +41,14 @@ void UNotesRegister::AddNoteToCompass(UCompass* compass, FName noteData)
 		newNote->ConfigureNote(*row);
 	}
 
+	AddNoteToCompass(compass, newNote);
+}
+
+void UNotesRegister::AddNoteToCompass(UCompass* compass, UBaseNote* addedNote)
+{
 	ensure(compass);
-	if (compass)
+	if (compass && addedNote)
 	{
-		compass->RecieveNote(newNote);
+		compass->RecieveNote(addedNote);
 	}
 }

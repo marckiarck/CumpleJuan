@@ -43,6 +43,13 @@ class ACumpleJuanCharacter : public ACharacter
 	UPROPERTY(EditAnywhere)
 	class UAbilitySystemDataComponent* abilitySystemData;
 
+private:
+	UPROPERTY(EditAnywhere, Category= Compass)
+	class UCompassComponent* compassComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Compass, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* BlackNoteAction;
+
 public:
 	ACumpleJuanCharacter();
 	
@@ -54,6 +61,8 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	void SendBlackNote();
 			
 
 protected:

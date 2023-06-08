@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "../Game/GAS/AbilitySystemDataComponent.h"
+#include "CumpleJuan/Game/GAS/AbilitySystemDataComponent.h"
 #include "AbilitySystemComponent.h"
 #include "BaseCharacter.generated.h"
 
@@ -17,8 +17,16 @@ public:
 	// Sets default values for this character's properties
 	ABaseCharacter();
 
+private:
 	UPROPERTY(Transient)
 	UAbilitySystemComponent* abilitySystemComponent = nullptr;
 	UPROPERTY(EditAnywhere, Category=AbilitySystem)
 	UAbilitySystemDataComponent* abilitySystemDataComponent = nullptr;
+
+
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	void OnMoveSpeedChanged(const FOnAttributeChangeData& Data);
 };
