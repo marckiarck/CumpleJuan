@@ -5,6 +5,25 @@
 #include "AIController.h"
 #include "CumpleJuan/Game/CompasManager/CompassComponent.h"
 
+bool FTestDropdown::operator==(FDataTableRowHandle const& Other) const
+{
+	return DataTable == Other.DataTable && RowName == Other.RowName;
+}
+
+bool FTestDropdown::operator != (FDataTableRowHandle const& Other) const
+{
+	return DataTable != Other.DataTable || RowName != Other.RowName;
+}
+
+void FTestDropdown::PostSerialize(const FArchive& Ar)
+{
+	//if (Ar.IsSaving() && !IsNull() && DataTable)
+	//{
+	//	// Note which row we are pointing to for later searching
+	//	Ar.MarkSearchableName(DataTable, RowName);
+	//}
+}
+
 EBTNodeResult::Type USendNoteTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AAIController* ownerController = OwnerComp.GetAIOwner();
@@ -14,7 +33,7 @@ EBTNodeResult::Type USendNoteTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 		UCompassComponent* compassComponent = owner->FindComponentByClass<UCompassComponent>();
 		if (compassComponent)
 		{
-			compassComponent->AddNoteToCompass(noteRow);
+			compassComponent->AddNoteToCompass(rowHandle.RowName);
 			return EBTNodeResult::Succeeded;
 		}
 	}
