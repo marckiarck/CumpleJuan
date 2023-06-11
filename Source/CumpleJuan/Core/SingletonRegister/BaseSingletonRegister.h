@@ -20,11 +20,10 @@ private:
 
 public:
 	template<typename T>
-	UFUNCTION(BlueprintCallable, Category = Singleton)
 	static T* GetInstance();
 
-	UFUNCTION(BlueprintCallable, Category = Singleton, meta=(DeterminesOutputType = "objectClass", DynamicOutputParam = "OutActor"))
-	static void GetInstance(TSubclassOf<UObject> objectClass, UObject*& outActor);
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = Singleton, meta=(DeterminesOutputType = "objectClass", DynamicOutputParam = "outObject"))
+	static void GetInstance(TSubclassOf<UObject> objectClass, UObject*& outObject);
 
 private:
 	template<typename T>
@@ -38,18 +37,23 @@ T* UBaseSingletonRegister::GetInstance()
 {
 	InitializeSingletonRegiter();
 
+	T* objectInstance = nullptr;
 	const FName singletonKey = GetSingletonKey<T>();
 	if (instance->registeredSingletonsMap.Contains(singletonKey))
 	{
-		return instance->registeredSingletonsMap[singletonKey];
+		objectInstance = instance->registeredSingletonsMap[singletonKey];
+		if (objectInstance == nullptr || objectInstance->IsValidLowlevel() == false)
+		{
+			objectInstance = NewObject<T>();
+		}
 	}
 	else
 	{
-		T* createdInstance = NewObject<T>();
-		instance->registeredSingletonsMap.Add(singletonKey, createdInstance);
-
-		return createdInstance;
+		objectInstance = NewObject<T>();
+		instance->registeredSingletonsMap.Add(singletonKey, objectInstance);
 	}
+
+	return objectInstance;
 }
 
 template<typename T>
