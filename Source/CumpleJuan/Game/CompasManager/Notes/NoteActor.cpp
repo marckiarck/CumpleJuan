@@ -2,33 +2,19 @@
 
 
 #include "CumpleJuan/Game/CompasManager/Notes/NoteActor.h"
+#include "BaseNote.h"
 
-// Sets default values
-ANoteActor::ANoteActor()
+
+const FName ANoteActor::GetNoteID()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
-}
-
-// Called when the game starts or when spawned
-void ANoteActor::BeginPlay()
-{
-	Super::BeginPlay();
+	FString ContextString = TEXT("Data table context");
+	if (FNoteDataRow* noteRow = noteRowHandle.DataTable->FindRow<FNoteDataRow>(noteRowHandle.RowName, ContextString))
+	{
+		return noteRow->noteID;
+	}
+	else
+	{
+		return TEXT("None");
+	}
 	
-	baseNote = NewObject<UBaseNote>();
-	baseNote->ConfigureNote(noteRow);
 }
-
-// Called every frame
-void ANoteActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-UBaseNote* ANoteActor::GetBaseNote()
-{
-	return baseNote;
-}
-

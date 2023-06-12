@@ -12,25 +12,10 @@ class CUMPLEJUAN_API ANoteActor : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
-	ANoteActor();
-
 private:
-	UPROPERTY(EditAnywhere, DisplayName="Note Identifier")
-	FNoteDataRow noteRow;
+	UPROPERTY(EditAnywhere)
+		FDataTableRowHandle noteRowHandle;
 
-	UPROPERTY(Transient)
-	UBaseNote* baseNote = nullptr;
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION(BlueprintPure)
-	UBaseNote* GetBaseNote();
+public:
+	const FName GetNoteID();
 };

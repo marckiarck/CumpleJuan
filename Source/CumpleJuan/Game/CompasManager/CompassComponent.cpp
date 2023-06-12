@@ -40,7 +40,7 @@ void UCompassComponent::BeginPlay()
 	for (TSubclassOf<ANoteActor> noteActorClassIt : noteActors)
 	{
 		ANoteActor* spawnedNoteActor = GetWorld()->SpawnActor<ANoteActor>(noteActorClassIt, params);
-		noteActorsMap.Add(spawnedNoteActor->GetBaseNote()->GetNoteID(), spawnedNoteActor);
+		noteActorsMap.Add(spawnedNoteActor->GetNoteID(), spawnedNoteActor);
 	}
 }
 
@@ -68,6 +68,7 @@ void UCompassComponent::LaunchNoteAbility(FString tagString, UBaseNote* recieved
 
 	UNoteAbilityData* noteData = NewObject<UNoteAbilityData>();
 	noteData->noteActor = noteActor;
+	noteData->baseNote = recievedNote;
 	noteData->failRecieveNoteSound = compass->GetFailRecieveNoteSoud();
 	FGameplayEventData DataEvent;
 	DataEvent.OptionalObject = noteData;

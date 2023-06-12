@@ -12,8 +12,11 @@ class CUMPLEJUAN_API UNoteAbilityData : public UObject
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(Transient, BlueprintReadOnly)
-		class ANoteActor* noteActor;
+	UPROPERTY(Transient, BlueprintReadOnly, DisplayName = "Note")
+		class UBaseNote* baseNote = nullptr;
+
+	UPROPERTY(Transient, BlueprintReadOnly, DisplayName = "NoteActor")
+		class AActor* noteActor = nullptr;
 
 	UPROPERTY(Transient, BlueprintReadOnly)
 		class USoundCue* failRecieveNoteSound = nullptr;
