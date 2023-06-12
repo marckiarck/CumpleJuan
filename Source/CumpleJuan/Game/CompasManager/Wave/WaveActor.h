@@ -17,6 +17,9 @@ struct CUMPLEJUAN_API FWaveActorDataRow : public FTableRowBase
 
 public:
 	UPROPERTY(EditAnywhere)
+		FString waveType = TEXT("None");
+
+	UPROPERTY(EditAnywhere, Category = Mesh)
 		UStaticMesh* waveMesh = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = Material)
@@ -30,10 +33,16 @@ class CUMPLEJUAN_API AWaveActor : public AActor, public IBasePooledObjectInterfa
 
 private:
 	UPROPERTY(EditAnywhere)
+		FString waveType = TEXT("None");
+
+	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* waveMesh;
 
 	UPROPERTY(EditAnywhere)
 		UMaterialInstanceDynamic* waveMaterial;
+
+	UPROPERTY(Transient, BlueprintSetter = "SetIgnoredAtorsActor")
+		TArray<AActor*> ignoredActors;
 
 public:
 	// Sets default values for this actor's properties
@@ -44,10 +53,23 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable, BlueprintSetter)
+		void SetIgnoredAtorsActor(TArray<AActor*> newIgnoredActors);
 
-public:
-	void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
+	virtual void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
+	virtual void OnPooledObjectDestroyed() override;
+
+protected:
+	UFUNCTION()
+		void OnWaveActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnSameWaveCollision(AWaveActor* collidedWave);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnDiferentWaveCollision(AWaveActor* collidedWave);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnNotWaveCollision(AActor* collidedActor);
 
 };

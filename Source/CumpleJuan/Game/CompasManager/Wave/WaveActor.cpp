@@ -17,29 +17,67 @@ AWaveActor::AWaveActor()
 void AWaveActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
-void AWaveActor::Tick(float DeltaTime)
+void AWaveActor::SetIgnoredAtorsActor(TArray<AActor*> newIgnoredActors)
 {
-	Super::Tick(DeltaTime);
-
+	ignoredActors = newIgnoredActors;
 }
 
 void AWaveActor::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)
 {
 	FString ContextString = TEXT("Data table context");
-	FWaveActorDataRow* waveRowHandle = creationDataHandle.DataTable->FindRow<FWaveActorDataRow>(creationDataHandle.RowName, ContextString, true);
-	if (waveRowHandle)
+	FWaveActorDataRow* waveRow = creationDataHandle.DataTable->FindRow<FWaveActorDataRow>(creationDataHandle.RowName, ContextString, true);
+	if (waveRow)
 	{
-		waveMesh->SetStaticMesh(waveRowHandle->waveMesh);
-		if (waveRowHandle->waveMaterial)
+		waveMesh->SetStaticMesh(waveRow->waveMesh);
+		if (waveRow->waveMaterial)
 		{
-			waveMaterial = UMaterialInstanceDynamic::Create(waveRowHandle->waveMaterial, this);
+			waveMaterial = UMaterialInstanceDynamic::Create(waveRow->waveMaterial, this);
 			waveMesh->SetMaterial(0, waveMaterial);
 		}
 
+		waveType = waveRow->waveType;
+
+	}
+
+	if (waveMesh)
+	{
+		waveMesh->OnComponentBeginOverlap.AddDynamic(this, &AWaveActor::OnWaveActorOverlap);
+	}
+}
+
+void AWaveActor::OnPooledObjectDestroyed()
+{
+	if (waveMesh)
+	{
+		waveMesh->OnComponentBeginOverlap.RemoveDynamic(this, &AWaveActor::OnWaveActorOverlap);
+	}
+
+	ignoredActors.Empty();
+}
+
+void AWaveActor::OnWaveActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (AWaveActor* overlapedWave = Cast<AWaveActor>(OtherActor))
+	{
+		if (overlapedWave->waveType == this->waveType)
+		{
+			OnSameWaveCollision(overlapedWave);
+		}
+		else
+		{
+			OnDiferentWaveCollision(overlapedWave);
+		}
+	}
+	else
+	{
+		if (ignoredActors.Contains(OtherActor))
+		{
+			return;
+		}
+
+		OnNotWaveCollision(OtherActor);
 	}
 }
 

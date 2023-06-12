@@ -59,6 +59,7 @@ void UBaseObjectPooler::SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actor
 	spawnedActor->SetActorTransform(spawnTransForm);
 	spawnedActor->SetActorHiddenInGame(false);
 	spawnedActor->SetActorEnableCollision(true);
+	spawnedActor->SetActorTickEnabled(true);
 	OnPooledObjectCreated<AActor>(spawnedActor, creationDataHandle);
 }
 
@@ -79,6 +80,7 @@ void UBaseObjectPooler::DespawnActor(AActor* actorReference)
 
 		actorReference->SetActorHiddenInGame(true);
 		actorReference->SetActorEnableCollision(false);
+		spawnedActor->SetActorTickEnabled(false);
 		actorReference->SetActorLocation(FVector(MAX_FLT));
 	}
 	else
