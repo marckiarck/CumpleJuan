@@ -80,7 +80,7 @@ void UBaseObjectPooler::DespawnActor(AActor* actorReference)
 
 		actorReference->SetActorHiddenInGame(true);
 		actorReference->SetActorEnableCollision(false);
-		spawnedActor->SetActorTickEnabled(false);
+		actorReference->SetActorTickEnabled(false);
 		actorReference->SetActorLocation(FVector(MAX_FLT));
 	}
 	else

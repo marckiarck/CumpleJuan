@@ -4,6 +4,7 @@
 #include "CumpleJuan/Game/GAS/DebugCategories/PlayerAttriutesDebugCategory.h"
 #include "../AbilitySystemDataComponent.h"
 #include "../AttributeSets/CharacterAttributes.h"
+#include "../AttributeSets/HealthAttributeSet.h"
 
 #if WITH_GAMEPLAY_DEBUGGER
 
@@ -50,6 +51,13 @@ void FPlayerAttriutesDebugCategory::CollectData(APlayerController* OwnerPC, AAct
 			DataPack.maxHealth = FString::SanitizeFloat(characterAttributes->GetmaxHealth());
 			DataPack.health = FString::SanitizeFloat(characterAttributes->Gethealth());
 			DataPack.damage = FString::SanitizeFloat(characterAttributes->Getdamage());
+		}
+
+		const UHealthAttributeSet* healthAttributes = abilityData->GetAttributes<UHealthAttributeSet>();
+		if (healthAttributes)
+		{
+			DataPack.maxHealth = FString::SanitizeFloat(healthAttributes->GetmaxHealth());
+			DataPack.health = FString::SanitizeFloat(healthAttributes->Gethealth());
 		}
 
 	}
