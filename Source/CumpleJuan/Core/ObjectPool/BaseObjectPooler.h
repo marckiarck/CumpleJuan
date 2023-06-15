@@ -27,8 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = ObjectPooler)
 	void DestroyObject(UObject* objectReference);
 
-	UFUNCTION(BlueprintCallable, Category = ObjectPooler, meta = (DeterminesOutputType = "actorClass", DynamicOutputParam = "spawnedActor"))
-	void SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor);
+	UFUNCTION(BlueprintCallable, Category = ObjectPooler, meta = (DeterminesOutputType = "actorClass", DynamicOutputParam = "spawnedActor", AdvancedDisplay = "collisionEnabled"))
+	void SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor, bool collisionEnabled = true);
 
 	UFUNCTION(BlueprintCallable, Category = ObjectPooler)
 	void DespawnActor(AActor* actorReference);

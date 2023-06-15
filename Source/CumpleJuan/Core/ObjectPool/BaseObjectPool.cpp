@@ -3,7 +3,7 @@
 
 #include "CumpleJuan/Core/ObjectPool/BaseObjectPool.h"
 
-void UBaseObjectPool::AddObjectToPool(void* addedObject)
+void UBaseObjectPool::AddObjectToPool(UObject* addedObject)
 {
 	usedObjects.Add(addedObject);
 }

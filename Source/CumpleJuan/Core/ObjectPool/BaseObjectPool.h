@@ -14,8 +14,10 @@ class CUMPLEJUAN_API UBaseObjectPool : public UObject
 
 
 private:
-	TArray<void*> usedObjects;
-	TArray<void*> freeObjects;
+	UPROPERTY(Transient)
+	TArray<UObject*> usedObjects;
+	UPROPERTY(Transient)
+	TArray<UObject*> freeObjects;
 
 public:
 	template<typename T>
@@ -25,7 +27,7 @@ public:
 	void RemoveObjectFromPool(T* objectRemoved);
 
 private:
-	void AddObjectToPool(void* addedObject);
+	void AddObjectToPool(UObject* addedObject);
 };
 
 template<typename T>
@@ -34,10 +36,11 @@ T* UBaseObjectPool::GetObjectFromPool()
 	T* freeObject = nullptr;
 	while (freeObjects.Num() > 0)
 	{
-		freeObject = reinterpret_cast<T*>(freeObjects.Pop());
+		freeObject = Cast<T>(freeObjects.Pop());
 		if (freeObject && freeObject->IsValidLowLevel())
 		{
 			usedObjects.Add(freeObject);
+
 			return freeObject;
 		}
 

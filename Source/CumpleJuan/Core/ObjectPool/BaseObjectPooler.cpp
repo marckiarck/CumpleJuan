@@ -27,8 +27,10 @@ void UBaseObjectPooler::DestroyObject(UObject* objectReference)
 	}
 }
 
-void UBaseObjectPooler::SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor)
+void UBaseObjectPooler::SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor, bool collisionEnabled)
 {
+	spawnedActor = nullptr;
+
 	UWorld* spawnWorld = spawnLevel->OwningWorld;
 	if (spawnWorld == nullptr)
 	{
@@ -58,7 +60,7 @@ void UBaseObjectPooler::SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actor
 
 	spawnedActor->SetActorTransform(spawnTransForm);
 	spawnedActor->SetActorHiddenInGame(false);
-	spawnedActor->SetActorEnableCollision(true);
+	spawnedActor->SetActorEnableCollision(collisionEnabled);
 	spawnedActor->SetActorTickEnabled(true);
 	OnPooledObjectCreated<AActor>(spawnedActor, creationDataHandle);
 }
@@ -70,6 +72,9 @@ void UBaseObjectPooler::DespawnActor(AActor* actorReference)
 		return;
 	}
 
+	actorReference->SetActorHiddenInGame(true);
+	actorReference->SetActorEnableCollision(false);
+	actorReference->SetActorTickEnabled(false);
 	OnPooledObjectDestroyed<UObject>(actorReference);
 
 	FName poolKey = GetPoolKey(actorReference->GetClass());
@@ -77,11 +82,6 @@ void UBaseObjectPooler::DespawnActor(AActor* actorReference)
 	{
 		UBaseObjectPool* pool = poolsMap[poolKey];
 		pool->RemoveObjectFromPool<AActor>(actorReference);
-
-		actorReference->SetActorHiddenInGame(true);
-		actorReference->SetActorEnableCollision(false);
-		actorReference->SetActorTickEnabled(false);
-		actorReference->SetActorLocation(FVector(MAX_FLT));
 	}
 	else
 	{

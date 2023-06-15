@@ -41,8 +41,11 @@ private:
 	UPROPERTY(EditAnywhere)
 		UMaterialInstanceDynamic* waveMaterial;
 
-	UPROPERTY(Transient, BlueprintSetter = "SetIgnoredAtorsActor")
+	UPROPERTY(Transient, BlueprintSetter = "SetIgnoredActorsActor")
 		TArray<AActor*> ignoredActors;
+
+	UPROPERTY()
+		bool isWaveActivated = false;
 
 public:
 	// Sets default values for this actor's properties
@@ -54,7 +57,7 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintSetter)
-		void SetIgnoredAtorsActor(TArray<AActor*> newIgnoredActors);
+		void SetIgnoredActorsActor(TArray<AActor*> newIgnoredActors);
 
 	virtual void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
 	virtual void OnPooledObjectDestroyed() override;

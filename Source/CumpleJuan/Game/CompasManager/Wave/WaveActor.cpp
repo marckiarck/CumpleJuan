@@ -19,7 +19,7 @@ void AWaveActor::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AWaveActor::SetIgnoredAtorsActor(TArray<AActor*> newIgnoredActors)
+void AWaveActor::SetIgnoredActorsActor(TArray<AActor*> newIgnoredActors)
 {
 	ignoredActors = newIgnoredActors;
 }
@@ -44,7 +44,9 @@ void AWaveActor::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)
 	if (waveMesh)
 	{
 		waveMesh->OnComponentBeginOverlap.AddDynamic(this, &AWaveActor::OnWaveActorOverlap);
+		isWaveActivated = true;
 	}
+
 }
 
 void AWaveActor::OnPooledObjectDestroyed()
@@ -52,13 +54,17 @@ void AWaveActor::OnPooledObjectDestroyed()
 	if (waveMesh)
 	{
 		waveMesh->OnComponentBeginOverlap.RemoveDynamic(this, &AWaveActor::OnWaveActorOverlap);
+		isWaveActivated = false;
 	}
-
-	ignoredActors.Empty();
 }
 
 void AWaveActor::OnWaveActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (isWaveActivated == false)
+	{
+		return;
+	}
+
 	if (AWaveActor* overlapedWave = Cast<AWaveActor>(OtherActor))
 	{
 		if (overlapedWave->waveType == this->waveType)

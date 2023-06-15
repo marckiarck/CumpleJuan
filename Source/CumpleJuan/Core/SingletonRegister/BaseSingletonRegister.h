@@ -27,7 +27,7 @@ public:
 
 private:
 	template<typename T>
-	FName GetSingletonKey();
+	static FName GetSingletonKey();
 
 	static UBaseSingletonRegister* GetSingletonRegiter();
 };
@@ -35,14 +35,14 @@ private:
 template<typename T>
 T* UBaseSingletonRegister::GetInstance()
 {
-	InitializeSingletonRegiter();
+	GetSingletonRegiter();
 
 	T* objectInstance = nullptr;
 	const FName singletonKey = GetSingletonKey<T>();
 	if (instance->registeredSingletonsMap.Contains(singletonKey))
 	{
-		objectInstance = instance->registeredSingletonsMap[singletonKey];
-		if (objectInstance == nullptr || objectInstance->IsValidLowlevel() == false)
+		objectInstance = Cast<T>(instance->registeredSingletonsMap[singletonKey]);
+		if (objectInstance == nullptr || objectInstance->IsValidLowLevel() == false)
 		{
 			objectInstance = NewObject<T>();
 		}
@@ -59,5 +59,5 @@ T* UBaseSingletonRegister::GetInstance()
 template<typename T>
 FName UBaseSingletonRegister::GetSingletonKey()
 {
-	return T::StaticClass()->GetName();
+	return FName(T::StaticClass()->GetName());
 }
