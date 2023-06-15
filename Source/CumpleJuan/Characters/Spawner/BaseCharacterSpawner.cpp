@@ -29,7 +29,7 @@ void ABaseCharacterSpawner::BeginPlay()
 			TSubclassOf<AActor> spawnClass = spawnRow->characterClass;
 			if (UBaseObjectPooler* objectPooler = UBaseSingletonRegister::GetInstance<UBaseObjectPooler>())
 			{
-				objectPooler->SpawnActor(GetLevel(), spawnClass, GetActorTransform(), spawnDataRowHandle, spawnedActor);
+				spawnedCharacter = objectPooler->SpawnActor<ACharacter>(GetLevel(), spawnClass, GetActorTransform(), spawnDataRowHandle);
 			}
 		}
 	}

@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/DataTable.h"
 #include "GameFramework/Character.h"
+#include "AIModule/Classes/AIController.h"
 #include "BaseCharacterSpawner.generated.h"
 
 USTRUCT(BlueprintType, Blueprintable)
@@ -32,7 +33,7 @@ private:
 	FDataTableRowHandle spawnDataRowHandle;
 
 	UPROPERTY(Transient)
-	AActor* spawnedActor;
+	ACharacter* spawnedCharacter;
 
 protected:
 	// Called when the game starts or when spawned

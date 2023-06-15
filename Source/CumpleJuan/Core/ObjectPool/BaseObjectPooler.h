@@ -20,18 +20,21 @@ private:
 public:
 	template<typename T>
 	T* NewUObject(FDataTableRowHandle creationDataHandle);
-	
+
 	template<typename T>
 	void DestroyUObject(T* objectReference);
 
 	UFUNCTION(BlueprintCallable, Category = ObjectPooler)
-	void DestroyObject(UObject* objectReference);
+		void DestroyObject(UObject* objectReference);
+
+	template<typename T>
+	T* SpawnActor(ULevel* spawnLevel, UClass* actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, bool collisionEnabled = true);
 
 	UFUNCTION(BlueprintCallable, Category = ObjectPooler, meta = (DeterminesOutputType = "actorClass", DynamicOutputParam = "spawnedActor", AdvancedDisplay = "collisionEnabled"))
-	void SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor, bool collisionEnabled = true);
+		void SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor, bool collisionEnabled = true);
 
 	UFUNCTION(BlueprintCallable, Category = ObjectPooler)
-	void DespawnActor(AActor* actorReference);
+		void DespawnActor(AActor* actorReference);
 
 private:
 	template<typename T>
@@ -96,6 +99,22 @@ void UBaseObjectPooler::DestroyUObject(T* objectReference)
 	{
 		objectReference->BeginDestroy();
 	}
+}
+
+template<typename T>
+T* UBaseObjectPooler::SpawnActor(ULevel* spawnLevel, UClass* actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, bool collisionEnabled /*= true*/)
+{
+	AActor* spawnedActor = nullptr;
+	if (actorClass)
+	{
+		SpawnActor(spawnLevel, actorClass, spawnTransForm, creationDataHandle, spawnedActor, collisionEnabled);
+	}
+	else
+	{
+		SpawnActor(spawnLevel, T::StaticClass(), spawnTransForm, creationDataHandle, spawnedActor, collisionEnabled);
+	}
+	
+	return Cast<T>(spawnedActor);
 }
 
 template<typename T>

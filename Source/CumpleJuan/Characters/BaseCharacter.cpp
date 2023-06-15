@@ -21,9 +21,12 @@ void ABaseCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	const UMoveSpeedAttributeSet* moveSpeedAttributeSet = abilitySystemDataComponent->GetAttributes<UMoveSpeedAttributeSet>();
-	GetCharacterMovement()->MaxWalkSpeed = moveSpeedAttributeSet->GetmoveSpeed();
-
-	abilitySystemComponent->GetGameplayAttributeValueChangeDelegate(moveSpeedAttributeSet->GetmoveSpeedAttribute()).AddUObject(this, &ABaseCharacter::OnMoveSpeedChanged);
+	if (moveSpeedAttributeSet)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = moveSpeedAttributeSet->GetmoveSpeed();
+		abilitySystemComponent->GetGameplayAttributeValueChangeDelegate(moveSpeedAttributeSet->GetmoveSpeedAttribute()).AddUObject(this, &ABaseCharacter::OnMoveSpeedChanged);
+	}
+		
 }
 
 void ABaseCharacter::OnMoveSpeedChanged(const FOnAttributeChangeData& Data)
