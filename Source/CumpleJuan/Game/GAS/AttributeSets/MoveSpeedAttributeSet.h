@@ -17,10 +17,10 @@ class CUMPLEJUAN_API UMoveSpeedAttributeSet : public UAttributeSet
 
 private:
 	UPROPERTY(Category = "Ability System | Attributes", VisibleAnywhere)
-		FGameplayAttributeData maxSpeed;
+		FGameplayAttributeData maxSpeed = 100000.f;
 
 	UPROPERTY(Category = "Ability System | Attributes", VisibleAnywhere)
-		FGameplayAttributeData minSpeed;
+		FGameplayAttributeData minSpeed = 0.f;
 
 	UPROPERTY(Category = "Ability System | Attributes", VisibleAnywhere)
 		FGameplayAttributeData moveSpeed;

@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-GenericClasses-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\marco\Unreal_Proyectos\CumpleJuanRepositorio\Intermediate\Build\Win64\CumpleJuanEditor\DebugGame\Engine\SharedPCH.Engine.NonOptimized.ShadowErrors.h.obj"
+"C:\Users\marco\Unreal_Proyectos\CumpleJuanRepositorio\Plugins\GenericClasses\GenericClasses\Intermediate\Build\Win64\UnrealEditor\DebugGame\GenericClasses\GenericClasses.cpp.obj"
+"C:\Users\marco\Unreal_Proyectos\CumpleJuanRepositorio\Plugins\GenericClasses\GenericClasses\Intermediate\Build\Win64\UnrealEditor\DebugGame\GenericClasses\Default.rc2.res"
+/OUT:"C:\Users\marco\Unreal_Proyectos\CumpleJuanRepositorio\Plugins\GenericClasses\GenericClasses\Intermediate\Build\Win64\UnrealEditor\DebugGame\GenericClasses\UnrealEditor-GenericClasses-Win64-DebugGame.lib"

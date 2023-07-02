@@ -1,0 +1,21 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.GenericClasses.cpp.obj": [
+			"GC_EventQueue.gen.cpp.obj",
+			"GC_EventRegister.gen.cpp.obj",
+			"GC_ObjectPool.gen.cpp.obj",
+			"GC_ObjectPooler.gen.cpp.obj",
+			"GC_PooledObjectInterface.gen.cpp.obj",
+			"GC_SingletonRegister.gen.cpp.obj",
+			"GenericClasses.init.gen.cpp.obj",
+			"GC_EventQueue.cpp.obj",
+			"GC_EventRegister.cpp.obj",
+			"GenericClasses.cpp.obj",
+			"GC_ObjectPool.cpp.obj",
+			"GC_ObjectPooler.cpp.obj",
+			"GC_PooledObjectInterface.cpp.obj",
+			"GC_SingletonRegister.cpp.obj"
+		]
+	}
+}
