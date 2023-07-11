@@ -1,15 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "DataStructures/Queues/GC_TimedQueue.h"
 
-#include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "GC_EventQueue.generated.h"
-
-UCLASS()
-class GENERICCLASSES_API UGC_EventQueue : public UObject
+template<typename T>
+class GENERICCLASSES_API TGC_EventQueue : public TGC_TimedQueue<T>
 {
-	GENERATED_BODY()
-
+	
 };
 

@@ -1,0 +1,22 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\source\\genericclasses\\private\\eventsystem\\events\\gc_event.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\intermediate\\build\\win64\\cumplejuaneditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\intermediate\\build\\win64\\unrealeditor\\development\\genericclasses\\definitions.genericclasses.h",
+            "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\source\\genericclasses\\private\\eventsystem\\events\\gc_event.h",
+            "d:\\epic games\\juegos\\ue_5.1\\engine\\source\\runtime\\coreuobject\\public\\uobject\\noexporttypes.h",
+            "d:\\epic games\\juegos\\ue_5.1\\engine\\source\\runtime\\coreuobject\\public\\uobject\\propertyaccessutil.h",
+            "d:\\epic games\\juegos\\ue_5.1\\engine\\source\\runtime\\core\\public\\math\\unitconversion.h",
+            "d:\\epic games\\juegos\\ue_5.1\\engine\\source\\runtime\\core\\public\\math\\unitconversion.inl",
+            "d:\\epic games\\juegos\\ue_5.1\\engine\\source\\runtime\\core\\public\\misc\\optionalfwd.h",
+            "d:\\epic games\\juegos\\ue_5.1\\engine\\source\\runtime\\core\\public\\internationalization\\polyglottextdata.h",
+            "d:\\epic games\\juegos\\ue_5.1\\engine\\source\\runtime\\coreuobject\\public\\assetregistry\\arfilter.h",
+            "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\intermediate\\build\\win64\\unrealeditor\\inc\\genericclasses\\uht\\gc_event.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

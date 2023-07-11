@@ -3,15 +3,9 @@
 
 #include "GenericClasses/Public/EventSystem/GC_EventRegister.h"
 
-// Sets default values
-AGC_EventRegister::AGC_EventRegister()
-{
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
 
-}
 
-void AGC_EventRegister::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)
+void UGC_EventRegister::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)
 {
 	if (const UDataTable* eventDatatable = creationDataHandle.DataTable)
 	{
@@ -22,16 +16,65 @@ void AGC_EventRegister::OnPooledObjectCreated(FDataTableRowHandle creationDataHa
 		}
 	}
 
-	GetWorld()->GetTimerManager().ClearTimer(queueTimerHandle);
-	GetWorld()->GetTimerManager().SetTimer(queueTimerHandle, this, &AGC_EventRegister::UpdateEventQueue, queueDeltaTime, true);
+	InitializeEventRegister();
+
+	if (GEngine)
+	{
+		OnWorldAddedDelegateHandle = GEngine->OnWorldAdded().AddUFunction(this, FName("OnWorldAdded"));
+		OnWorldDestroyedDelegateHandle = GEngine->OnWorldDestroyed().AddUFunction(this, FName("OnWorldDestroyed"));
+	}
 }
 
-void AGC_EventRegister::OnPooledObjectDestroyed()
+void UGC_EventRegister::OnPooledObjectDestroyed()
 {
-	GetWorld()->GetTimerManager().ClearTimer(queueTimerHandle);
+	ShutDownEventRegister();
+
+	if (GEngine)
+	{
+		GEngine->OnWorldAdded().Remove(OnWorldAddedDelegateHandle);
+		GEngine->OnWorldDestroyed().Remove(OnWorldDestroyedDelegateHandle);
+	}
 }
 
-void AGC_EventRegister::UpdateEventQueue()
+void UGC_EventRegister::UpdateEventQueue()
 {
+	
+}
 
+void UGC_EventRegister::InitializeEventRegister()
+{
+	timerWorld = GEngine->GetCurrentPlayWorld();
+	if (timerWorld)
+	{
+		timerWorld->GetTimerManager().ClearTimer(queueTimerHandle);
+		timerWorld->GetTimerManager().SetTimer(queueTimerHandle, this, &UGC_EventRegister::UpdateEventQueue, queueDeltaTime, true);
+	}
+
+	eventQueue = TGC_EventQueue<UGC_Event>();
+}
+
+void UGC_EventRegister::ShutDownEventRegister()
+{
+	if (timerWorld)
+	{
+		timerWorld->GetTimerManager().ClearTimer(queueTimerHandle);
+		timerWorld = nullptr;
+	}
+
+}
+
+void UGC_EventRegister::OnWorldDestroyed(UWorld* destroyedWorld)
+{
+	if (destroyedWorld == timerWorld)
+	{
+		ShutDownEventRegister();
+	}
+}
+
+void UGC_EventRegister::OnWorldAdded(UWorld* addedWorld)
+{
+	if (timerWorld == nullptr)
+	{
+		InitializeEventRegister();
+	}
 }

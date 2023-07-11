@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
 #include "Engine/DataTable.h"
 #include "GenericClasses/Public/ObjectPooler/GC_PooledObjectInterface.h"
+#include "GC_EventQueue.h"
+#include "Events/GC_Event.h"
 #include "GC_EventRegister.generated.h"
 
 USTRUCT(BlueprintType, Blueprintable)
@@ -20,17 +21,23 @@ public:
 };
 
 UCLASS()
-class GENERICCLASSES_API AGC_EventRegister : public AActor, public IGC_PooledObjectInterface
+class GENERICCLASSES_API UGC_EventRegister : public UObject, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AGC_EventRegister();
 
 private:
 	UPROPERTY()
 		FTimerHandle queueTimerHandle;
+
+	UPROPERTY(Transient)
+		UWorld* timerWorld = nullptr;
+
+	FDelegateHandle OnWorldAddedDelegateHandle;
+	FDelegateHandle OnWorldDestroyedDelegateHandle;
+
+	TGC_EventQueue<UGC_Event> eventQueue;
 
 	float queueDeltaTime = 0.17f;
 
@@ -41,4 +48,13 @@ public:
 private:
 	UFUNCTION()
 		void UpdateEventQueue();
+
+	void InitializeEventRegister();
+	void ShutDownEventRegister();
+
+	UFUNCTION()
+	void OnWorldDestroyed(UWorld* destroyedWorld);
+
+	UFUNCTION()
+	void OnWorldAdded(UWorld* addedWorld);
 };
