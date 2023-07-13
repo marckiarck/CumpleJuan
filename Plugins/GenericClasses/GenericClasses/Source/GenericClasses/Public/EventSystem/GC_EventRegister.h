@@ -38,10 +38,15 @@ private:
 	FDelegateHandle OnWorldDestroyedDelegateHandle;
 
 	TGC_EventQueue<UGC_Event> eventQueue;
+	TArray<UGC_Event*> launchedEvents;
 
 	float queueDeltaTime = 0.17f;
 
 public:
+
+	UFUNCTION(BlueprintCallable, Category="EventRegister")
+	static void RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle);
+
 	void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
 	void OnPooledObjectDestroyed() override;
 
@@ -57,4 +62,9 @@ private:
 
 	UFUNCTION()
 	void OnWorldAdded(UWorld* addedWorld);
+
+	void BindToEventsOnFinish(TArray<UGC_Event*> eventsArray);
+
+	UFUNCTION()
+	void OnEventFinish(UGC_Event* finishedEvent);
 };

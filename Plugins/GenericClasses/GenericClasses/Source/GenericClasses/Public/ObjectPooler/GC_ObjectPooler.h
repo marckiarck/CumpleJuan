@@ -8,6 +8,7 @@
 #include "GC_PooledObjectInterface.h"
 #include "GC_ObjectPooler.generated.h"
 
+
 UCLASS()
 class GENERICCLASSES_API UGC_ObjectPooler : public UObject
 {
@@ -20,6 +21,15 @@ private:
 public:
 	template<typename T>
 	T* NewUObject(FDataTableRowHandle creationDataHandle);
+
+	template<typename T>
+	T* NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle creationDataHandle);
+
+	UFUNCTION(BlueprintCallable, Category = ObjectPooler, meta = (DeterminesOutputType = "objectClass", DynamicOutputParam = "spawnedActor"))
+	void CreateObject(TSubclassOf<UObject> objectClass, UObject*& createdObject, FDataTableRowHandle creationDataHandle);
+
+	template<typename T>
+	T* NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRowHandle creationDataHandle);
 
 	template<typename T>
 	void DestroyUObject(T* objectReference);
@@ -51,13 +61,51 @@ private:
 template<typename T>
 T* UGC_ObjectPooler::NewUObject(FDataTableRowHandle creationDataHandle)
 {
+	return NewUObject<T>(T::StaticClass(), creationDataHandle);
+}
+
+template<typename T>
+T* UGC_ObjectPooler::NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle creationDataHandle)
+{
 	T* pooledObject = nullptr;
 
-	FName poolKey = GetPoolKey<T>();
+	FName poolKey = GetPoolKey(objectClass);
 	if (poolsMap.Contains(poolKey))
 	{
 		UGC_ObjectPool* pool = poolsMap[poolKey];
-		T* pooledObject = pool->GetObjectFromPool<T>();
+		pooledObject = pool->GetObjectFromPool<T>();
+
+		if (pooledObject == nullptr)
+		{
+			pooledObject = NewObject<T>(this, objectClass);
+			pool->AddObjectToPool(pooledObject);
+		}
+
+	}
+	else
+	{
+		UGC_ObjectPool* newPool = NewObject<UGC_ObjectPool>();
+		pooledObject = NewObject<T>(this, objectClass);
+		poolsMap.Add(poolKey, newPool);
+		newPool->AddObjectToPool(pooledObject);
+	}
+
+	OnPooledObjectCreated<T>(pooledObject, creationDataHandle);
+
+	ensureMsgf(pooledObject, TEXT("Something went wrong during object creation"));
+	return pooledObject;
+}
+
+template<typename T>
+T* UGC_ObjectPooler::NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRowHandle creationDataHandle)
+{
+	T* pooledObject = nullptr;
+
+	FName poolKey = GetPoolKey(childClass);
+	if (poolsMap.Contains(poolKey))
+	{
+		UGC_ObjectPool* pool = poolsMap[poolKey];
+		pooledObject = pool->GetObjectFromPool<T>();
 
 		if (pooledObject == nullptr)
 		{
@@ -69,13 +117,14 @@ T* UGC_ObjectPooler::NewUObject(FDataTableRowHandle creationDataHandle)
 	else
 	{
 		UGC_ObjectPool* newPool = NewObject<UGC_ObjectPool>();
-		T* pooledObject = NewObject<T>();
+		pooledObject = NewObject<T>();
 		poolsMap.Add(poolKey, newPool);
 		newPool->AddObjectToPool(pooledObject);
 	}
 
 	OnPooledObjectCreated<T>(pooledObject, creationDataHandle);
 
+	ensureMsgf(pooledObject, TEXT("Something went wrong during object creation"));
 	return pooledObject;
 }
 
@@ -114,13 +163,14 @@ T* UGC_ObjectPooler::SpawnActor(ULevel* spawnLevel, UClass* actorClass, FTransfo
 		SpawnActor(spawnLevel, T::StaticClass(), spawnTransForm, creationDataHandle, spawnedActor, collisionEnabled);
 	}
 
+	ensureMsgf(spawnedActor, TEXT("Something went wrong during object creation"));
 	return Cast<T>(spawnedActor);
 }
 
 template<typename T>
 FName UGC_ObjectPooler::GetPoolKey()
 {
-	return T::StaticClass()->GetName();
+	return FName(T::StaticClass()->GetName());
 }
 
 template<typename T>

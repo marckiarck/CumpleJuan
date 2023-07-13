@@ -3,6 +3,37 @@
 
 #include "GenericClasses/Public/ObjectPooler/GC_ObjectPooler.h"
 
+
+void UGC_ObjectPooler::CreateObject(TSubclassOf<UObject> objectClass, UObject*& createdObject, FDataTableRowHandle creationDataHandle)
+{
+	createdObject = nullptr;
+
+	FName poolKey = GetPoolKey(objectClass);
+	if (poolsMap.Contains(poolKey))
+	{
+		UGC_ObjectPool* pool = poolsMap[poolKey];
+		createdObject = pool->GetObjectFromPool<UObject>();
+
+		if (createdObject == nullptr)
+		{
+			createdObject = NewObject<UObject>(this, objectClass);
+			pool->AddObjectToPool(createdObject);
+		}
+
+	}
+	else
+	{
+		UGC_ObjectPool* newPool = NewObject<UGC_ObjectPool>();
+		createdObject = NewObject<UObject>(this, objectClass);
+		poolsMap.Add(poolKey, newPool);
+		newPool->AddObjectToPool(createdObject);
+	}
+
+	OnPooledObjectCreated<UObject>(createdObject, creationDataHandle);
+
+	ensureMsgf(createdObject, TEXT("Something went wrong during object creation"));
+}
+
 void UGC_ObjectPooler::DestroyObject(UObject* objectReference)
 {
 	if (objectReference == nullptr)
@@ -63,6 +94,8 @@ void UGC_ObjectPooler::SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorC
 	spawnedActor->SetActorEnableCollision(collisionEnabled);
 	spawnedActor->SetActorTickEnabled(true);
 	OnPooledObjectCreated<AActor>(spawnedActor, creationDataHandle);
+
+	ensureMsgf(spawnedActor, TEXT("Something went wrong during object creation"));
 }
 
 void UGC_ObjectPooler::DespawnActor(AActor* actorReference)

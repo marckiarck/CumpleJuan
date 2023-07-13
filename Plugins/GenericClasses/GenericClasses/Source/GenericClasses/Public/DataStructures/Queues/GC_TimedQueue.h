@@ -5,14 +5,15 @@
 
 
 template <typename T>
-class GENERICCLASSES_API GC_TimedNode : public GC_Node<T>
+class GENERICCLASSES_API GC_TimedNode 
 {
-public:
-	GC_TimedNode(T* nodeObject, float popTime);
-	~GC_TimedNode();
+	GENERATE_NODE_BODY(GC_TimedNode, T);
 
 public:
-	const float popTime = 0.f;
+	GC_TimedNode(T* nodeObject, float popTime);
+
+public:
+	float popTime = 0.f;
 
 };
 
@@ -20,11 +21,6 @@ template <typename T>
 GC_TimedNode<T>::GC_TimedNode(T* nodeObject, float popTime) : GC_Node(nodeObject), popTime(popTime)
 {
 
-}
-
-template <typename T>
-GC_TimedNode<T>::~GC_TimedNode()
-{
 }
 
 

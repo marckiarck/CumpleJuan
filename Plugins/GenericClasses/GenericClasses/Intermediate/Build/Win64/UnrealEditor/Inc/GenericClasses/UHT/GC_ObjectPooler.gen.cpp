@@ -51,15 +51,69 @@ void EmptyLinkFunctionForGeneratedCodeGC_ObjectPooler() {}
 		P_THIS->DestroyObject(Z_Param_objectReference);
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(UGC_ObjectPooler::execCreateObject)
+	{
+		P_GET_OBJECT(UClass,Z_Param_objectClass);
+		P_GET_OBJECT_REF(UObject,Z_Param_Out_createdObject);
+		P_GET_STRUCT(FDataTableRowHandle,Z_Param_creationDataHandle);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->CreateObject(Z_Param_objectClass,Z_Param_Out_createdObject,Z_Param_creationDataHandle);
+		P_NATIVE_END;
+	}
 	void UGC_ObjectPooler::StaticRegisterNativesUGC_ObjectPooler()
 	{
 		UClass* Class = UGC_ObjectPooler::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
+			{ "CreateObject", &UGC_ObjectPooler::execCreateObject },
 			{ "DespawnActor", &UGC_ObjectPooler::execDespawnActor },
 			{ "DestroyObject", &UGC_ObjectPooler::execDestroyObject },
 			{ "SpawnActor", &UGC_ObjectPooler::execSpawnActor },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics
+	{
+		struct GC_ObjectPooler_eventCreateObject_Parms
+		{
+			TSubclassOf<UObject>  objectClass;
+			UObject* createdObject;
+			FDataTableRowHandle creationDataHandle;
+		};
+		static const UECodeGen_Private::FClassPropertyParams NewProp_objectClass;
+		static const UECodeGen_Private::FObjectPropertyParams NewProp_createdObject;
+		static const UECodeGen_Private::FStructPropertyParams NewProp_creationDataHandle;
+		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UECodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UECodeGen_Private::FClassPropertyParams Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::NewProp_objectClass = { "objectClass", nullptr, (EPropertyFlags)0x0014000000000080, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_ObjectPooler_eventCreateObject_Parms, objectClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::NewProp_createdObject = { "createdObject", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_ObjectPooler_eventCreateObject_Parms, createdObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::NewProp_creationDataHandle = { "creationDataHandle", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_ObjectPooler_eventCreateObject_Parms, creationDataHandle), Z_Construct_UScriptStruct_FDataTableRowHandle, METADATA_PARAMS(nullptr, 0) }; // 2710926200
+	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::PropPointers[] = {
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::NewProp_objectClass,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::NewProp_createdObject,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::NewProp_creationDataHandle,
+	};
+#if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::Function_MetaDataParams[] = {
+		{ "Category", "ObjectPooler" },
+		{ "DeterminesOutputType", "objectClass" },
+		{ "DynamicOutputParam", "spawnedActor" },
+		{ "ModuleRelativePath", "Public/ObjectPooler/GC_ObjectPooler.h" },
+	};
+#endif
+	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGC_ObjectPooler, nullptr, "CreateObject", nullptr, nullptr, sizeof(Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::GC_ObjectPooler_eventCreateObject_Parms), Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04420401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UGC_ObjectPooler_CreateObject()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_UGC_ObjectPooler_DespawnActor_Statics
 	{
@@ -216,6 +270,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_ObjectPooler() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_GenericClasses,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_UGC_ObjectPooler_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_UGC_ObjectPooler_CreateObject, "CreateObject" }, // 1130717539
 		{ &Z_Construct_UFunction_UGC_ObjectPooler_DespawnActor, "DespawnActor" }, // 1324951218
 		{ &Z_Construct_UFunction_UGC_ObjectPooler_DestroyObject, "DestroyObject" }, // 1129945448
 		{ &Z_Construct_UFunction_UGC_ObjectPooler_SpawnActor, "SpawnActor" }, // 3357922469
@@ -276,9 +331,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_ObjectPooler() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_ObjectPooler, UGC_ObjectPooler::StaticClass, TEXT("UGC_ObjectPooler"), &Z_Registration_Info_UClass_UGC_ObjectPooler, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_ObjectPooler), 694305556U) },
+		{ Z_Construct_UClass_UGC_ObjectPooler, UGC_ObjectPooler::StaticClass, TEXT("UGC_ObjectPooler"), &Z_Registration_Info_UClass_UGC_ObjectPooler, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_ObjectPooler), 3597861894U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_1688041786(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_30105277(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
