@@ -180,7 +180,6 @@ void EmptyLinkFunctionForGeneratedCodeGC_Event() {}
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UGC_Event_Statics::Class_MetaDataParams[] = {
-		{ "BlueprintType", "true" },
 		{ "IncludePath", "EventSystem/Events/GC_Event.h" },
 		{ "ModuleRelativePath", "Public/EventSystem/Events/GC_Event.h" },
 	};
@@ -203,7 +202,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_Event() {}
 		UE_ARRAY_COUNT(FuncInfo),
 		0,
 		UE_ARRAY_COUNT(InterfaceParams),
-		0x000000A0u,
+		0x000000A1u,
 		METADATA_PARAMS(Z_Construct_UClass_UGC_Event_Statics::Class_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UClass_UGC_Event_Statics::Class_MetaDataParams))
 	};
 	UClass* Z_Construct_UClass_UGC_Event()
@@ -225,9 +224,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_Event() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_Event, UGC_Event::StaticClass, TEXT("UGC_Event"), &Z_Registration_Info_UClass_UGC_Event, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_Event), 3897782825U) },
+		{ Z_Construct_UClass_UGC_Event, UGC_Event::StaticClass, TEXT("UGC_Event"), &Z_Registration_Info_UClass_UGC_Event, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_Event), 21609920U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_3971115291(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_3421380597(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

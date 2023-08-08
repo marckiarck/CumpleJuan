@@ -6,12 +6,14 @@
 
 #include "UObject/GeneratedCppIncludes.h"
 #include "GenericClasses/Public/SingletonRegister/GC_SingletonRegister.h"
+#include "Engine/Classes/Engine/DataTable.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeGC_SingletonRegister() {}
 // Cross Module References
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
+	ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FDataTableRowHandle();
 	GENERICCLASSES_API UClass* Z_Construct_UClass_UGC_SingletonRegister();
 	GENERICCLASSES_API UClass* Z_Construct_UClass_UGC_SingletonRegister_NoRegister();
 	UPackage* Z_Construct_UPackage__Script_GenericClasses();
@@ -20,9 +22,10 @@ void EmptyLinkFunctionForGeneratedCodeGC_SingletonRegister() {}
 	{
 		P_GET_OBJECT(UClass,Z_Param_objectClass);
 		P_GET_OBJECT_REF(UObject,Z_Param_Out_outObject);
+		P_GET_STRUCT(FDataTableRowHandle,Z_Param_singletonDataHandle);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		UGC_SingletonRegister::GetInstance(Z_Param_objectClass,Z_Param_Out_outObject);
+		UGC_SingletonRegister::GetInstance(Z_Param_objectClass,Z_Param_Out_outObject,Z_Param_singletonDataHandle);
 		P_NATIVE_END;
 	}
 	void UGC_SingletonRegister::StaticRegisterNativesUGC_SingletonRegister()
@@ -39,9 +42,11 @@ void EmptyLinkFunctionForGeneratedCodeGC_SingletonRegister() {}
 		{
 			TSubclassOf<UObject>  objectClass;
 			UObject* outObject;
+			FDataTableRowHandle singletonDataHandle;
 		};
 		static const UECodeGen_Private::FClassPropertyParams NewProp_objectClass;
 		static const UECodeGen_Private::FObjectPropertyParams NewProp_outObject;
+		static const UECodeGen_Private::FStructPropertyParams NewProp_singletonDataHandle;
 		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
@@ -50,13 +55,16 @@ void EmptyLinkFunctionForGeneratedCodeGC_SingletonRegister() {}
 	};
 	const UECodeGen_Private::FClassPropertyParams Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::NewProp_objectClass = { "objectClass", nullptr, (EPropertyFlags)0x0014000000000080, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_SingletonRegister_eventGetInstance_Parms, objectClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(nullptr, 0) };
 	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::NewProp_outObject = { "outObject", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_SingletonRegister_eventGetInstance_Parms, outObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::NewProp_singletonDataHandle = { "singletonDataHandle", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_SingletonRegister_eventGetInstance_Parms, singletonDataHandle), Z_Construct_UScriptStruct_FDataTableRowHandle, METADATA_PARAMS(nullptr, 0) }; // 2710926200
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::NewProp_objectClass,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::NewProp_outObject,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::NewProp_singletonDataHandle,
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGC_SingletonRegister_GetInstance_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Singleton" },
+		{ "CPP_Default_singletonDataHandle", "()" },
 		{ "DeterminesOutputType", "objectClass" },
 		{ "DynamicOutputParam", "outObject" },
 		{ "ModuleRelativePath", "Public/SingletonRegister/GC_SingletonRegister.h" },
@@ -99,7 +107,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_SingletonRegister() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_GenericClasses,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_UGC_SingletonRegister_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_UGC_SingletonRegister_GetInstance, "GetInstance" }, // 165502288
+		{ &Z_Construct_UFunction_UGC_SingletonRegister_GetInstance, "GetInstance" }, // 1197293262
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UGC_SingletonRegister_Statics::Class_MetaDataParams[] = {
@@ -159,9 +167,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_SingletonRegister() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_SingletonRegister_GC_SingletonRegister_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_SingletonRegister, UGC_SingletonRegister::StaticClass, TEXT("UGC_SingletonRegister"), &Z_Registration_Info_UClass_UGC_SingletonRegister, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_SingletonRegister), 3276721586U) },
+		{ Z_Construct_UClass_UGC_SingletonRegister, UGC_SingletonRegister::StaticClass, TEXT("UGC_SingletonRegister"), &Z_Registration_Info_UClass_UGC_SingletonRegister, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_SingletonRegister), 1432405460U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_SingletonRegister_GC_SingletonRegister_h_3322557082(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_SingletonRegister_GC_SingletonRegister_h_1592611594(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_SingletonRegister_GC_SingletonRegister_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_SingletonRegister_GC_SingletonRegister_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

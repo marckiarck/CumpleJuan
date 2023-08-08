@@ -25,6 +25,8 @@
             "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\intermediate\\build\\win64\\unrealeditor\\inc\\genericclasses\\uht\\gc_objectpooler.generated.h",
             "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\intermediate\\build\\win64\\unrealeditor\\inc\\genericclasses\\uht\\gc_event.generated.h",
             "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\source\\genericclasses\\public\\singletonregister\\gc_singletonregister.h",
+            "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\source\\genericclasses\\public\\singletonregister\\gc_singleton.h",
+            "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\intermediate\\build\\win64\\unrealeditor\\inc\\genericclasses\\uht\\gc_singleton.generated.h",
             "c:\\users\\marco\\unreal_proyectos\\cumplejuanrepositorio\\plugins\\genericclasses\\genericclasses\\intermediate\\build\\win64\\unrealeditor\\inc\\genericclasses\\uht\\gc_singletonregister.generated.h"
         ],
         "ImportedModules": [],

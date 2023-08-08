@@ -61,7 +61,6 @@ void UGC_Event::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)
 
 void UGC_Event::OnPooledObjectDestroyed()
 {
-	FinishEvent();
 	OnStartEventDelegate.Clear();
 	OnFinishEventDelegate.Clear();
 	OnEventTickDelegate.Clear();
@@ -74,7 +73,8 @@ void UGC_Event::OnEventStarted()
 
 void UGC_Event::OnEventTick(float deltaSeconds)
 {
-
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Emerald, TEXT("Base class for events. please don't intantiate this class."));
+	FinishEvent();
 }
 
 void UGC_Event::OnEventFinish()

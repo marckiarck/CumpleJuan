@@ -18,7 +18,7 @@ public:
 };
 
 template <typename T>
-GC_TimedNode<T>::GC_TimedNode(T* nodeObject, float popTime) : GC_Node(nodeObject), popTime(popTime)
+GC_TimedNode<T>::GC_TimedNode(T* nodeObject, float popTime) : storedObject(nodeObject), popTime(popTime)
 {
 
 }
@@ -35,7 +35,10 @@ private:
 public:
 	void Enqueue(T* queuedObject, float popTime = 0.f);
 	void Dequeue(float timeStep, TArray<T*>& returnArray);
+
+	void GetQueueArray(TArray<T*>& returnArray);
 };
+
 
 template <typename T>
 void TGC_TimedQueue<T>::Enqueue(T* queuedObject, float popTime)
@@ -58,11 +61,6 @@ void TGC_TimedQueue<T>::Enqueue(T* queuedObject, float popTime)
 		{
 			lastNode->nextNode = queuedNode;
 			queuedNode->previousNode = lastNode;
-
-			if (lastNode == firstNode)
-			{
-				firstNode = queuedNode;
-			}
 			lastNode = queuedNode;
 		}
 		else
@@ -84,7 +82,11 @@ void TGC_TimedQueue<T>::Enqueue(T* queuedObject, float popTime)
 
 					queuedNode->nextNode = currentNode;
 					currentNode->previousNode = queuedNode;
+
+					return;
 				}
+
+				currentNode = currentNode->nextNode;
 			}
 		}
 	}
@@ -105,11 +107,31 @@ void TGC_TimedQueue<T>::Dequeue(float timeStep, TArray<T*>& returnArray)
 			deletedNode = currentNode;
 			currentNode = currentNode->nextNode;
 
-			delete deletedNode;
+			if (deletedNode)
+			{
+				firstNode = currentNode; 
+				//No need to control lastNode beacuse the only new value that can take in dequeue is nullptr 
+				//that will be set with delete
+				delete deletedNode;
+			}
 		}
 		else
 		{
 			currentNode->popTime -= timeStep;
+			currentNode = currentNode->nextNode;
 		}
+	}
+}
+
+template <typename T>
+void TGC_TimedQueue<T>::GetQueueArray(TArray<T*>& returnArray)
+{
+	returnArray.Empty();
+
+	GC_TimedNode<T>* currentNode = firstNode;
+	while (currentNode)
+	{
+		returnArray.Add(currentNode->Get());
+		currentNode = currentNode->nextNode;
 	}
 }

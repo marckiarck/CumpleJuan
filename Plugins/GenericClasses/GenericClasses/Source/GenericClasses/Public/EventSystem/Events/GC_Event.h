@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEventStarts, UGC_Event*, startedE
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEventFinish, UGC_Event*, finishedEvent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEventTick, UGC_Event*, startedEvent, float, deltaSeconds);
 
-UCLASS(BlueprintType)
+UCLASS(Abstract)
 class UGC_Event : public UObject, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()

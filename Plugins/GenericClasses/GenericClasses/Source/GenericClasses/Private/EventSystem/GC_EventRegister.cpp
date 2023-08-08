@@ -7,20 +7,23 @@
 
 
 
-void UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle)
+void UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay)
 {
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
 	UGC_Event* registeredEvent = objectPooler->NewUObject<UGC_Event>(eventClass, eventSpawnHandle);
 
-	//Registrar eventos y toda la pesca
+	eventQueue.Enqueue(registeredEvent, launchDelay);
+
+	TArray<UGC_Event*> testArray;
+	eventQueue.GetQueueArray(testArray);
 }
 
-void UGC_EventRegister::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)
+void UGC_EventRegister::OnInstanceCreated_Implementation(FDataTableRowHandle singletonDataHandle)
 {
-	if (const UDataTable* eventDatatable = creationDataHandle.DataTable)
+	if (const UDataTable* eventDatatable = singletonDataHandle.DataTable)
 	{
 		FString contextString = TEXT("Event Register Creation");
-		if (const FGC_EventRegisterDataRow* eventRegisterRow = eventDatatable->FindRow<FGC_EventRegisterDataRow>(creationDataHandle.RowName, contextString))
+		if (const FGC_EventRegisterDataRow* eventRegisterRow = eventDatatable->FindRow<FGC_EventRegisterDataRow>(singletonDataHandle.RowName, contextString))
 		{
 			queueDeltaTime = FMath::Max(0.f, eventRegisterRow->queueDeltaTime);
 		}
@@ -35,7 +38,7 @@ void UGC_EventRegister::OnPooledObjectCreated(FDataTableRowHandle creationDataHa
 	}
 }
 
-void UGC_EventRegister::OnPooledObjectDestroyed()
+void UGC_EventRegister::OnResetInstance_Implementation(FDataTableRowHandle singletonDataHandle)
 {
 	ShutDownEventRegister();
 
@@ -44,12 +47,20 @@ void UGC_EventRegister::OnPooledObjectDestroyed()
 		GEngine->OnWorldAdded().Remove(OnWorldAddedDelegateHandle);
 		GEngine->OnWorldDestroyed().Remove(OnWorldDestroyedDelegateHandle);
 	}
+
+	Execute_OnInstanceCreated(this, singletonDataHandle);
 }
 
 void UGC_EventRegister::UpdateEventQueue()
 {
 	TArray<UGC_Event*> poppedEvents;
 	eventQueue.Dequeue(queueDeltaTime, poppedEvents);
+
+	//This for should be a  eventQueueDelegate??
+	for (UGC_Event* poppedEventIt : poppedEvents)
+	{
+		poppedEventIt->GetOnFinishEventDelegate().AddDynamic(this, &UGC_EventRegister::OnEventFinish);
+	}
 
 	TArray<UGC_Event*> launchedEventsCpy = launchedEvents;
 	launchedEventsCpy.Append(poppedEvents);

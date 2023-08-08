@@ -20,7 +20,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_EventRegister() {}
 	GENERICCLASSES_API UClass* Z_Construct_UClass_UGC_Event_NoRegister();
 	GENERICCLASSES_API UClass* Z_Construct_UClass_UGC_EventRegister();
 	GENERICCLASSES_API UClass* Z_Construct_UClass_UGC_EventRegister_NoRegister();
-	GENERICCLASSES_API UClass* Z_Construct_UClass_UGC_PooledObjectInterface_NoRegister();
+	GENERICCLASSES_API UClass* Z_Construct_UClass_UGC_Singleton_NoRegister();
 	GENERICCLASSES_API UScriptStruct* Z_Construct_UScriptStruct_FGC_EventRegisterDataRow();
 	UPackage* Z_Construct_UPackage__Script_GenericClasses();
 // End Cross Module References
@@ -130,9 +130,10 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<FGC_EventRegisterDataR
 	{
 		P_GET_OBJECT(UClass,Z_Param_eventClass);
 		P_GET_STRUCT(FDataTableRowHandle,Z_Param_eventSpawnHandle);
+		P_GET_PROPERTY(FFloatProperty,Z_Param_launchDelay);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		UGC_EventRegister::RegisterEvent(Z_Param_eventClass,Z_Param_eventSpawnHandle);
+		P_THIS->RegisterEvent(Z_Param_eventClass,Z_Param_eventSpawnHandle,Z_Param_launchDelay);
 		P_NATIVE_END;
 	}
 	void UGC_EventRegister::StaticRegisterNativesUGC_EventRegister()
@@ -249,9 +250,11 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<FGC_EventRegisterDataR
 		{
 			TSubclassOf<UGC_Event>  eventClass;
 			FDataTableRowHandle eventSpawnHandle;
+			float launchDelay;
 		};
 		static const UECodeGen_Private::FClassPropertyParams NewProp_eventClass;
 		static const UECodeGen_Private::FStructPropertyParams NewProp_eventSpawnHandle;
+		static const UECodeGen_Private::FFloatPropertyParams NewProp_launchDelay;
 		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
@@ -260,17 +263,20 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<FGC_EventRegisterDataR
 	};
 	const UECodeGen_Private::FClassPropertyParams Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::NewProp_eventClass = { "eventClass", nullptr, (EPropertyFlags)0x0014000000000080, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_EventRegister_eventRegisterEvent_Parms, eventClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UGC_Event_NoRegister, METADATA_PARAMS(nullptr, 0) };
 	const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::NewProp_eventSpawnHandle = { "eventSpawnHandle", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_EventRegister_eventRegisterEvent_Parms, eventSpawnHandle), Z_Construct_UScriptStruct_FDataTableRowHandle, METADATA_PARAMS(nullptr, 0) }; // 2710926200
+	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::NewProp_launchDelay = { "launchDelay", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_EventRegister_eventRegisterEvent_Parms, launchDelay), METADATA_PARAMS(nullptr, 0) };
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::NewProp_eventClass,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::NewProp_eventSpawnHandle,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::NewProp_launchDelay,
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::Function_MetaDataParams[] = {
 		{ "Category", "EventRegister" },
+		{ "CPP_Default_launchDelay", "0.000000" },
 		{ "ModuleRelativePath", "Public/EventSystem/GC_EventRegister.h" },
 	};
 #endif
-	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGC_EventRegister, nullptr, "RegisterEvent", nullptr, nullptr, sizeof(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::GC_EventRegister_eventRegisterEvent_Parms), Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04022401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::Function_MetaDataParams)) };
+	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGC_EventRegister, nullptr, "RegisterEvent", nullptr, nullptr, sizeof(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::GC_EventRegister_eventRegisterEvent_Parms), Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_EventRegister_RegisterEvent_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UGC_EventRegister_RegisterEvent()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -335,7 +341,7 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<FGC_EventRegisterDataR
 		{ &Z_Construct_UFunction_UGC_EventRegister_OnEventFinish, "OnEventFinish" }, // 3162832694
 		{ &Z_Construct_UFunction_UGC_EventRegister_OnWorldAdded, "OnWorldAdded" }, // 2197204861
 		{ &Z_Construct_UFunction_UGC_EventRegister_OnWorldDestroyed, "OnWorldDestroyed" }, // 2261130211
-		{ &Z_Construct_UFunction_UGC_EventRegister_RegisterEvent, "RegisterEvent" }, // 1547530322
+		{ &Z_Construct_UFunction_UGC_EventRegister_RegisterEvent, "RegisterEvent" }, // 2662895579
 		{ &Z_Construct_UFunction_UGC_EventRegister_UpdateEventQueue, "UpdateEventQueue" }, // 2356536977
 	};
 #if WITH_METADATA
@@ -361,7 +367,7 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<FGC_EventRegisterDataR
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UGC_EventRegister_Statics::NewProp_timerWorld,
 	};
 		const UECodeGen_Private::FImplementedInterfaceParams Z_Construct_UClass_UGC_EventRegister_Statics::InterfaceParams[] = {
-			{ Z_Construct_UClass_UGC_PooledObjectInterface_NoRegister, (int32)VTABLE_OFFSET(UGC_EventRegister, IGC_PooledObjectInterface), false },  // 2376592997
+			{ Z_Construct_UClass_UGC_Singleton_NoRegister, (int32)VTABLE_OFFSET(UGC_EventRegister, IGC_Singleton), false },  // 768756457
 		};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_UGC_EventRegister_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<UGC_EventRegister>::IsAbstract,
@@ -404,9 +410,9 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<FGC_EventRegisterDataR
 		{ FGC_EventRegisterDataRow::StaticStruct, Z_Construct_UScriptStruct_FGC_EventRegisterDataRow_Statics::NewStructOps, TEXT("GC_EventRegisterDataRow"), &Z_Registration_Info_UScriptStruct_GC_EventRegisterDataRow, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FGC_EventRegisterDataRow), 3240002256U) },
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_EventRegister, UGC_EventRegister::StaticClass, TEXT("UGC_EventRegister"), &Z_Registration_Info_UClass_UGC_EventRegister, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_EventRegister), 1800863878U) },
+		{ Z_Construct_UClass_UGC_EventRegister, UGC_EventRegister::StaticClass, TEXT("UGC_EventRegister"), &Z_Registration_Info_UClass_UGC_EventRegister, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_EventRegister), 2149606848U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_4145774351(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_1608187793(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_Statics::ClassInfo),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_Statics::ScriptStructInfo),
 		nullptr, 0);

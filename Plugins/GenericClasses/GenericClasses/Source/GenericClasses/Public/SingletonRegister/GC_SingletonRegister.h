@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "GC_Singleton.h"
 #include "GC_SingletonRegister.generated.h"
 
 
@@ -20,10 +21,10 @@ private:
 
 public:
 	template<typename T>
-	static T* GetInstance();
+	static T* GetInstance(FDataTableRowHandle singletonDataHandle = FDataTableRowHandle());
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = Singleton, meta = (DeterminesOutputType = "objectClass", DynamicOutputParam = "outObject"))
-		static void GetInstance(TSubclassOf<UObject> objectClass, UObject*& outObject);
+		static void GetInstance(TSubclassOf<UObject> objectClass, UObject*& outObject, FDataTableRowHandle singletonDataHandle = FDataTableRowHandle());
 
 private:
 	template<typename T>
@@ -33,7 +34,7 @@ private:
 };
 
 template<typename T>
-T* UGC_SingletonRegister::GetInstance()
+T* UGC_SingletonRegister::GetInstance(FDataTableRowHandle singletonDataHandle)
 {
 	GetSingletonRegiter();
 
@@ -42,17 +43,28 @@ T* UGC_SingletonRegister::GetInstance()
 	if (instance->registeredSingletonsMap.Contains(singletonKey))
 	{
 		objectInstance = Cast<T>(instance->registeredSingletonsMap[singletonKey]);
-		if (objectInstance == nullptr || objectInstance->IsValidLowLevel() == false)
+		if (objectInstance && objectInstance->IsValidLowLevel())
 		{
-			objectInstance = NewObject<T>();
+			if (IGC_Singleton* singletonInterface = Cast<IGC_Singleton>(objectInstance))
+			{
+				singletonInterface->Execute_OnGetInstance(objectInstance, singletonDataHandle);
+			}
+
+			ensureMsgf(objectInstance, TEXT("Something went wrong during getting singleton instance"));
+			return objectInstance;
 		}
+
 	}
-	else
+	
+	objectInstance = NewObject<T>();
+	instance->registeredSingletonsMap.Add(singletonKey, objectInstance);
+
+	if (IGC_Singleton* singletonInterface = Cast<IGC_Singleton>(objectInstance))
 	{
-		objectInstance = NewObject<T>();
-		instance->registeredSingletonsMap.Add(singletonKey, objectInstance);
+		singletonInterface->Execute_OnInstanceCreated(objectInstance, singletonDataHandle);
 	}
 
+	ensureMsgf(objectInstance, TEXT("Something went wrong during getting singleton instance"));
 	return objectInstance;
 }
 

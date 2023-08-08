@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "GenericClasses/Public/ObjectPooler/GC_PooledObjectInterface.h"
 #include "GC_EventQueue.h"
 #include "Events/GC_Event.h"
+#include "SingletonRegister/GC_Singleton.h"
 #include "GC_EventRegister.generated.h"
 
 USTRUCT(BlueprintType, Blueprintable)
@@ -21,7 +21,7 @@ public:
 };
 
 UCLASS()
-class GENERICCLASSES_API UGC_EventRegister : public UObject, public IGC_PooledObjectInterface
+class GENERICCLASSES_API UGC_EventRegister : public UObject, public IGC_Singleton
 {
 	GENERATED_BODY()
 
@@ -45,10 +45,10 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category="EventRegister")
-	static void RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle);
+	void RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay = 0.f);
 
-	void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
-	void OnPooledObjectDestroyed() override;
+	virtual void OnInstanceCreated_Implementation(FDataTableRowHandle singletonDataHandle) override;
+	virtual void OnResetInstance_Implementation(FDataTableRowHandle singletonDataHandle) override;
 
 private:
 	UFUNCTION()

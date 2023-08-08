@@ -5,7 +5,7 @@
 
 UGC_SingletonRegister* UGC_SingletonRegister::instance = nullptr;
 
-void UGC_SingletonRegister::GetInstance(TSubclassOf<UObject> objectClass, UObject*& OutActor)
+void UGC_SingletonRegister::GetInstance(TSubclassOf<UObject> objectClass, UObject*& OutActor, FDataTableRowHandle singletonDataHandle)
 {
 	GetSingletonRegiter();
 
@@ -13,12 +13,29 @@ void UGC_SingletonRegister::GetInstance(TSubclassOf<UObject> objectClass, UObjec
 	if (instance->registeredSingletonsMap.Contains(singletonKey))
 	{
 		OutActor = instance->registeredSingletonsMap[singletonKey];
+
+		if (OutActor && OutActor->IsValidLowLevel())
+		{
+			if (IGC_Singleton* singletonInterface = Cast<IGC_Singleton>(OutActor))
+			{
+				singletonInterface->Execute_OnGetInstance(OutActor, singletonDataHandle);
+			}
+
+			ensureMsgf(OutActor, TEXT("Something went wrong during getting singleton instance"));
+			return;
+		}
+
 	}
-	else
+	
+	OutActor = NewObject<UObject>(instance, objectClass);
+	instance->registeredSingletonsMap.Add(singletonKey, OutActor);
+
+	if (IGC_Singleton* singletonInterface = Cast<IGC_Singleton>(OutActor))
 	{
-		OutActor = NewObject<UObject>(instance, objectClass);
-		instance->registeredSingletonsMap.Add(singletonKey, OutActor);
+		singletonInterface->Execute_OnInstanceCreated(OutActor, singletonDataHandle);
 	}
+
+	ensureMsgf(OutActor, TEXT("Something went wrong during getting singleton instance"));
 }
 
 UGC_SingletonRegister* UGC_SingletonRegister::GetSingletonRegiter()
