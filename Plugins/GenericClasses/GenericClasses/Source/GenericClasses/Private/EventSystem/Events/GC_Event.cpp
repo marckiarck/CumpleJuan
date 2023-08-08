@@ -68,17 +68,17 @@ void UGC_Event::OnPooledObjectDestroyed()
 
 void UGC_Event::OnEventStarted()
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("This is the OnEventStarted method of the clase base GC_Event. You should override it"))
 }
 
 void UGC_Event::OnEventTick(float deltaSeconds)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Emerald, TEXT("Base class for events. please don't intantiate this class."));
+	UE_LOG(LogTemp, Warning, TEXT("This is the OnEventTick method of the clase base GC_Event. You should override it"))
 	FinishEvent();
 }
 
 void UGC_Event::OnEventFinish()
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("This is the OnEventFinish method of the clase base GC_Event. You should override it"))
 }
 
