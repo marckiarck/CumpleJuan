@@ -20,7 +20,7 @@ private:
 
 public:
 	template<typename T>
-	T* NewUObject(FDataTableRowHandle creationDataHandle);
+	T* NewUObject(FDataTableRowHandle creationDataHandle = FDataTableRowHandle());
 
 	template<typename T>
 	T* NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle creationDataHandle);
@@ -67,6 +67,12 @@ T* UGC_ObjectPooler::NewUObject(FDataTableRowHandle creationDataHandle)
 template<typename T>
 T* UGC_ObjectPooler::NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle creationDataHandle)
 {
+	if (objectClass->HasAnyClassFlags(CLASS_Abstract))
+	{
+		ensureMsgf(false, TEXT("Trying to instance an abstract class"));
+		return nullptr;
+	}
+
 	T* pooledObject = nullptr;
 
 	FName poolKey = GetPoolKey(objectClass);
@@ -99,6 +105,12 @@ T* UGC_ObjectPooler::NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle 
 template<typename T>
 T* UGC_ObjectPooler::NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRowHandle creationDataHandle)
 {
+	if (T::StaticClass()->HasAnyClassFlags(CLASS_Abstract))
+	{
+		ensureMsgf(false, TEXT("Trying to instance an abstract class"));
+		return nullptr;
+	}
+
 	T* pooledObject = nullptr;
 
 	FName poolKey = GetPoolKey(childClass);
@@ -146,7 +158,7 @@ void UGC_ObjectPooler::DestroyUObject(T* objectReference)
 	}
 	else
 	{
-		objectReference->BeginDestroy();
+		objectReference->ConditionalBeginDestroy();
 	}
 }
 

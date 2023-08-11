@@ -4,10 +4,11 @@
 #include "GenericClasses/Public/EventSystem/GC_EventRegister.h"
 #include "SingletonRegister/GC_SingletonRegister.h"
 #include "ObjectPooler/GC_ObjectPooler.h"
+#include "EventSystem/GC_EventSequence.h"
 
 
 
-void UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay)
+UGC_Event* UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay)
 {
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
 	UGC_Event* registeredEvent = objectPooler->NewUObject<UGC_Event>(eventClass, eventSpawnHandle);
@@ -16,6 +17,21 @@ void UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTa
 
 	TArray<UGC_Event*> testArray;
 	eventQueue.GetQueueArray(testArray);
+
+	return registeredEvent;
+}
+
+void UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData)
+{
+	if (sequenceData == nullptr)
+	{
+		ensureMsgf(sequenceData == nullptr, TEXT("Your are trying to register a event sequence with a null sequenceData"));
+		return;
+	}
+
+	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
+	UGC_EventSequence* eventSequence = objectPooler->NewUObject<UGC_EventSequence>();
+	eventSequence->ConfigureEventSequence(sequenceData);
 }
 
 void UGC_EventRegister::OnInstanceCreated_Implementation(FDataTableRowHandle singletonDataHandle)
@@ -60,14 +76,16 @@ void UGC_EventRegister::UpdateEventQueue()
 	for (UGC_Event* poppedEventIt : poppedEvents)
 	{
 		poppedEventIt->GetOnFinishEventDelegate().AddDynamic(this, &UGC_EventRegister::OnEventFinish);
+		launchedEvents.Add(poppedEventIt);
 	}
 
 	TArray<UGC_Event*> launchedEventsCpy = launchedEvents;
-	launchedEventsCpy.Append(poppedEvents);
 	for (UGC_Event* eventIt : launchedEventsCpy)
 	{
 		eventIt->LaunchEvent(queueDeltaTime);
 	}
+
+	//PrintDebug();
 }
 
 void UGC_EventRegister::InitializeEventRegister()
@@ -121,4 +139,21 @@ void UGC_EventRegister::OnEventFinish(UGC_Event* finishedEvent)
 	// When a event finishes it removes itself from the ObjectPool. 
 	//That's why EventRegister don't need to clear functions binded to events
 	launchedEvents.Remove(finishedEvent);
+}
+
+void UGC_EventRegister::PrintDebug()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, TEXT("Launched Events:"));
+	for (const UGC_Event* launchedEvent : launchedEvents)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, launchedEvent->GetName());
+	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Green, TEXT("Queued Events:"));
+	TArray<UGC_Event*> queuedEvents;
+	eventQueue.GetQueueArray(queuedEvents);
+	for (const UGC_Event* queuedEvent : queuedEvents)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Green, queuedEvent->GetName());
+	}
 }

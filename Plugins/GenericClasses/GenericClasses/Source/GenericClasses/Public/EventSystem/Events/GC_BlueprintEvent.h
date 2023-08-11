@@ -13,14 +13,14 @@ class UGC_BlueprintEvent : public UGC_Event
 	GENERATED_BODY()
 
 protected:
-	void OnEventStarted() override;
-	void OnEventTick(float deltaSeconds) override;
-	void OnEventFinish() override;
+	virtual void OnEventStarted() override;
+	virtual void OnEventTick(float deltaSeconds) override;
+	virtual void OnEventFinish() override;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Event, DisplayName = "OnEventStarted")
 		void OnEventStartedBP();
 	UFUNCTION(BlueprintNativeEvent, Category = Event, DisplayName = "OnEventTick")
-		void OnEventTickBP();
+		void OnEventTickBP(float deltaSeconds);
 	UFUNCTION(BlueprintImplementableEvent, Category = Event, DisplayName = "OnEventFinish")
 		void OnEventFinishBP();
 

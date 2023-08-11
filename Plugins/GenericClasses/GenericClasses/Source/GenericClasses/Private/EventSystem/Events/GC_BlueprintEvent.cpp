@@ -10,7 +10,7 @@ void UGC_BlueprintEvent::OnEventStarted()
 
 void UGC_BlueprintEvent::OnEventTick(float deltaSeconds)
 {
-	OnEventTickBP();
+	OnEventTickBP(deltaSeconds);
 }
 
 void UGC_BlueprintEvent::OnEventFinish()
@@ -18,7 +18,7 @@ void UGC_BlueprintEvent::OnEventFinish()
 	OnEventFinishBP();
 }
 
-void UGC_BlueprintEvent::OnEventTickBP_Implementation()
+void UGC_BlueprintEvent::OnEventTickBP_Implementation(float deltaSeconds)
 {
 	FinishEvent();
 }

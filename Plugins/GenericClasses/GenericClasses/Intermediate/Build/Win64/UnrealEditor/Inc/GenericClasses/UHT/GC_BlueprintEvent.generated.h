@@ -16,13 +16,13 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 #define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_13_SPARSE_DATA
 #define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_13_RPC_WRAPPERS \
-	virtual void OnEventTickBP_Implementation(); \
+	virtual void OnEventTickBP_Implementation(float deltaSeconds); \
  \
 	DECLARE_FUNCTION(execOnEventTickBP);
 
 
 #define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
-	virtual void OnEventTickBP_Implementation(); \
+	virtual void OnEventTickBP_Implementation(float deltaSeconds); \
  \
 	DECLARE_FUNCTION(execOnEventTickBP);
 

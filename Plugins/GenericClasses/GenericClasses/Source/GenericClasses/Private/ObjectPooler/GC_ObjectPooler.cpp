@@ -8,6 +8,12 @@ void UGC_ObjectPooler::CreateObject(TSubclassOf<UObject> objectClass, UObject*& 
 {
 	createdObject = nullptr;
 
+	if (objectClass->HasAnyClassFlags(CLASS_Abstract))
+	{
+		ensureMsgf(false, TEXT("Trying to instance an abstract class"));
+		return;
+	}
+
 	FName poolKey = GetPoolKey(objectClass);
 	if (poolsMap.Contains(poolKey))
 	{
@@ -61,6 +67,12 @@ void UGC_ObjectPooler::DestroyObject(UObject* objectReference)
 void UGC_ObjectPooler::SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor, bool collisionEnabled)
 {
 	spawnedActor = nullptr;
+
+	if (actorClass->HasAnyClassFlags(CLASS_Abstract))
+	{
+		ensureMsgf(false, TEXT("Trying to instance an abstract class"));
+		return;
+	}
 
 	UWorld* spawnWorld = spawnLevel->OwningWorld;
 	if (spawnWorld == nullptr)

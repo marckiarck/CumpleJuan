@@ -20,6 +20,23 @@ public:
 
 };
 
+USTRUCT(BlueprintType, Blueprintable)
+struct GENERICCLASSES_API FGC_EventCreationData
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, DisplayName = "Event")
+		TSubclassOf<UGC_Event> eventClass;
+
+	UPROPERTY(EditAnywhere)
+		float launchDelay = 0.f;
+
+	UPROPERTY(EditAnywhere, DisplayName = "Event Creation Parameters")
+	FDataTableRowHandle eventSpawnHandle;
+
+};
+
 UCLASS()
 class GENERICCLASSES_API UGC_EventRegister : public UObject, public IGC_Singleton
 {
@@ -38,6 +55,8 @@ private:
 	FDelegateHandle OnWorldDestroyedDelegateHandle;
 
 	TGC_EventQueue<UGC_Event> eventQueue;
+
+	UPROPERTY(Transient)
 	TArray<UGC_Event*> launchedEvents;
 
 	float queueDeltaTime = 0.17f;
@@ -45,7 +64,9 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category="EventRegister")
-	void RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay = 0.f);
+		UGC_Event* RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay = 0.f);
+	UFUNCTION(BlueprintCallable, Category = "EventRegister")
+		void RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData);
 
 	virtual void OnInstanceCreated_Implementation(FDataTableRowHandle singletonDataHandle) override;
 	virtual void OnResetInstance_Implementation(FDataTableRowHandle singletonDataHandle) override;
@@ -67,4 +88,6 @@ private:
 
 	UFUNCTION()
 	void OnEventFinish(UGC_Event* finishedEvent);
+
+	void PrintDebug();
 };

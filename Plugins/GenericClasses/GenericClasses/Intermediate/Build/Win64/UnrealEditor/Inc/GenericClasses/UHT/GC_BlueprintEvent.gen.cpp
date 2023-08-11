@@ -16,11 +16,16 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 // End Cross Module References
 	DEFINE_FUNCTION(UGC_BlueprintEvent::execOnEventTickBP)
 	{
+		P_GET_PROPERTY(FFloatProperty,Z_Param_deltaSeconds);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->OnEventTickBP_Implementation();
+		P_THIS->OnEventTickBP_Implementation(Z_Param_deltaSeconds);
 		P_NATIVE_END;
 	}
+	struct GC_BlueprintEvent_eventOnEventTickBP_Parms
+	{
+		float deltaSeconds;
+	};
 	static FName NAME_UGC_BlueprintEvent_OnEventFinishBP = FName(TEXT("OnEventFinishBP"));
 	void UGC_BlueprintEvent::OnEventFinishBP()
 	{
@@ -32,9 +37,11 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		ProcessEvent(FindFunctionChecked(NAME_UGC_BlueprintEvent_OnEventStartedBP),NULL);
 	}
 	static FName NAME_UGC_BlueprintEvent_OnEventTickBP = FName(TEXT("OnEventTickBP"));
-	void UGC_BlueprintEvent::OnEventTickBP()
+	void UGC_BlueprintEvent::OnEventTickBP(float deltaSeconds)
 	{
-		ProcessEvent(FindFunctionChecked(NAME_UGC_BlueprintEvent_OnEventTickBP),NULL);
+		GC_BlueprintEvent_eventOnEventTickBP_Parms Parms;
+		Parms.deltaSeconds=deltaSeconds;
+		ProcessEvent(FindFunctionChecked(NAME_UGC_BlueprintEvent_OnEventTickBP),&Parms);
 	}
 	void UGC_BlueprintEvent::StaticRegisterNativesUGC_BlueprintEvent()
 	{
@@ -94,10 +101,16 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 	}
 	struct Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics
 	{
+		static const UECodeGen_Private::FFloatPropertyParams NewProp_deltaSeconds;
+		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UECodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::NewProp_deltaSeconds = { "deltaSeconds", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(GC_BlueprintEvent_eventOnEventTickBP_Parms, deltaSeconds), METADATA_PARAMS(nullptr, 0) };
+	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::PropPointers[] = {
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::NewProp_deltaSeconds,
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::Function_MetaDataParams[] = {
@@ -106,7 +119,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		{ "ModuleRelativePath", "Public/EventSystem/Events/GC_BlueprintEvent.h" },
 	};
 #endif
-	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGC_BlueprintEvent, nullptr, "OnEventTickBP", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x08080C00, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::Function_MetaDataParams)) };
+	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGC_BlueprintEvent, nullptr, "OnEventTickBP", nullptr, nullptr, sizeof(GC_BlueprintEvent_eventOnEventTickBP_Parms), Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x08080C00, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -138,7 +151,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_UGC_BlueprintEvent_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventFinishBP, "OnEventFinishBP" }, // 703096016
 		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventStartedBP, "OnEventStartedBP" }, // 346361801
-		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP, "OnEventTickBP" }, // 2620494223
+		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP, "OnEventTickBP" }, // 1436917005
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UGC_BlueprintEvent_Statics::Class_MetaDataParams[] = {
@@ -185,9 +198,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_BlueprintEvent, UGC_BlueprintEvent::StaticClass, TEXT("UGC_BlueprintEvent"), &Z_Registration_Info_UClass_UGC_BlueprintEvent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_BlueprintEvent), 2941601924U) },
+		{ Z_Construct_UClass_UGC_BlueprintEvent, UGC_BlueprintEvent::StaticClass, TEXT("UGC_BlueprintEvent"), &Z_Registration_Info_UClass_UGC_BlueprintEvent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_BlueprintEvent), 833047743U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_78156591(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_3809024212(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
