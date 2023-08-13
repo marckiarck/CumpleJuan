@@ -67,6 +67,12 @@ T* UGC_ObjectPooler::NewUObject(FDataTableRowHandle creationDataHandle)
 template<typename T>
 T* UGC_ObjectPooler::NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle creationDataHandle)
 {
+	if (objectClass == nullptr)
+	{
+		ensureMsgf(false, TEXT("Trying to instance a nullptr class"));
+		return nullptr;
+	}
+
 	if (objectClass->HasAnyClassFlags(CLASS_Abstract))
 	{
 		ensureMsgf(false, TEXT("Trying to instance an abstract class"));
@@ -105,6 +111,12 @@ T* UGC_ObjectPooler::NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle 
 template<typename T>
 T* UGC_ObjectPooler::NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRowHandle creationDataHandle)
 {
+	if (objectClass == nullptr)
+	{
+		ensureMsgf(false, TEXT("Trying to instance a nullptr class"));
+		return nullptr;
+	}
+
 	if (T::StaticClass()->HasAnyClassFlags(CLASS_Abstract))
 	{
 		ensureMsgf(false, TEXT("Trying to instance an abstract class"));

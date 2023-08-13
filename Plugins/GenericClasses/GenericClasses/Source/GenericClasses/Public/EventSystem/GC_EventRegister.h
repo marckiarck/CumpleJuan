@@ -68,6 +68,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "EventRegister")
 		void RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData);
 
+	TArray<const UGC_Event*> GetLaunchedEvents();
+	TArray<const UGC_Event*> GetQueuedEvents();
+
 	virtual void OnInstanceCreated_Implementation(FDataTableRowHandle singletonDataHandle) override;
 	virtual void OnResetInstance_Implementation(FDataTableRowHandle singletonDataHandle) override;
 

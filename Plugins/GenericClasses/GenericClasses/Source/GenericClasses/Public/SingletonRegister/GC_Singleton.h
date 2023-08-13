@@ -17,7 +17,7 @@ class UGC_Singleton : public UInterface
 };
 
 
-class IGC_Singleton
+class GENERICCLASSES_API IGC_Singleton
 {
 
 	friend class UGC_SingletonRegister;

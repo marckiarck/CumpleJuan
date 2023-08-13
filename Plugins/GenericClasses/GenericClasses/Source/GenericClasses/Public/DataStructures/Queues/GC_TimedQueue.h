@@ -10,18 +10,14 @@ class GENERICCLASSES_API GC_TimedNode
 	GENERATE_NODE_BODY(GC_TimedNode, T);
 
 public:
-	GC_TimedNode(T* nodeObject, float popTime);
+	GC_TimedNode(T* nodeObject, float popTime) : storedObject(nodeObject), popTime(popTime)
+	{
+	};
 
 public:
 	float popTime = 0.f;
 
 };
-
-template <typename T>
-GC_TimedNode<T>::GC_TimedNode(T* nodeObject, float popTime) : storedObject(nodeObject), popTime(popTime)
-{
-
-}
 
 
 template <typename T>
@@ -33,105 +29,96 @@ private:
 	GC_TimedNode<T>* lastNode = nullptr;
 
 public:
-	void Enqueue(T* queuedObject, float popTime = 0.f);
-	void Dequeue(float timeStep, TArray<T*>& returnArray);
-
-	void GetQueueArray(TArray<T*>& returnArray);
-};
-
-
-template <typename T>
-void TGC_TimedQueue<T>::Enqueue(T* queuedObject, float popTime)
-{
-	if (queuedObject == nullptr)
+	void Enqueue(T* queuedObject, float popTime = 0.f)
 	{
-		return;
-	}
-
-	GC_TimedNode<T>* queuedNode = new GC_TimedNode<T>(queuedObject, popTime);
-
-	if (firstNode == nullptr)
-	{
-		firstNode = queuedNode;
-		lastNode = queuedNode;
-	}
-	else
-	{
-		if (lastNode->popTime < popTime)
+		if (queuedObject == nullptr)
 		{
-			lastNode->nextNode = queuedNode;
-			queuedNode->previousNode = lastNode;
+			return;
+		}
+
+		GC_TimedNode<T>* queuedNode = new GC_TimedNode<T>(queuedObject, popTime);
+
+		if (firstNode == nullptr)
+		{
+			firstNode = queuedNode;
 			lastNode = queuedNode;
 		}
 		else
 		{
-			GC_TimedNode<T>* currentNode = firstNode;
-			while (currentNode != nullptr)
+			if (lastNode->popTime < popTime)
 			{
-				if (currentNode->popTime > popTime)
+				lastNode->nextNode = queuedNode;
+				queuedNode->previousNode = lastNode;
+				lastNode = queuedNode;
+			}
+			else
+			{
+				GC_TimedNode<T>* currentNode = firstNode;
+				while (currentNode != nullptr)
 				{
-					if (GC_TimedNode<T>* previousNode = currentNode->previousNode)
+					if (currentNode->popTime > popTime)
 					{
-						previousNode->nextNode = queuedNode;
-						queuedNode->previousNode = previousNode;
-					}
-					else
-					{
-						firstNode = queuedNode;
+						if (GC_TimedNode<T>* previousNode = currentNode->previousNode)
+						{
+							previousNode->nextNode = queuedNode;
+							queuedNode->previousNode = previousNode;
+						}
+						else
+						{
+							firstNode = queuedNode;
+						}
+
+						queuedNode->nextNode = currentNode;
+						currentNode->previousNode = queuedNode;
+
+						return;
 					}
 
-					queuedNode->nextNode = currentNode;
-					currentNode->previousNode = queuedNode;
-
-					return;
+					currentNode = currentNode->nextNode;
 				}
+			}
+		}
+	};
+	void Dequeue(float timeStep, TArray<T*>& returnArray)
+	{
+		returnArray.Empty();
 
+		GC_TimedNode<T>* currentNode = firstNode;
+		GC_TimedNode<T>* deletedNode = nullptr;
+		while (currentNode)
+		{
+			if (currentNode->popTime < timeStep)
+			{
+				returnArray.Add(currentNode->Get());
+				deletedNode = currentNode;
+				currentNode = currentNode->nextNode;
+
+				if (deletedNode)
+				{
+					firstNode = currentNode;
+					//No need to control lastNode beacuse the only new value that can take in dequeue is nullptr 
+					//that will be set with delete
+					delete deletedNode;
+				}
+			}
+			else
+			{
+				currentNode->popTime -= timeStep;
 				currentNode = currentNode->nextNode;
 			}
 		}
-	}
-}
+	};
 
-template <typename T>
-void TGC_TimedQueue<T>::Dequeue(float timeStep, TArray<T*>& returnArray)
-{
-	returnArray.Empty();
-
-	GC_TimedNode<T>* currentNode = firstNode;
-	GC_TimedNode<T>* deletedNode = nullptr;
-	while (currentNode)
+	void GetQueueArray(TArray<T*>& returnArray) 
 	{
-		if (currentNode->popTime < timeStep)
+		returnArray.Empty();
+
+		GC_TimedNode<T>* currentNode = firstNode;
+		while (currentNode)
 		{
 			returnArray.Add(currentNode->Get());
-			deletedNode = currentNode;
-			currentNode = currentNode->nextNode;
-
-			if (deletedNode)
-			{
-				firstNode = currentNode; 
-				//No need to control lastNode beacuse the only new value that can take in dequeue is nullptr 
-				//that will be set with delete
-				delete deletedNode;
-			}
-		}
-		else
-		{
-			currentNode->popTime -= timeStep;
 			currentNode = currentNode->nextNode;
 		}
-	}
-}
+	};
+};
 
-template <typename T>
-void TGC_TimedQueue<T>::GetQueueArray(TArray<T*>& returnArray)
-{
-	returnArray.Empty();
-
-	GC_TimedNode<T>* currentNode = firstNode;
-	while (currentNode)
-	{
-		returnArray.Add(currentNode->Get());
-		currentNode = currentNode->nextNode;
-	}
-}

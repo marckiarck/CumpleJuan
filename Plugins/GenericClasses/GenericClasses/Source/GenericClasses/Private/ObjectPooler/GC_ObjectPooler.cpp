@@ -8,6 +8,12 @@ void UGC_ObjectPooler::CreateObject(TSubclassOf<UObject> objectClass, UObject*& 
 {
 	createdObject = nullptr;
 
+	if (objectClass == nullptr)
+	{
+		ensureMsgf(false, TEXT("Trying to instance a nullptr class"));
+		return;
+	}
+
 	if (objectClass->HasAnyClassFlags(CLASS_Abstract))
 	{
 		ensureMsgf(false, TEXT("Trying to instance an abstract class"));
@@ -67,6 +73,12 @@ void UGC_ObjectPooler::DestroyObject(UObject* objectReference)
 void UGC_ObjectPooler::SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor, bool collisionEnabled)
 {
 	spawnedActor = nullptr;
+
+	if (actorClass == nullptr)
+	{
+		ensureMsgf(false, TEXT("Trying to instance a nullptr class"));
+		return;
+	}
 
 	if (actorClass->HasAnyClassFlags(CLASS_Abstract))
 	{

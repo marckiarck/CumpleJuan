@@ -34,6 +34,30 @@ void UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDataAsset* sequen
 	eventSequence->ConfigureEventSequence(sequenceData);
 }
 
+TArray<const UGC_Event*> UGC_EventRegister::GetLaunchedEvents()
+{
+	TArray<const UGC_Event*> returnedArray;
+	for (const UGC_Event* launchedEvent : launchedEvents)
+	{
+		returnedArray.Add(launchedEvent);
+	}
+
+	return returnedArray;
+}
+
+TArray<const UGC_Event*> UGC_EventRegister::GetQueuedEvents()
+{
+	TArray<const UGC_Event*> returnedArray;
+	TArray<UGC_Event*> queuedEvents;
+	eventQueue.GetQueueArray(queuedEvents);
+	for (const UGC_Event* queuedEvent : queuedEvents)
+	{
+		returnedArray.Add(queuedEvent);
+	}
+
+	return returnedArray;
+}
+
 void UGC_EventRegister::OnInstanceCreated_Implementation(FDataTableRowHandle singletonDataHandle)
 {
 	if (const UDataTable* eventDatatable = singletonDataHandle.DataTable)
