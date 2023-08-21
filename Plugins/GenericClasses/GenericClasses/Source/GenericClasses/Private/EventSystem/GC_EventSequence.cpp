@@ -24,7 +24,7 @@ void UGC_EventSequence::RegisterSequenceEvent()
 	FGC_EventCreationData& currentEvenCreationData = eventCreationDataArray[currentEvent];
 	UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
 	UGC_Event* sequenceEvent = eventRegister->RegisterEvent(currentEvenCreationData.eventClass, currentEvenCreationData.eventSpawnHandle, currentEvenCreationData.launchDelay);
-	sequenceEvent->GetOnFinishEventDelegate().AddDynamic(this, &UGC_EventSequence::OnSequenceEventFinish);
+	sequenceEvent->GetOnFinishEventDelegate().AddUObject(this, &UGC_EventSequence::OnSequenceEventFinish);
 	++currentEvent;
 }
 

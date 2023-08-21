@@ -12,7 +12,6 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 class UGC_Event;
 class UGC_EventSequenceDataAsset;
 class UWorld;
-struct FDataTableRowHandle;
 #ifdef GENERICCLASSES_GC_EventRegister_generated_h
 #error "GC_EventRegister.generated.h already included, missing '#pragma once' in GC_EventRegister.h"
 #endif
@@ -40,8 +39,7 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<struct FGC_EventCreati
 	DECLARE_FUNCTION(execOnWorldAdded); \
 	DECLARE_FUNCTION(execOnWorldDestroyed); \
 	DECLARE_FUNCTION(execUpdateEventQueue); \
-	DECLARE_FUNCTION(execRegisterEventSequence); \
-	DECLARE_FUNCTION(execRegisterEvent);
+	DECLARE_FUNCTION(execRegisterEventSequence);
 
 
 #define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_43_RPC_WRAPPERS_NO_PURE_DECLS \
@@ -50,8 +48,7 @@ template<> GENERICCLASSES_API UScriptStruct* StaticStruct<struct FGC_EventCreati
 	DECLARE_FUNCTION(execOnWorldAdded); \
 	DECLARE_FUNCTION(execOnWorldDestroyed); \
 	DECLARE_FUNCTION(execUpdateEventQueue); \
-	DECLARE_FUNCTION(execRegisterEventSequence); \
-	DECLARE_FUNCTION(execRegisterEvent);
+	DECLARE_FUNCTION(execRegisterEventSequence);
 
 
 #define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_GC_EventRegister_h_43_ACCESSORS

@@ -99,7 +99,7 @@ void UGC_EventRegister::UpdateEventQueue()
 	//This for should be a  eventQueueDelegate??
 	for (UGC_Event* poppedEventIt : poppedEvents)
 	{
-		poppedEventIt->GetOnFinishEventDelegate().AddDynamic(this, &UGC_EventRegister::OnEventFinish);
+		poppedEventIt->GetOnFinishEventDelegate().AddUObject(this, &UGC_EventRegister::OnEventFinish);
 		launchedEvents.Add(poppedEventIt);
 	}
 
@@ -154,7 +154,7 @@ void UGC_EventRegister::BindToEventsOnFinish(TArray<UGC_Event*> eventsArray)
 {
 	for (UGC_Event* eventIt : eventsArray)
 	{
-		eventIt->GetOnFinishEventDelegate().AddDynamic(this, &UGC_EventRegister::OnEventFinish);
+		eventIt->GetOnFinishEventDelegate().AddUObject(this, &UGC_EventRegister::OnEventFinish);
 	}
 }
 

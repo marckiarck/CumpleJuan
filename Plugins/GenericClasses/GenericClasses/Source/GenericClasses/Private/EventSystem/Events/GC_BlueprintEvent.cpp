@@ -3,6 +3,7 @@
 
 #include "GenericClasses/Public/EventSystem/Events/GC_BlueprintEvent.h"
 
+
 void UGC_BlueprintEvent::OnEventStarted()
 {
 	OnEventStartedBP();

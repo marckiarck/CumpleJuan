@@ -20,9 +20,14 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		},
-{
+		{
 			"Name": "GenericClassesDebug",
 			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "GenericClassesEditor",
+			"Type": "UncookedOnly",
 			"LoadingPhase": "Default"
 		}
 	]

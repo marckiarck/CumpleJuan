@@ -7,9 +7,9 @@
 #include "ObjectPooler/GC_ObjectPooler.h"
 #include "GC_Event.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEventStarts, UGC_Event*, startedEvent);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEventFinish, UGC_Event*, finishedEvent);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEventTick, UGC_Event*, startedEvent, float, deltaSeconds);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnEventStarts, UGC_Event*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnEventFinish, UGC_Event*);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnEventTick, UGC_Event*, float);
 
 UCLASS(Abstract, BlueprintType)
 class GENERICCLASSES_API UGC_Event : public UObject, public IGC_PooledObjectInterface
@@ -17,14 +17,15 @@ class GENERICCLASSES_API UGC_Event : public UObject, public IGC_PooledObjectInte
 	GENERATED_BODY()
 
 public:
+
 	void LaunchEvent(float deltaSeconds);
 
 	UFUNCTION(BlueprintCallable)
-	void FinishEvent();
+		void FinishEvent();
 
 	FOnEventStarts& GetOnStartEventDelegate();
-	FOnEventFinish& GetOnFinishEventDelegate();
 	FOnEventTick& GetOnEventTickDelegate();
+	FOnEventFinish& GetOnFinishEventDelegate();
 
 protected:
 	void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
@@ -39,8 +40,8 @@ private:
 	bool eventLaunched = false;
 
 	FOnEventStarts OnStartEventDelegate;
-	FOnEventFinish OnFinishEventDelegate;
 	FOnEventTick OnEventTickDelegate;
+	FOnEventFinish OnFinishEventDelegate;
 
 	void StartEvent();
 	void EventTick(float deltaSeconds);

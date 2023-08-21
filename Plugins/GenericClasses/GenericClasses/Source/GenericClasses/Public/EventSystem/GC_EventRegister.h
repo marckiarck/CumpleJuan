@@ -33,7 +33,7 @@ public:
 		float launchDelay = 0.f;
 
 	UPROPERTY(EditAnywhere, DisplayName = "Event Creation Parameters")
-	FDataTableRowHandle eventSpawnHandle;
+		FDataTableRowHandle eventSpawnHandle;
 
 };
 
@@ -57,14 +57,13 @@ private:
 	TGC_EventQueue<UGC_Event> eventQueue;
 
 	UPROPERTY(Transient)
-	TArray<UGC_Event*> launchedEvents;
+		TArray<UGC_Event*> launchedEvents;
 
 	float queueDeltaTime = 0.17f;
 
 public:
 
-	UFUNCTION(BlueprintCallable, Category="EventRegister")
-		UGC_Event* RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay = 0.f);
+	UGC_Event* RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay = 0.f);
 	UFUNCTION(BlueprintCallable, Category = "EventRegister")
 		void RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData);
 
@@ -82,15 +81,15 @@ private:
 	void ShutDownEventRegister();
 
 	UFUNCTION()
-	void OnWorldDestroyed(UWorld* destroyedWorld);
+		void OnWorldDestroyed(UWorld* destroyedWorld);
 
 	UFUNCTION()
-	void OnWorldAdded(UWorld* addedWorld);
+		void OnWorldAdded(UWorld* addedWorld);
 
 	void BindToEventsOnFinish(TArray<UGC_Event*> eventsArray);
 
 	UFUNCTION()
-	void OnEventFinish(UGC_Event* finishedEvent);
+		void OnEventFinish(UGC_Event* finishedEvent);
 
 	void PrintDebug();
 };

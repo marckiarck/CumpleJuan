@@ -3,6 +3,7 @@
 
 #include "GenericClasses/Public/EventSystem/Events/GC_Event.h"
 #include "SingletonRegister/GC_SingletonRegister.h"
+#include "EventSystem/GC_EventRegister.h"
 
 void UGC_Event::StartEvent()
 {

@@ -9,52 +9,10 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
-class UGC_Event;
 #ifdef GENERICCLASSES_GC_Event_generated_h
 #error "GC_Event.generated.h already included, missing '#pragma once' in GC_Event.h"
 #endif
 #define GENERICCLASSES_GC_Event_generated_h
-
-#define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_10_DELEGATE \
-struct _Script_GenericClasses_eventOnEventStarts_Parms \
-{ \
-	UGC_Event* startedEvent; \
-}; \
-static inline void FOnEventStarts_DelegateWrapper(const FMulticastScriptDelegate& OnEventStarts, UGC_Event* startedEvent) \
-{ \
-	_Script_GenericClasses_eventOnEventStarts_Parms Parms; \
-	Parms.startedEvent=startedEvent; \
-	OnEventStarts.ProcessMulticastDelegate<UObject>(&Parms); \
-}
-
-
-#define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_11_DELEGATE \
-struct _Script_GenericClasses_eventOnEventFinish_Parms \
-{ \
-	UGC_Event* finishedEvent; \
-}; \
-static inline void FOnEventFinish_DelegateWrapper(const FMulticastScriptDelegate& OnEventFinish, UGC_Event* finishedEvent) \
-{ \
-	_Script_GenericClasses_eventOnEventFinish_Parms Parms; \
-	Parms.finishedEvent=finishedEvent; \
-	OnEventFinish.ProcessMulticastDelegate<UObject>(&Parms); \
-}
-
-
-#define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_12_DELEGATE \
-struct _Script_GenericClasses_eventOnEventTick_Parms \
-{ \
-	UGC_Event* startedEvent; \
-	float deltaSeconds; \
-}; \
-static inline void FOnEventTick_DelegateWrapper(const FMulticastScriptDelegate& OnEventTick, UGC_Event* startedEvent, float deltaSeconds) \
-{ \
-	_Script_GenericClasses_eventOnEventTick_Parms Parms; \
-	Parms.startedEvent=startedEvent; \
-	Parms.deltaSeconds=deltaSeconds; \
-	OnEventTick.ProcessMulticastDelegate<UObject>(&Parms); \
-}
-
 
 #define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_17_SPARSE_DATA
 #define FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_17_RPC_WRAPPERS \

@@ -3,6 +3,7 @@
 	"Modules": 
 	{
 		"GenericClasses": "UnrealEditor-GenericClasses.dll",
-		"GenericClassesDebug": "UnrealEditor-GenericClassesDebug.dll"
+		"GenericClassesDebug": "UnrealEditor-GenericClassesDebug.dll",
+		"GenericClassesEditor": "UnrealEditor-GenericClassesEditor.dll"
 	}
 }
