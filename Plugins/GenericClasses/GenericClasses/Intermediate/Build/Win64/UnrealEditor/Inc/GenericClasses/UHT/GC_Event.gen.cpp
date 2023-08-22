@@ -78,8 +78,10 @@ void EmptyLinkFunctionForGeneratedCodeGC_Event() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UGC_Event_Statics::Class_MetaDataParams[] = {
 		{ "BlueprintType", "true" },
+		{ "Comment", "//[TODO] el evento puede ser cancelado?? gestionarlo\n//[TODO] se puede hacer una separaci\xef\xbf\xbdn entre los eventos con event tick y sin event tick para liberar la tension del event register y simplimificar la cantidad de metodos de los blueprints\n" },
 		{ "IncludePath", "EventSystem/Events/GC_Event.h" },
 		{ "ModuleRelativePath", "Public/EventSystem/Events/GC_Event.h" },
+		{ "ToolTip", "[TODO] el evento puede ser cancelado?? gestionarlo\n[TODO] se puede hacer una separaci\xef\xbf\xbdn entre los eventos con event tick y sin event tick para liberar la tension del event register y simplimificar la cantidad de metodos de los blueprints" },
 	};
 #endif
 		const UECodeGen_Private::FImplementedInterfaceParams Z_Construct_UClass_UGC_Event_Statics::InterfaceParams[] = {
@@ -122,9 +124,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_Event() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_Event, UGC_Event::StaticClass, TEXT("UGC_Event"), &Z_Registration_Info_UClass_UGC_Event, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_Event), 3891366209U) },
+		{ Z_Construct_UClass_UGC_Event, UGC_Event::StaticClass, TEXT("UGC_Event"), &Z_Registration_Info_UClass_UGC_Event, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_Event), 2602951349U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_4067649575(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_1599498697(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

@@ -12,10 +12,17 @@ void UGC_EventSequence::ConfigureEventSequence(UGC_EventSequenceDataAsset* seque
 	RegisterSequenceEvent();
 }
 
+FOnEventSequenceFinish& UGC_EventSequence::GetOnEventSequenceFinsihDelegate()
+{
+	return onEventSequenceFinish;
+}
+
 void UGC_EventSequence::RegisterSequenceEvent()
 {
 	if (currentEvent == eventCreationDataArray.Num())
 	{
+		onEventSequenceFinish.Broadcast();
+
 		UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
 		objectPooler->DestroyUObject<UGC_EventSequence>(this);
 		return;
@@ -30,5 +37,11 @@ void UGC_EventSequence::RegisterSequenceEvent()
 
 void UGC_EventSequence::OnSequenceEventFinish(UGC_Event* finishedEvent)
 {
+
 	RegisterSequenceEvent();
+}
+
+void UGC_EventSequence::OnPooledObjectDestroyed()
+{
+	eventCreationDataArray.Empty();
 }

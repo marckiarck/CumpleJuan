@@ -64,8 +64,7 @@ private:
 public:
 
 	UGC_Event* RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay = 0.f);
-	UFUNCTION(BlueprintCallable, Category = "EventRegister")
-		void RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData);
+	class UGC_EventSequence* RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData);
 
 	TArray<const UGC_Event*> GetLaunchedEvents();
 	TArray<const UGC_Event*> GetQueuedEvents();

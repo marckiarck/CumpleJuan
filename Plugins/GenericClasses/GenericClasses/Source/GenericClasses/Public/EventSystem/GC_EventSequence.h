@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "GC_EventRegister.h"
+#include "ObjectPooler/GC_PooledObjectInterface.h"
 #include "GC_EventSequence.generated.h"
+
+DECLARE_MULTICAST_DELEGATE(FOnEventSequenceFinish);
 
 UCLASS()
 class GENERICCLASSES_API UGC_EventSequenceDataAsset : public UDataAsset
@@ -14,28 +16,34 @@ class GENERICCLASSES_API UGC_EventSequenceDataAsset : public UDataAsset
 
 public:
 	UPROPERTY(EditAnywhere, DisplayName = "Events Array")
-		TArray<FGC_EventCreationData> eventCreationDataArray;
+		TArray<struct FGC_EventCreationData> eventCreationDataArray;
 };
 
-//Event sequence en verdad puede ser un evento que lance otros. O no tiene por que :D
 UCLASS()
-class UGC_EventSequence : public UObject
+class UGC_EventSequence : public UObject, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()
 	
 private:
 	UPROPERTY(Transient)
-		TArray<FGC_EventCreationData> eventCreationDataArray;
+		TArray<struct FGC_EventCreationData> eventCreationDataArray;
 
 	int currentEvent = 0;
 
+	FOnEventSequenceFinish onEventSequenceFinish;
+
 public:
 	void ConfigureEventSequence(UGC_EventSequenceDataAsset* sequenceData);
+
+	FOnEventSequenceFinish& GetOnEventSequenceFinsihDelegate();
 
 private:
 	void RegisterSequenceEvent();
 
 	UFUNCTION()
 	void OnSequenceEventFinish(UGC_Event* finishedEvent);
+
+protected:
+	void OnPooledObjectDestroyed() override;
 
 };

@@ -7,7 +7,6 @@
 #include "EventSystem/GC_EventSequence.h"
 
 
-
 UGC_Event* UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay)
 {
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
@@ -21,17 +20,19 @@ UGC_Event* UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, F
 	return registeredEvent;
 }
 
-void UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData)
+UGC_EventSequence* UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData)
 {
 	if (sequenceData == nullptr)
 	{
 		ensureMsgf(sequenceData == nullptr, TEXT("Your are trying to register a event sequence with a null sequenceData"));
-		return;
+		return nullptr;
 	}
 
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
 	UGC_EventSequence* eventSequence = objectPooler->NewUObject<UGC_EventSequence>();
 	eventSequence->ConfigureEventSequence(sequenceData);
+
+	return eventSequence;
 }
 
 TArray<const UGC_Event*> UGC_EventRegister::GetLaunchedEvents()
