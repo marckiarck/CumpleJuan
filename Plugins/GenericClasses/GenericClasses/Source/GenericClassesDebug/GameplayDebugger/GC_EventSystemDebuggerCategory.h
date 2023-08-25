@@ -2,6 +2,8 @@
 
 #pragma once
 
+#if WITH_GAMEPLAY_DEBUGGER
+
 #include "CoreMinimal.h"
 #include "GameplayDebuggerCategory.h"
 
@@ -20,3 +22,5 @@ public:
 
 	static TSharedRef<FGameplayDebuggerCategory> MakeInstance();
 };
+
+#endif // WITH_GAMEPLAY_DEBUGGER

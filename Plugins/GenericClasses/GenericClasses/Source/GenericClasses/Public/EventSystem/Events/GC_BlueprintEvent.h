@@ -24,4 +24,6 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = Event, DisplayName = "OnEventFinish")
 		void OnEventFinishBP();
 
+	UPROPERTY()
+	bool testBoolean = false;
 };

@@ -2,10 +2,11 @@
 
 #pragma once
 
+#if WITH_GAMEPLAY_DEBUGGER
+
 #include "CoreMinimal.h"
 #include "GameplayDebuggerCategory.h"
 
-#if WITH_GAMEPLAY_DEBUGGER
 
 class CUMPLEJUAN_API FPlayerAttriutesDebugCategory : public FGameplayDebuggerCategory
 {

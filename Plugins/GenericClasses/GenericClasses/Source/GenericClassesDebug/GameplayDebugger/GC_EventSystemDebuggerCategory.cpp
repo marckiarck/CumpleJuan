@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#if WITH_GAMEPLAY_DEBUGGER
 
 #include "GenericClassesDebug/GameplayDebugger/GC_EventSystemDebuggerCategory.h"
 #include "GenericClasses/Public/GenericClassesMinimals.h"
@@ -37,3 +38,5 @@ TSharedRef<FGameplayDebuggerCategory> FGC_EventSystemDebuggerCategory::MakeInsta
 {
 	return MakeShareable(new FGC_EventSystemDebuggerCategory());
 }
+
+#endif // WITH_GAMEPLAY_DEBUGGER

@@ -38,14 +38,18 @@ public class GenericClassesDebug : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"GameplayDebugger",
 				"GenericClasses",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
-		
-		
-		DynamicallyLoadedModuleNames.AddRange(
+
+        if (Target.Configuration != UnrealTargetConfiguration.Shipping)
+        {
+            PublicDependencyModuleNames.AddRange(new string[] { "GameplayDebugger" });
+        }
+
+
+        DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{
 				// ... add any modules that your module loads dynamically here ...

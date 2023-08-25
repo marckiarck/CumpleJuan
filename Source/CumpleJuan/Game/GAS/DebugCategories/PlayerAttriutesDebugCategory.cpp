@@ -1,12 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#if WITH_GAMEPLAY_DEBUGGER
+
 #include "CumpleJuan/Game/GAS/DebugCategories/PlayerAttriutesDebugCategory.h"
 #include "../AbilitySystemDataComponent.h"
 #include "../AttributeSets/CharacterAttributes.h"
 #include "../AttributeSets/HealthAttributeSet.h"
 
-#if WITH_GAMEPLAY_DEBUGGER
 
 FPlayerAttriutesDebugCategory::FPlayerAttriutesDebugCategory()
 {

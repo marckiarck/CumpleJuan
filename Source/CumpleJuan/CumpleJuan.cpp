@@ -2,8 +2,13 @@
 
 #include "CumpleJuan.h"
 #include "Modules/ModuleManager.h"
-#include "GameplayDebugger.h"
 #include "Game/GAS/DebugCategories/PlayerAttriutesDebugCategory.h"
+
+#if WITH_GAMEPLAY_DEBUGGER
+
+#include "GameplayDebugger.h"
+
+#endif // WITH_GAMEPLAY_DEBUGGER
 
 IMPLEMENT_PRIMARY_GAME_MODULE(CumpleJuan, CumpleJuan, "CumpleJuan" );
 
