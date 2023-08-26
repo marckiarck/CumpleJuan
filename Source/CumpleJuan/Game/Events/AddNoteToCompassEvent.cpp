@@ -7,12 +7,11 @@
 
 void UAddNoteToCompassEvent::OnEventStarted()
 {
-	if (compassComponent == nullptr)
-	{
-		
-
-		FinishEvent();
-	}
+	GC_CHECK_AND_DO(compassComponent == nullptr, TEXT("compassComponent is null"),
+		{
+			FinishEvent();
+			return;
+		});
 
 	compassComponent->AddNoteToCompass(noteRow);
 	FinishEvent();
