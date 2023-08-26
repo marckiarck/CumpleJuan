@@ -90,5 +90,4 @@ private:
 	UFUNCTION()
 		void OnEventFinish(UGC_Event* finishedEvent);
 
-	void PrintDebug();
 };

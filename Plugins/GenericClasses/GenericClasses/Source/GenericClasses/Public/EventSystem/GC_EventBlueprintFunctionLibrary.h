@@ -24,5 +24,5 @@ public:
 		static void RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData, const FOnFinish onEventSequenceFinish);
 
 	UFUNCTION(BlueprintCallable, Category = "EventRegister", meta = (BlueprintInternalUseOnly = "true"))
-		static void TestFunction(float value, int num, float& outValue, const FOnTest onTest);
+		static void TestFunction(float value, int num, float& outValue, const FOnTest onTest, struct FGC_DataTableRowHandle rowHandle);
 };

@@ -23,7 +23,4 @@ protected:
 		void OnEventTickBP(float deltaSeconds);
 	UFUNCTION(BlueprintImplementableEvent, Category = Event, DisplayName = "OnEventFinish")
 		void OnEventFinishBP();
-
-	UPROPERTY()
-	bool testBoolean = false;
 };

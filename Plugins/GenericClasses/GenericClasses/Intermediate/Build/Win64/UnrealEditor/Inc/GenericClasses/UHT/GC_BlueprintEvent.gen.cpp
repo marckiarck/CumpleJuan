@@ -84,7 +84,6 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 	};
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGC_BlueprintEvent_OnEventStartedBP_Statics::Function_MetaDataParams[] = {
-		{ "BlueprintInternalUseOnly", "testBoolean" },
 		{ "Category", "Event" },
 		{ "DisplayName", "OnEventStarted" },
 		{ "ModuleRelativePath", "Public/EventSystem/Events/GC_BlueprintEvent.h" },
@@ -142,12 +141,6 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
-#if WITH_METADATA
-		static const UECodeGen_Private::FMetaDataPairParam NewProp_testBoolean_MetaData[];
-#endif
-		static void NewProp_testBoolean_SetBit(void* Obj);
-		static const UECodeGen_Private::FBoolPropertyParams NewProp_testBoolean;
-		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UECodeGen_Private::FClassParams ClassParams;
 	};
@@ -157,7 +150,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_UGC_BlueprintEvent_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventFinishBP, "OnEventFinishBP" }, // 703096016
-		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventStartedBP, "OnEventStartedBP" }, // 150246057
+		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventStartedBP, "OnEventStartedBP" }, // 346361801
 		{ &Z_Construct_UFunction_UGC_BlueprintEvent_OnEventTickBP, "OnEventTickBP" }, // 1436917005
 	};
 #if WITH_METADATA
@@ -168,19 +161,6 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		{ "ModuleRelativePath", "Public/EventSystem/Events/GC_BlueprintEvent.h" },
 	};
 #endif
-#if WITH_METADATA
-	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UGC_BlueprintEvent_Statics::NewProp_testBoolean_MetaData[] = {
-		{ "ModuleRelativePath", "Public/EventSystem/Events/GC_BlueprintEvent.h" },
-	};
-#endif
-	void Z_Construct_UClass_UGC_BlueprintEvent_Statics::NewProp_testBoolean_SetBit(void* Obj)
-	{
-		((UGC_BlueprintEvent*)Obj)->testBoolean = 1;
-	}
-	const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UGC_BlueprintEvent_Statics::NewProp_testBoolean = { "testBoolean", nullptr, (EPropertyFlags)0x0020080000000000, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, sizeof(bool), sizeof(UGC_BlueprintEvent), &Z_Construct_UClass_UGC_BlueprintEvent_Statics::NewProp_testBoolean_SetBit, METADATA_PARAMS(Z_Construct_UClass_UGC_BlueprintEvent_Statics::NewProp_testBoolean_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_UGC_BlueprintEvent_Statics::NewProp_testBoolean_MetaData)) };
-	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UGC_BlueprintEvent_Statics::PropPointers[] = {
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UGC_BlueprintEvent_Statics::NewProp_testBoolean,
-	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_UGC_BlueprintEvent_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<UGC_BlueprintEvent>::IsAbstract,
 	};
@@ -190,11 +170,11 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		&StaticCppClassTypeInfo,
 		DependentSingletons,
 		FuncInfo,
-		Z_Construct_UClass_UGC_BlueprintEvent_Statics::PropPointers,
+		nullptr,
 		nullptr,
 		UE_ARRAY_COUNT(DependentSingletons),
 		UE_ARRAY_COUNT(FuncInfo),
-		UE_ARRAY_COUNT(Z_Construct_UClass_UGC_BlueprintEvent_Statics::PropPointers),
+		0,
 		0,
 		0x000000A0u,
 		METADATA_PARAMS(Z_Construct_UClass_UGC_BlueprintEvent_Statics::Class_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UClass_UGC_BlueprintEvent_Statics::Class_MetaDataParams))
@@ -218,9 +198,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_BlueprintEvent, UGC_BlueprintEvent::StaticClass, TEXT("UGC_BlueprintEvent"), &Z_Registration_Info_UClass_UGC_BlueprintEvent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_BlueprintEvent), 3186996573U) },
+		{ Z_Construct_UClass_UGC_BlueprintEvent, UGC_BlueprintEvent::StaticClass, TEXT("UGC_BlueprintEvent"), &Z_Registration_Info_UClass_UGC_BlueprintEvent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_BlueprintEvent), 2574575746U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_517745247(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_3771942907(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

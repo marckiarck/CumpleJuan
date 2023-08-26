@@ -97,20 +97,28 @@ void UGC_EventRegister::UpdateEventQueue()
 	TArray<UGC_Event*> poppedEvents;
 	eventQueue.Dequeue(queueDeltaTime, poppedEvents);
 
+	TArray<UGC_Event*> oneLauchEvents;
 	//This for should be a  eventQueueDelegate??
 	for (UGC_Event* poppedEventIt : poppedEvents)
 	{
 		poppedEventIt->GetOnFinishEventDelegate().AddUObject(this, &UGC_EventRegister::OnEventFinish);
-		launchedEvents.Add(poppedEventIt);
+		if (poppedEventIt->GetEventTickEnabled() == true)
+		{
+			launchedEvents.Add(poppedEventIt);
+		}
+		else
+		{
+			oneLauchEvents.Add(poppedEventIt);
+		}
 	}
 
 	TArray<UGC_Event*> launchedEventsCpy = launchedEvents;
+	launchedEventsCpy.Append(oneLauchEvents);
 	for (UGC_Event* eventIt : launchedEventsCpy)
 	{
 		eventIt->LaunchEvent(queueDeltaTime);
 	}
 
-	//PrintDebug();
 }
 
 void UGC_EventRegister::InitializeEventRegister()
@@ -137,6 +145,13 @@ void UGC_EventRegister::ShutDownEventRegister()
 
 void UGC_EventRegister::OnWorldDestroyed(UWorld* destroyedWorld)
 {
+
+	for (UGC_Event* launchedEventIt : launchedEvents)
+	{
+		launchedEventIt->FinishEvent();
+	}
+	launchedEvents.Empty();
+
 	if (destroyedWorld == timerWorld)
 	{
 		ShutDownEventRegister();
@@ -164,21 +179,4 @@ void UGC_EventRegister::OnEventFinish(UGC_Event* finishedEvent)
 	// When a event finishes it removes itself from the ObjectPool. 
 	//That's why EventRegister don't need to clear functions binded to events
 	launchedEvents.Remove(finishedEvent);
-}
-
-void UGC_EventRegister::PrintDebug()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, TEXT("Launched Events:"));
-	for (const UGC_Event* launchedEvent : launchedEvents)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, launchedEvent->GetName());
-	}
-
-	GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Green, TEXT("Queued Events:"));
-	TArray<UGC_Event*> queuedEvents;
-	eventQueue.GetQueueArray(queuedEvents);
-	for (const UGC_Event* queuedEvent : queuedEvents)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Green, queuedEvent->GetName());
-	}
 }

@@ -32,7 +32,10 @@ void UGC_Event::LaunchEvent(float deltaSeconds)
 	if (eventLaunched == false)
 	{
 		StartEvent();
-		EventTick(deltaSeconds);
+		if (eventTickEnabled)
+		{
+			EventTick(deltaSeconds);
+		}
 	}
 	else
 	{
@@ -53,6 +56,11 @@ FOnEventFinish& UGC_Event::GetOnFinishEventDelegate()
 FOnEventTick& UGC_Event::GetOnEventTickDelegate()
 {
 	return OnEventTickDelegate;
+}
+
+bool UGC_Event::GetEventTickEnabled()
+{
+	return eventTickEnabled;
 }
 
 void UGC_Event::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)

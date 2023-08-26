@@ -12,13 +12,15 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnEventFinish, UGC_Event*);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnEventTick, UGC_Event*, float);
 
 //[TODO] el evento puede ser cancelado?? gestionarlo
-//[TODO] se puede hacer una separación entre los eventos con event tick y sin event tick para liberar la tension del event register y simplimificar la cantidad de metodos de los blueprints
 UCLASS(Abstract, BlueprintType)
 class GENERICCLASSES_API UGC_Event : public UObject, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()
 
 public:
+
+	UPROPERTY()
+	UObject* aditionalEventData;
 
 	void LaunchEvent(float deltaSeconds);
 
@@ -29,7 +31,13 @@ public:
 	FOnEventTick& GetOnEventTickDelegate();
 	FOnEventFinish& GetOnFinishEventDelegate();
 
+	bool GetEventTickEnabled();
+
 protected:
+
+	UPROPERTY(EditDefaultsOnly)
+		bool eventTickEnabled = false;
+
 	void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
 	void OnPooledObjectDestroyed() override;
 
