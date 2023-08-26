@@ -1,0 +1,7 @@
+Hacer un level loader
+Cancelar evento y gestionar la cancelación de estos
+Sistema de cache
+Es super engorroso ir añadiendo aditionalData a todo. Se puede hacer algo para hacerlo mas agradable al uso??
+Sitemas de logs que usen el slate
+Los metodos del object pooler podrian moverse a un k2Node
+Permitir al object pooler para que se pueda spawnear actor sin pasarle un world
