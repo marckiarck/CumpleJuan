@@ -7,10 +7,11 @@
 #include "EventSystem/GC_EventSequence.h"
 
 
-UGC_Event* UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay)
+UGC_Event* UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, UObject* aditionalData, float launchDelay)
 {
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
 	UGC_Event* registeredEvent = objectPooler->NewUObject<UGC_Event>(eventClass, eventSpawnHandle);
+	registeredEvent->ProvideAditionalData(aditionalData);
 
 	eventQueue.Enqueue(registeredEvent, launchDelay);
 
@@ -20,7 +21,7 @@ UGC_Event* UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, F
 	return registeredEvent;
 }
 
-UGC_EventSequence* UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData)
+UGC_EventSequence* UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDataAsset* sequenceData, UObject* aditionalData)
 {
 	if (sequenceData == nullptr)
 	{
@@ -30,7 +31,7 @@ UGC_EventSequence* UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDat
 
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
 	UGC_EventSequence* eventSequence = objectPooler->NewUObject<UGC_EventSequence>();
-	eventSequence->ConfigureEventSequence(sequenceData);
+	eventSequence->ConfigureEventSequence(sequenceData, aditionalData);
 
 	return eventSequence;
 }

@@ -2,6 +2,7 @@
 	"RemapUnityFiles": 
 	{
 		"Module.GenericClasses.cpp.obj": [
+			"DebugSystemFunctionLibrary.gen.cpp.obj",
 			"GC_DataTable.gen.cpp.obj",
 			"GC_EventBlueprintFunctionLibrary.gen.cpp.obj",
 			"GC_EventRegister.gen.cpp.obj",
@@ -11,10 +12,11 @@
 			"GC_PooledObjectInterface.gen.cpp.obj",
 			"GC_Singleton.gen.cpp.obj",
 			"GC_SingletonRegister.gen.cpp.obj",
+			"GC_DataTable.cpp.obj",
 			"GC_Node.cpp.obj",
 			"GC_TimedQueue.cpp.obj",
+			"GC_BlueprintEvent.cpp.obj",
 			"GC_EventQueue.cpp.obj",
-			"GC_EventSequence.cpp.obj",
 			"GenericClasses.cpp.obj",
 			"GC_ObjectPool.cpp.obj",
 			"GC_ObjectPooler.cpp.obj",
@@ -24,11 +26,11 @@
 			"GC_BlueprintEvent.gen.cpp.obj",
 			"GC_Event.gen.cpp.obj",
 			"GenericClasses.init.gen.cpp.obj",
-			"GC_DataTable.cpp.obj",
-			"GC_BlueprintEvent.cpp.obj",
+			"DebugSystemFunctionLibrary.cpp.obj",
 			"GC_Event.cpp.obj",
 			"GC_EventBlueprintFunctionLibrary.cpp.obj",
-			"GC_EventRegister.cpp.obj"
+			"GC_EventRegister.cpp.obj",
+			"GC_EventSequence.cpp.obj"
 		]
 	}
 }

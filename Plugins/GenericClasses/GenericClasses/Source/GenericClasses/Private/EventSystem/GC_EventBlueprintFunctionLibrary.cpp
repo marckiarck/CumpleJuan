@@ -7,19 +7,19 @@
 #include "DataStructures/Datatable/GC_DataTable.h"
 
 
-void UGC_EventBlueprintFunctionLibrary::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, const FOnFinish onEventFinish, float launchDelay /*= 0.f*/)
+void UGC_EventBlueprintFunctionLibrary::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, const FOnFinish onEventFinish, UObject* aditionalData, float launchDelay /*= 0.f*/)
 {
 	UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
 
-	UGC_Event* registeredEvent = eventRegister->RegisterEvent(eventClass, eventSpawnHandle, launchDelay);
+	UGC_Event* registeredEvent = eventRegister->RegisterEvent(eventClass, eventSpawnHandle, aditionalData, launchDelay);
 	registeredEvent->GetOnFinishEventDelegate().AddLambda([=](UGC_Event* finishedEvent) {onEventFinish.ExecuteIfBound(); });
 }
 
-void UGC_EventBlueprintFunctionLibrary::RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData, const FOnFinish onEventSequenceFinish)
+void UGC_EventBlueprintFunctionLibrary::RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData, const FOnFinish onEventSequenceFinish, UObject* aditionalData)
 {
 	UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
 
-	UGC_EventSequence* registeredEventSequence = eventRegister->RegisterEventSequence(sequenceData);
+	UGC_EventSequence* registeredEventSequence = eventRegister->RegisterEventSequence(sequenceData, aditionalData);
 	registeredEventSequence->GetOnEventSequenceFinsihDelegate().AddLambda([=]() {onEventSequenceFinish.ExecuteIfBound(); });
 }
 

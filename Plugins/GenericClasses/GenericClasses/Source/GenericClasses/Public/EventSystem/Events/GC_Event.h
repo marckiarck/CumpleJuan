@@ -19,9 +19,7 @@ class GENERICCLASSES_API UGC_Event : public UObject, public IGC_PooledObjectInte
 
 public:
 
-	UPROPERTY()
-	UObject* aditionalEventData;
-
+	virtual void ProvideAditionalData(UObject* aditionalData);
 	void LaunchEvent(float deltaSeconds);
 
 	UFUNCTION(BlueprintCallable)

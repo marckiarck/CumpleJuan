@@ -63,8 +63,8 @@ private:
 
 public:
 
-	UGC_Event* RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, float launchDelay = 0.f);
-	class UGC_EventSequence* RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData);
+	UGC_Event* RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, UObject* aditionalData = nullptr, float launchDelay = 0.f);
+	class UGC_EventSequence* RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData, UObject* aditionalData = nullptr);
 
 	TArray<const UGC_Event*> GetLaunchedEvents();
 	TArray<const UGC_Event*> GetQueuedEvents();

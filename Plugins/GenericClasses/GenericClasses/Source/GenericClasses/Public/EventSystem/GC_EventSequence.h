@@ -23,17 +23,20 @@ UCLASS()
 class UGC_EventSequence : public UObject, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()
-	
+
 private:
 	UPROPERTY(Transient)
 		TArray<struct FGC_EventCreationData> eventCreationDataArray;
 
 	int currentEvent = 0;
 
+	UPROPERTY(Transient)
+		UObject* eventData = nullptr;
+
 	FOnEventSequenceFinish onEventSequenceFinish;
 
 public:
-	void ConfigureEventSequence(UGC_EventSequenceDataAsset* sequenceData);
+	void ConfigureEventSequence(UGC_EventSequenceDataAsset* sequenceData, UObject* aditionalEventData = nullptr);
 
 	FOnEventSequenceFinish& GetOnEventSequenceFinsihDelegate();
 
@@ -41,7 +44,7 @@ private:
 	void RegisterSequenceEvent();
 
 	UFUNCTION()
-	void OnSequenceEventFinish(UGC_Event* finishedEvent);
+		void OnSequenceEventFinish(UGC_Event* finishedEvent);
 
 protected:
 	void OnPooledObjectDestroyed() override;

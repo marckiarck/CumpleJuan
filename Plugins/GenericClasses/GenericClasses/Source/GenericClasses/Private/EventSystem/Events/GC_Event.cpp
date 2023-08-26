@@ -27,6 +27,11 @@ void UGC_Event::EventTick(float deltaSeconds)
 	OnEventTickDelegate.Broadcast(this, deltaSeconds);
 }
 
+void UGC_Event::ProvideAditionalData(UObject* aditionalData)
+{
+
+}
+
 void UGC_Event::LaunchEvent(float deltaSeconds)
 {
 	if (eventLaunched == false)
