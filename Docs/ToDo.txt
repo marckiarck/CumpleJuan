@@ -1,3 +1,4 @@
+Characters genericos
 Hacer un level loader
 Cancelar evento y gestionar la cancelación de estos
 Sistema de cache

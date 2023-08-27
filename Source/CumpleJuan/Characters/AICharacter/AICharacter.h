@@ -7,11 +7,12 @@
 #include "CumpleJuan/Core/ObjectPool/BasePooledObjectInterface.h"
 #include "AIModule/Classes/AIController.h"
 #include "CumpleJuan/Characters/Spawner/BaseCharacterSpawner.h"
+#include "ObjectPooler/GC_PooledObjectInterface.h"
 #include "AICharacter.generated.h"
 
 
 USTRUCT(BlueprintType, Blueprintable)
-struct CUMPLEJUAN_API FAICharacterSpawnRow : public FCharacterSpawnRow
+struct CUMPLEJUAN_API FAICharacterSpawnRow : public FGC_CharacterSpawnRow
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -21,7 +22,7 @@ public:
 };
 
 UCLASS()
-class CUMPLEJUAN_API AAICharacter : public ABaseCharacter, public IBasePooledObjectInterface
+class CUMPLEJUAN_API AAICharacter : public ABaseCharacter, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()
 

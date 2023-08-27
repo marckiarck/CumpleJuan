@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
 #include "CumpleJuan/Game/GAS/AbilitySystemDataComponent.h"
+#include "GenericClasses/Public/Characters/GC_Character.h"
 #include "AbilitySystemComponent.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS()
-class CUMPLEJUAN_API ABaseCharacter : public ACharacter
+class CUMPLEJUAN_API ABaseCharacter : public AGC_Character
 {
 	GENERATED_BODY()
 

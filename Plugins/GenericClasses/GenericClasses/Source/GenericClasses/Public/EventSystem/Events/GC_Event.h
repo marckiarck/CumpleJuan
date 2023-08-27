@@ -11,7 +11,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnEventStarts, UGC_Event*);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnEventFinish, UGC_Event*);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnEventTick, UGC_Event*, float);
 
-//[TODO] el evento puede ser cancelado?? gestionarlo
+
 UCLASS(Abstract, BlueprintType)
 class GENERICCLASSES_API UGC_Event : public UObject, public IGC_PooledObjectInterface
 {
