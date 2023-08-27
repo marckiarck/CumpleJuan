@@ -22,7 +22,7 @@ public:
 };
 
 UCLASS()
-class CUMPLEJUAN_API AAICharacter : public ABaseCharacter, public IGC_PooledObjectInterface
+class CUMPLEJUAN_API AAICharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
 

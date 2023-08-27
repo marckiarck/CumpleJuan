@@ -7,15 +7,22 @@
 #include "GenericClasses/Public/ObjectPooler/GC_PooledObjectInterface.h"
 #include "GC_Character.generated.h"
 
+
 USTRUCT(BlueprintType, Blueprintable)
 struct GENERICCLASSES_API FGC_CharacterSpawnRow : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
+public:
+	UPROPERTY(EditAnywhere, Category = Controller)
+		TSubclassOf<AController> characterController;
+		
+	UPROPERTY(EditAnywhere,Category = Controller, meta = (RowType = "GC_ControllerSpawnRow"))
+		FDataTableRowHandle controllerData;
 };
 
 UCLASS(BlueprintType, Blueprintable)
-class GENERICCLASSES_API AGC_Character : public ACharacter
+class GENERICCLASSES_API AGC_Character : public ACharacter, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()
 
@@ -26,4 +33,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
+	virtual void OnPooledObjectDestroyed() override;
+
 };

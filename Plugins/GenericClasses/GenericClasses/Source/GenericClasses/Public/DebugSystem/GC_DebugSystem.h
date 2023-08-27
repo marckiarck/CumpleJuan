@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "SingletonRegister/GC_SingletonRegister.h"
 #include "GC_DebugSystem.generated.h"
 
 #define GC_CHECK(CHECK_SENTENCE, FAIL_MESSAGE) \
