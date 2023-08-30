@@ -30,6 +30,9 @@ public:
 		TSubclassOf<UGC_Event> eventClass;
 
 	UPROPERTY(EditAnywhere)
+		float eventDuration = -1.f;
+
+	UPROPERTY(EditAnywhere)
 		float launchDelay = 0.f;
 
 	UPROPERTY(EditAnywhere, DisplayName = "Event Creation Parameters")
@@ -63,7 +66,11 @@ private:
 
 public:
 
-	UGC_Event* RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, UObject* aditionalData = nullptr, float launchDelay = 0.f);
+	UGC_Event* RegisterEvent(FGC_EventCreationData eventCreationData, UObject* aditionalData = nullptr);
+
+	template<typename T>
+	T* RegisterTemplatedEvent(FGC_EventCreationData eventCreationData, UObject* aditionalData = nullptr);
+
 	class UGC_EventSequence* RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData, UObject* aditionalData = nullptr);
 
 	TArray<const UGC_Event*> GetLaunchedEvents();
@@ -91,3 +98,9 @@ private:
 		void OnEventFinish(UGC_Event* finishedEvent);
 
 };
+
+template<typename T>
+T* UGC_EventRegister::RegisterTemplatedEvent(FGC_EventCreationData eventCreationData, UObject* aditionalData /*= nullptr*/)
+{
+	return Cast<T>(RegisterEvent(eventCreationData, aditionalData));
+}

@@ -7,13 +7,17 @@
 #include "EventSystem/GC_EventSequence.h"
 
 
-UGC_Event* UGC_EventRegister::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, UObject* aditionalData, float launchDelay)
+UGC_Event* UGC_EventRegister::RegisterEvent(FGC_EventCreationData eventCreationData, UObject* aditionalData)
 {
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
-	UGC_Event* registeredEvent = objectPooler->NewUObject<UGC_Event>(eventClass, eventSpawnHandle);
-	registeredEvent->ProvideAditionalData(aditionalData);
+	UGC_Event* registeredEvent = objectPooler->NewUObject<UGC_Event>(eventCreationData.eventClass, eventCreationData.eventSpawnHandle);
+	registeredEvent->SetEventDuration(eventCreationData.eventDuration);
+	if (aditionalData)
+	{
+		registeredEvent->ProvideAditionalData(aditionalData);
+	}
 
-	eventQueue.Enqueue(registeredEvent, launchDelay);
+	eventQueue.Enqueue(registeredEvent, eventCreationData.launchDelay);
 
 	TArray<UGC_Event*> testArray;
 	eventQueue.GetQueueArray(testArray);

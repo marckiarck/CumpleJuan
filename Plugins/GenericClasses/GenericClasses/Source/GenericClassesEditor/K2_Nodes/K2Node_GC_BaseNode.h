@@ -8,6 +8,7 @@
 #include "KismetCompiler/Public/KismetCompiler.h"
 #include "K2Node_GC_BaseNode.generated.h"
 
+
 UCLASS()
 class GENERICCLASSESEDITOR_API UK2Node_GC_BaseNode : public UK2Node
 {

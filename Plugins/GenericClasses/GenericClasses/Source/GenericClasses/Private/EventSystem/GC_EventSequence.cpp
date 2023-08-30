@@ -31,7 +31,7 @@ void UGC_EventSequence::RegisterSequenceEvent()
 
 	FGC_EventCreationData& currentEvenCreationData = eventCreationDataArray[currentEvent];
 	UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
-	UGC_Event* sequenceEvent = eventRegister->RegisterEvent(currentEvenCreationData.eventClass, currentEvenCreationData.eventSpawnHandle, eventData, currentEvenCreationData.launchDelay);
+	UGC_Event* sequenceEvent = eventRegister->RegisterEvent(currentEvenCreationData, eventData);
 	sequenceEvent->GetOnFinishEventDelegate().AddUObject(this, &UGC_EventSequence::OnSequenceEventFinish);
 	++currentEvent;
 }

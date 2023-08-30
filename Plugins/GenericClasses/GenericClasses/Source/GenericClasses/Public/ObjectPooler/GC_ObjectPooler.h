@@ -23,13 +23,13 @@ public:
 	T* NewUObject(FDataTableRowHandle creationDataHandle = FDataTableRowHandle());
 
 	template<typename T>
-	T* NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle creationDataHandle);
+	T* NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle creationDataHandle = FDataTableRowHandle());
 
 	UFUNCTION(BlueprintCallable, Category = ObjectPooler, meta = (DeterminesOutputType = "objectClass", DynamicOutputParam = "spawnedActor"))
-	void CreateObject(TSubclassOf<UObject> objectClass, UObject*& createdObject, FDataTableRowHandle creationDataHandle);
+	void CreateObject(TSubclassOf<UObject> objectClass, UObject*& createdObject, FDataTableRowHandle creationDataHandle = FDataTableRowHandle());
 
 	template<typename T>
-	T* NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRowHandle creationDataHandle);
+	T* NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRowHandle creationDataHandle = FDataTableRowHandle());
 
 	template<typename T>
 	void DestroyUObject(T* objectReference);
@@ -38,7 +38,7 @@ public:
 		void DestroyObject(UObject* objectReference);
 
 	template<typename T>
-	T* SpawnActor(ULevel* spawnLevel, UClass* actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, bool collisionEnabled = true);
+	T* SpawnActor(ULevel* spawnLevel, UClass* actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle = FDataTableRowHandle(), bool collisionEnabled = true);
 
 	UFUNCTION(BlueprintCallable, Category = ObjectPooler, meta = (DeterminesOutputType = "actorClass", DynamicOutputParam = "spawnedActor", AdvancedDisplay = "collisionEnabled"))
 		void SpawnActor(ULevel* spawnLevel, TSubclassOf<AActor> actorClass, FTransform spawnTransForm, FDataTableRowHandle creationDataHandle, AActor*& spawnedActor, bool collisionEnabled = true);
@@ -111,13 +111,13 @@ T* UGC_ObjectPooler::NewUObject(TSubclassOf<T> objectClass, FDataTableRowHandle 
 template<typename T>
 T* UGC_ObjectPooler::NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRowHandle creationDataHandle)
 {
-	if (objectClass == nullptr)
+	if (childClass == nullptr)
 	{
 		ensureMsgf(false, TEXT("Trying to instance a nullptr class"));
 		return nullptr;
 	}
 
-	if (T::StaticClass()->HasAnyClassFlags(CLASS_Abstract))
+	if (childClass->HasAnyClassFlags(CLASS_Abstract))
 	{
 		ensureMsgf(false, TEXT("Trying to instance an abstract class"));
 		return nullptr;
@@ -133,7 +133,7 @@ T* UGC_ObjectPooler::NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRo
 
 		if (pooledObject == nullptr)
 		{
-			pooledObject = NewObject<T>();
+			pooledObject = NewObject<T>(this, childClass);
 			pool->AddObjectToPool(pooledObject);
 		}
 
@@ -141,7 +141,7 @@ T* UGC_ObjectPooler::NewUObjectTemplated(TSubclassOf<T> childClass, FDataTableRo
 	else
 	{
 		UGC_ObjectPool* newPool = NewObject<UGC_ObjectPool>();
-		pooledObject = NewObject<T>();
+		pooledObject = NewObject<T>(this, childClass);
 		poolsMap.Add(poolKey, newPool);
 		newPool->AddObjectToPool(pooledObject);
 	}

@@ -18,7 +18,7 @@ class GENERICCLASSES_API UGC_EventBlueprintFunctionLibrary : public UBlueprintFu
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "EventRegister", meta = (BlueprintInternalUseOnly = "true"))
-		static void RegisterEvent(TSubclassOf<class UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, const FOnFinish onEventFinish, UObject* aditionalData = nullptr, float launchDelay = 0.f);
+		static void RegisterEvent(FGC_EventCreationData eventCreationData, const FOnFinish onEventFinish, UObject* aditionalData = nullptr);
 
 	UFUNCTION(BlueprintCallable, Category = "EventRegister", meta = (BlueprintInternalUseOnly = "true"))
 		static void RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData, const FOnFinish onEventSequenceFinish, UObject* aditionalData = nullptr);

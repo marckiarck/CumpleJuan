@@ -20,6 +20,7 @@ class GENERICCLASSES_API UGC_Event : public UObject, public IGC_PooledObjectInte
 public:
 
 	virtual void ProvideAditionalData(UObject* aditionalData);
+	void SetEventDuration(float newEventDuration);
 	void LaunchEvent(float deltaSeconds);
 
 	UFUNCTION(BlueprintCallable)
@@ -28,6 +29,7 @@ public:
 	FOnEventStarts& GetOnStartEventDelegate();
 	FOnEventTick& GetOnEventTickDelegate();
 	FOnEventFinish& GetOnFinishEventDelegate();
+	FOnEventFinish& GetOnTimeOutEventDelegate();
 
 	bool GetEventTickEnabled();
 
@@ -42,14 +44,19 @@ protected:
 	virtual void OnEventStarted();
 	virtual void OnEventTick(float deltaSeconds);
 	virtual void OnEventFinish();
+	virtual void OnEventTimeOut();
 
 private:
 
 	bool eventLaunched = false;
 
+	float eventDuration = -1.f;
+	float eventLifeTime = 0;
+
 	FOnEventStarts OnStartEventDelegate;
 	FOnEventTick OnEventTickDelegate;
 	FOnEventFinish OnFinishEventDelegate;
+	FOnEventFinish OnTimeOutEventDelegate;
 
 	void StartEvent();
 	void EventTick(float deltaSeconds);

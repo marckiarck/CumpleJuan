@@ -32,20 +32,30 @@ void UGC_Event::ProvideAditionalData(UObject* aditionalData)
 
 }
 
+void UGC_Event::SetEventDuration(float newEventDuration)
+{
+	eventDuration = newEventDuration;
+}
+
 void UGC_Event::LaunchEvent(float deltaSeconds)
 {
 	if (eventLaunched == false)
 	{
 		StartEvent();
-		if (eventTickEnabled)
-		{
-			EventTick(deltaSeconds);
-		}
 	}
-	else
+
+	if (eventTickEnabled)
 	{
 		EventTick(deltaSeconds);
+
+		eventLifeTime += deltaSeconds;
+		if (eventDuration > 0.f && eventLifeTime >= eventDuration)
+		{
+			OnTimeOutEventDelegate.Broadcast(this);
+			FinishEvent();
+		}
 	}
+
 }
 
 FOnEventStarts& UGC_Event::GetOnStartEventDelegate()
@@ -56,6 +66,11 @@ FOnEventStarts& UGC_Event::GetOnStartEventDelegate()
 FOnEventFinish& UGC_Event::GetOnFinishEventDelegate()
 {
 	return OnFinishEventDelegate;
+}
+
+FOnEventFinish& UGC_Event::GetOnTimeOutEventDelegate()
+{
+	return OnTimeOutEventDelegate;
 }
 
 FOnEventTick& UGC_Event::GetOnEventTickDelegate()
@@ -70,7 +85,7 @@ bool UGC_Event::GetEventTickEnabled()
 
 void UGC_Event::OnPooledObjectCreated(FDataTableRowHandle creationDataHandle)
 {
-	
+
 }
 
 void UGC_Event::OnPooledObjectDestroyed()
@@ -87,11 +102,15 @@ void UGC_Event::OnEventStarted()
 
 void UGC_Event::OnEventTick(float deltaSeconds)
 {
-	UE_LOG(LogTemp, Warning, TEXT("This is the OnEventTick method of the clase base GC_Event. You should override it"))
-	FinishEvent();
+	UE_LOG(LogTemp, Warning, TEXT("This is the OnEventTick method of the clase base GC_Event. You should override it"));
 }
 
 void UGC_Event::OnEventFinish()
+{
+	UE_LOG(LogTemp, Warning, TEXT("This is the OnEventFinish method of the clase base GC_Event. You should override it"))
+}
+
+void UGC_Event::OnEventTimeOut()
 {
 	UE_LOG(LogTemp, Warning, TEXT("This is the OnEventFinish method of the clase base GC_Event. You should override it"))
 }

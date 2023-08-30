@@ -7,11 +7,11 @@
 #include "DataStructures/Datatable/GC_DataTable.h"
 
 
-void UGC_EventBlueprintFunctionLibrary::RegisterEvent(TSubclassOf<UGC_Event> eventClass, FDataTableRowHandle eventSpawnHandle, const FOnFinish onEventFinish, UObject* aditionalData, float launchDelay /*= 0.f*/)
+void UGC_EventBlueprintFunctionLibrary::RegisterEvent(FGC_EventCreationData eventCreationData, const FOnFinish onEventFinish, UObject* aditionalData)
 {
 	UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
 
-	UGC_Event* registeredEvent = eventRegister->RegisterEvent(eventClass, eventSpawnHandle, aditionalData, launchDelay);
+	UGC_Event* registeredEvent = eventRegister->RegisterEvent(eventCreationData, aditionalData);
 	registeredEvent->GetOnFinishEventDelegate().AddLambda([=](UGC_Event* finishedEvent) {onEventFinish.ExecuteIfBound(); });
 }
 

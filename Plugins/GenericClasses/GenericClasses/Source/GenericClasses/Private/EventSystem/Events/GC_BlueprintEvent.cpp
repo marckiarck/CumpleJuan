@@ -19,6 +19,11 @@ void UGC_BlueprintEvent::OnEventFinish()
 	OnEventFinishBP();
 }
 
+void UGC_BlueprintEvent::OnEventTimeOut()
+{
+	OnEventTimeOutBP();
+}
+
 void UGC_BlueprintEvent::OnEventTickBP_Implementation(float deltaSeconds)
 {
 	FinishEvent();

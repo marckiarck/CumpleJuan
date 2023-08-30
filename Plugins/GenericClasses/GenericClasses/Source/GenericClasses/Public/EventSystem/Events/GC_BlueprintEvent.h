@@ -16,6 +16,7 @@ protected:
 	virtual void OnEventStarted() override;
 	virtual void OnEventTick(float deltaSeconds) override;
 	virtual void OnEventFinish() override;
+	virtual void OnEventTimeOut() override;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Event, DisplayName = "OnEventStarted")
 		void OnEventStartedBP();
@@ -23,4 +24,6 @@ protected:
 		void OnEventTickBP(float deltaSeconds);
 	UFUNCTION(BlueprintImplementableEvent, Category = Event, DisplayName = "OnEventFinish")
 		void OnEventFinishBP();
+	UFUNCTION(BlueprintImplementableEvent, Category = Event, DisplayName = "OnEventTimeOut")
+		void OnEventTimeOutBP();
 };

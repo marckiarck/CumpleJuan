@@ -100,6 +100,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_ObjectPooler() {}
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGC_ObjectPooler_CreateObject_Statics::Function_MetaDataParams[] = {
 		{ "Category", "ObjectPooler" },
+		{ "CPP_Default_creationDataHandle", "()" },
 		{ "DeterminesOutputType", "objectClass" },
 		{ "DynamicOutputParam", "spawnedActor" },
 		{ "ModuleRelativePath", "Public/ObjectPooler/GC_ObjectPooler.h" },
@@ -270,7 +271,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_ObjectPooler() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_GenericClasses,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_UGC_ObjectPooler_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_UGC_ObjectPooler_CreateObject, "CreateObject" }, // 1130717539
+		{ &Z_Construct_UFunction_UGC_ObjectPooler_CreateObject, "CreateObject" }, // 501028947
 		{ &Z_Construct_UFunction_UGC_ObjectPooler_DespawnActor, "DespawnActor" }, // 1324951218
 		{ &Z_Construct_UFunction_UGC_ObjectPooler_DestroyObject, "DestroyObject" }, // 1129945448
 		{ &Z_Construct_UFunction_UGC_ObjectPooler_SpawnActor, "SpawnActor" }, // 3357922469
@@ -331,9 +332,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_ObjectPooler() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_ObjectPooler, UGC_ObjectPooler::StaticClass, TEXT("UGC_ObjectPooler"), &Z_Registration_Info_UClass_UGC_ObjectPooler, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_ObjectPooler), 3597861894U) },
+		{ Z_Construct_UClass_UGC_ObjectPooler, UGC_ObjectPooler::StaticClass, TEXT("UGC_ObjectPooler"), &Z_Registration_Info_UClass_UGC_ObjectPooler, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_ObjectPooler), 1042075475U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_30105277(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_2808411352(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_ObjectPooler_GC_ObjectPooler_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
