@@ -26,5 +26,5 @@ void UGC_BlueprintEvent::OnEventTimeOut()
 
 void UGC_BlueprintEvent::OnEventTickBP_Implementation(float deltaSeconds)
 {
-	FinishEvent();
+	Super::OnEventTick(deltaSeconds);
 }

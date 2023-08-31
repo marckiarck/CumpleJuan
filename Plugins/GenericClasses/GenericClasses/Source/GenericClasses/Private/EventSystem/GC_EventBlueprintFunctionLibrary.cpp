@@ -5,6 +5,7 @@
 #include "SingletonRegister/GC_SingletonRegister.h"
 #include "EventSystem/GC_EventSequence.h"
 #include "DataStructures/Datatable/GC_DataTable.h"
+#include "EventSystem/Events/GC_BlueprintEvent.h"
 
 
 void UGC_EventBlueprintFunctionLibrary::RegisterEvent(FGC_EventCreationData eventCreationData, const FOnFinish onEventFinish, UObject* aditionalData)
@@ -21,6 +22,19 @@ void UGC_EventBlueprintFunctionLibrary::RegisterEventSequence(class UGC_EventSeq
 
 	UGC_EventSequence* registeredEventSequence = eventRegister->RegisterEventSequence(sequenceData, aditionalData);
 	registeredEventSequence->GetOnEventSequenceFinsihDelegate().AddLambda([=]() {onEventSequenceFinish.ExecuteIfBound(); });
+}
+
+void UGC_EventBlueprintFunctionLibrary::WaitDelay(float waitTime, const FOnFinish onFinish)
+{
+	UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
+
+	FGC_EventCreationData creationData = FGC_EventCreationData();
+	creationData.eventClass = UGC_BlueprintEvent::StaticClass();
+	creationData.eventDuration = waitTime;
+
+	UGC_Event* conditionEvent = eventRegister->RegisterEvent(creationData);
+
+	conditionEvent->GetOnTimeOutEventDelegate().AddLambda([=](UGC_Event* timedOutEvent) { onFinish.ExecuteIfBound(); });
 }
 
 void UGC_EventBlueprintFunctionLibrary::TestFunction(float value, int num, float& outValue, const FOnTest onTest, FGC_DataTableRowHandle rowHandle)

@@ -36,7 +36,7 @@ public:
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
-		bool eventTickEnabled = false;
+		bool eventTickEnabled = true;
 
 	void OnPooledObjectCreated(FDataTableRowHandle creationDataHandle) override;
 	void OnPooledObjectDestroyed() override;
