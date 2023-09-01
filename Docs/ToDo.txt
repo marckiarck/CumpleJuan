@@ -1,3 +1,4 @@
+Que un evento lance eventos no contempla cancelar los eventos hijos cuando se cancela o acaba uno padre
 Characters genericos
 Hacer que el spawner haga aparecer el enemigo cuando se quiera y no solo en el begin play
 Hacer que el AIController no empiece a ejecutar el behaviour tree en el begin play sino cuando se quiera

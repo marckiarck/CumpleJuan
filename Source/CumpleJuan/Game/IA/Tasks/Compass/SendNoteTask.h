@@ -5,25 +5,25 @@
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
 #include "CumpleJuan/Core/Datatables/BaseDataTable.h"
+#include "DataStructures/GC_DynamicDropdown.h"
 #include "SendNoteTask.generated.h"
 
-USTRUCT(BlueprintType)
-struct CUMPLEJUAN_API FTestDropdown
+UCLASS(BlueprintType, editinlinenew, DefaultToInstanced)
+class CUMPLEJUAN_API UTestDropdown : public UObject
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
+
 
 public:
-	/** Pointer to table we want a row from */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DataTableRowHandle)
-		TObjectPtr<const UDataTable>	DataTable;
 
-	/** Name of row in the table that we want */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DataTableRowHandle)
-		FName RowName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (GetOptions = "NameOptions"))
+		FName Name;
 
-	bool operator==(FDataTableRowHandle const& Other) const;
-	bool operator!=(FDataTableRowHandle const& Other) const;
-	void PostSerialize(const FArchive& Ar);
+	UPROPERTY(EditAnywhere)
+		TArray<FString> NameOptions = { "Option1", "Option2", "Option3" };
+
+	UFUNCTION()
+		virtual TArray<FString> GetNameOptions() const;
 };
 
 UCLASS()
@@ -35,8 +35,18 @@ private:
 	UPROPERTY(EditAnywhere, DisplayName = "NoteRow")
 		FDataTableRowHandle rowHandle;
 
-	UPROPERTY(EditAnywhere)
-		FTestDropdown testDropdown;
+public:
+	UPROPERTY(EditAnywhere, Instanced, Category = "TestDropdown", meta = (DisplayName = "Test Drop Down"))
+		UGC_DynamicDropdown* testDropdown;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (GetOptions = "GetNameOptions"))
+		FName Name;
+
+	UFUNCTION(CallInEditor)
+		TArray<FString> GetNameOptions() const
+	{
+		return { "Option1", "Option2", "Option3" };
+	}
 
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;

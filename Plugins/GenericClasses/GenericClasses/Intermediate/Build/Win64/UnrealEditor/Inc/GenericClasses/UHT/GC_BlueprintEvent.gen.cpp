@@ -206,7 +206,7 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		UE_ARRAY_COUNT(FuncInfo),
 		0,
 		0,
-		0x000000A0u,
+		0x001000A0u,
 		METADATA_PARAMS(Z_Construct_UClass_UGC_BlueprintEvent_Statics::Class_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UClass_UGC_BlueprintEvent_Statics::Class_MetaDataParams))
 	};
 	UClass* Z_Construct_UClass_UGC_BlueprintEvent()
@@ -228,9 +228,9 @@ void EmptyLinkFunctionForGeneratedCodeGC_BlueprintEvent() {}
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UGC_BlueprintEvent, UGC_BlueprintEvent::StaticClass, TEXT("UGC_BlueprintEvent"), &Z_Registration_Info_UClass_UGC_BlueprintEvent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_BlueprintEvent), 2866222619U) },
+		{ Z_Construct_UClass_UGC_BlueprintEvent, UGC_BlueprintEvent::StaticClass, TEXT("UGC_BlueprintEvent"), &Z_Registration_Info_UClass_UGC_BlueprintEvent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UGC_BlueprintEvent), 1080643919U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_3243456441(TEXT("/Script/GenericClasses"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_419147550(TEXT("/Script/GenericClasses"),
 		Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_CumpleJuanRepositorio_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_BlueprintEvent_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);

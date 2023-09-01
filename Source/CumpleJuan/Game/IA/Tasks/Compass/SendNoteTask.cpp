@@ -5,24 +5,7 @@
 #include "AIController.h"
 #include "CumpleJuan/Game/CompasManager/CompassComponent.h"
 
-bool FTestDropdown::operator==(FDataTableRowHandle const& Other) const
-{
-	return DataTable == Other.DataTable && RowName == Other.RowName;
-}
 
-bool FTestDropdown::operator != (FDataTableRowHandle const& Other) const
-{
-	return DataTable != Other.DataTable || RowName != Other.RowName;
-}
-
-void FTestDropdown::PostSerialize(const FArchive& Ar)
-{
-	//if (Ar.IsSaving() && !IsNull() && DataTable)
-	//{
-	//	// Note which row we are pointing to for later searching
-	//	Ar.MarkSearchableName(DataTable, RowName);
-	//}
-}
 
 EBTNodeResult::Type USendNoteTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -44,4 +27,9 @@ EBTNodeResult::Type USendNoteTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 FString USendNoteTask::GetStaticDescription() const
 {
 	return TEXT("Send the selected note to the character's compass");
+}
+
+TArray<FString> UTestDropdown::GetNameOptions() const
+{
+	return NameOptions;
 }

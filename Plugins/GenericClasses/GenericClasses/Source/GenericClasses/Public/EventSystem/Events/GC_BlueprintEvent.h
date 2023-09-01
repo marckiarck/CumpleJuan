@@ -8,7 +8,7 @@
 
 
 UCLASS(Blueprintable, BlueprintType)
-class UGC_BlueprintEvent : public UGC_Event
+class GENERICCLASSES_API UGC_BlueprintEvent : public UGC_Event
 {
 	GENERATED_BODY()
 
