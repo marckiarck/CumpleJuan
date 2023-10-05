@@ -4,3 +4,4 @@
 #include "GenericClasses/Public/ObjectPooler/GC_ObjectPooler.h"
 #include "GenericClasses/Public/SingletonRegister/GC_SingletonRegister.h"
 #include "GenericClasses/Public/DebugSystem/GC_DebugSystem.h"
+#include "GenericClasses/Public/GameData/GC_GameData.h"
