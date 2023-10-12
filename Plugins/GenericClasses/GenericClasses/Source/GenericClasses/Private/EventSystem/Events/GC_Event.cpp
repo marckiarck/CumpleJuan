@@ -22,7 +22,6 @@ void UGC_Event::FinishEvent()
 
 void UGC_Event::EventTick(float deltaSeconds)
 {
-	eventLaunched = false;
 	OnEventTick(deltaSeconds);
 	OnEventTickDelegate.Broadcast(this, deltaSeconds);
 }

@@ -31,7 +31,7 @@ private: \
 	static void StaticRegisterNativesUGC_Event(); \
 	friend struct Z_Construct_UClass_UGC_Event_Statics; \
 public: \
-	DECLARE_CLASS(UGC_Event, UObject, COMPILED_IN_FLAGS(CLASS_Abstract), CASTCLASS_None, TEXT("/Script/GenericClasses"), NO_API) \
+	DECLARE_CLASS(UGC_Event, UObject, COMPILED_IN_FLAGS(0), CASTCLASS_None, TEXT("/Script/GenericClasses"), NO_API) \
 	DECLARE_SERIALIZER(UGC_Event) \
 	virtual UObject* _getUObject() const override { return const_cast<UGC_Event*>(this); }
 
@@ -41,7 +41,7 @@ private: \
 	static void StaticRegisterNativesUGC_Event(); \
 	friend struct Z_Construct_UClass_UGC_Event_Statics; \
 public: \
-	DECLARE_CLASS(UGC_Event, UObject, COMPILED_IN_FLAGS(CLASS_Abstract), CASTCLASS_None, TEXT("/Script/GenericClasses"), NO_API) \
+	DECLARE_CLASS(UGC_Event, UObject, COMPILED_IN_FLAGS(0), CASTCLASS_None, TEXT("/Script/GenericClasses"), NO_API) \
 	DECLARE_SERIALIZER(UGC_Event) \
 	virtual UObject* _getUObject() const override { return const_cast<UGC_Event*>(this); }
 
@@ -49,7 +49,7 @@ public: \
 #define FID_CumpleJuan_Plugins_GenericClasses_GenericClasses_Source_GenericClasses_Public_EventSystem_Events_GC_Event_h_18_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UGC_Event(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
-	DEFINE_ABSTRACT_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UGC_Event) \
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UGC_Event) \
 	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UGC_Event); \
 	DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UGC_Event); \
 private: \
@@ -70,7 +70,7 @@ private: \
 public: \
 	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UGC_Event); \
 	DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UGC_Event); \
-	DEFINE_ABSTRACT_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UGC_Event) \
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UGC_Event) \
 	NO_API virtual ~UGC_Event();
 
 

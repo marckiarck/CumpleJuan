@@ -12,7 +12,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnEventFinish, UGC_Event*);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnEventTick, UGC_Event*, float);
 
 
-UCLASS(Abstract, BlueprintType)
+UCLASS(BlueprintType)
 class GENERICCLASSES_API UGC_Event : public UObject, public IGC_PooledObjectInterface
 {
 	GENERATED_BODY()
