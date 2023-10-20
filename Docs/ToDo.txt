@@ -6,3 +6,4 @@ Es super engorroso ir añadiendo aditionalData a todo. Se puede hacer algo para 
 Sitemas de logs que usen el slate
 Permitir al object pooler para que se pueda spawnear actor sin pasarle un world
 Intentar que los blueprints de los eventos y las ConditionSentences sea un wrapper que permita que funcionen usando las clases padre y liberando la carga del object pooler
+Meter el Editor component
