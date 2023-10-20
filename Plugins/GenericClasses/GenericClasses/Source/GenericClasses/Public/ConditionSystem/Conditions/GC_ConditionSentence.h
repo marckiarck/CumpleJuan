@@ -4,8 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Engine/DataTable.h"
 #include "GC_ConditionSentence.generated.h"
 
+
+USTRUCT(BlueprintType, Blueprintable)
+struct GENERICCLASSES_API FGC_ConditionSentenceRow : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+};
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnConditionSentenceChecked, bool);
 

@@ -35,7 +35,7 @@ void UGC_ConditionFunctionLibrary::WaitConditionSuccess(TSubclassOf<UGC_Conditio
 	creationData.eventDuration = conditionCheckDuration;
 
 	UGC_ConditionEvent* conditionEvent = eventRegister->RegisterTemplatedEvent<UGC_ConditionEvent>(creationData);
-	conditionEvent->SetConditionSentence(conditionClass);
+	conditionEvent->CreateConditionSentence(conditionClass);
 	conditionEvent->ProvideAditionalData(aditionalData);
 
 	conditionEvent->GetOnConditionSentenceChecked().AddLambda([=](bool conditionResult) {

@@ -19,8 +19,10 @@ UGC_Event* UGC_EventRegister::RegisterEvent(FGC_EventCreationData eventCreationD
 
 	eventQueue.Enqueue(registeredEvent, eventCreationData.launchDelay);
 
+	//[TODO] this debug should be inside the timed queue class
 	TArray<UGC_Event*> testArray;
 	eventQueue.GetQueueArray(testArray);
+	GC_CHECK(testArray.Contains(registeredEvent) == false, TEXT("Registered event could not be added to the event queue"));
 
 	return registeredEvent;
 }
@@ -38,6 +40,12 @@ UGC_EventSequence* UGC_EventRegister::RegisterEventSequence(UGC_EventSequenceDat
 	eventSequence->ConfigureEventSequence(sequenceData, aditionalData);
 
 	return eventSequence;
+}
+
+void UGC_EventRegister::UnregisterEvent(UGC_Event* unregisteredEvent)
+{
+	//[TODO] here is where should be canceled events launched by a parent event
+	unregisteredEvent->FinishEvent();
 }
 
 TArray<const UGC_Event*> UGC_EventRegister::GetLaunchedEvents()
@@ -146,6 +154,19 @@ void UGC_EventRegister::ShutDownEventRegister()
 		timerWorld = nullptr;
 	}
 
+	TArray<UGC_Event*> launchedEventsCpy = launchedEvents;
+	for (UGC_Event* launchedEventIt : launchedEventsCpy)
+	{
+		UnregisterEvent(launchedEventIt);
+	}
+
+	TArray<UGC_Event*> queuedEvents;
+	eventQueue.GetQueueArray(queuedEvents);
+	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
+	for (UGC_Event* queuedEventIt : queuedEvents)
+	{
+		objectPooler->DestroyUObject<UGC_Event>(queuedEventIt);
+	}
 }
 
 void UGC_EventRegister::OnWorldDestroyed(UWorld* destroyedWorld)

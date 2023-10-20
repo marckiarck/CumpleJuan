@@ -73,6 +73,8 @@ public:
 
 	class UGC_EventSequence* RegisterEventSequence(class UGC_EventSequenceDataAsset* sequenceData, UObject* aditionalData = nullptr);
 
+	void UnregisterEvent(UGC_Event* unregisteredEvent);
+
 	TArray<const UGC_Event*> GetLaunchedEvents();
 	TArray<const UGC_Event*> GetQueuedEvents();
 

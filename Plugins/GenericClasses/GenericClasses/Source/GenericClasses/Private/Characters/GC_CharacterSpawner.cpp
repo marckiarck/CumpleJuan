@@ -3,6 +3,7 @@
 
 #include "Characters/GC_CharacterSpawner.h"
 #include "GenericClasses/Public/GenericClassesMinimals.h"
+#include "ConditionSystem/GC_ConditionEvent.h"
 
 // Sets default values
 AGC_CharacterSpawner::AGC_CharacterSpawner()
@@ -17,6 +18,26 @@ void AGC_CharacterSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (conditionCreationData.conditionSentenceClass->IsValidLowLevel())
+	{
+		UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
+
+		FGC_EventCreationData creationData = FGC_EventCreationData();
+		creationData.eventClass = UGC_ConditionEvent::StaticClass();
+
+		UGC_ConditionEvent* conditionEvent = eventRegister->RegisterTemplatedEvent<UGC_ConditionEvent>(creationData);
+		conditionEvent->CreateConditionSentenceWithData(conditionCreationData);
+		conditionEvent->GetOnFinishEventDelegate().AddUObject(this, &AGC_CharacterSpawner::OnSpawnConditionSuccess);
+	}
+	else
+	{
+		SpawnCharacter();
+	}
+	
+}
+
+void AGC_CharacterSpawner::SpawnCharacter()
+{
 	FString ContextString = TEXT("Character Spawner context");
 
 	if (const UDataTable* spawnDatatable = spawnDataRowHandle.DataTable)
@@ -30,5 +51,18 @@ void AGC_CharacterSpawner::BeginPlay()
 			}
 		}
 	}
+}
+
+void AGC_CharacterSpawner::OnSpawnConditionSuccess(UGC_Event* successConditionEvent)
+{
+	SpawnCharacter();
+
+	if (spawnEventCreationData.eventClass->IsValidLowLevel())
+	{
+		UGC_EventRegister* eventRegister = UGC_SingletonRegister::GetInstance<UGC_EventRegister>();
+		
+		eventRegister->RegisterEvent(spawnEventCreationData);
+	}
+	
 }
 

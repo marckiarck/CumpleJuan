@@ -19,10 +19,24 @@ void UGC_ConditionEvent::OnEventTick(float deltaSeconds)
 	
 }
 
-void UGC_ConditionEvent::SetConditionSentence(TSubclassOf<UGC_ConditionSentence> conditionClass)
+void UGC_ConditionEvent::CreateConditionSentence(TSubclassOf<UGC_ConditionSentence> conditionClass, FDataTableRowHandle creationDataHandle /*= FDataTableRowHandle ()*/)
 {
+	GC_CHECK(conditionSentence && conditionSentence->IsValidLowLevel(), FString::Printf(TEXT("Overriding previous Condition Sentence of %s"), *GetName()));
+
 	UGC_ObjectPooler* objectPooler = UGC_SingletonRegister::GetInstance<UGC_ObjectPooler>();
-	conditionSentence = objectPooler->NewUObjectTemplated<UGC_ConditionSentence>(conditionClass);
+	conditionSentence = objectPooler->NewUObjectTemplated<UGC_ConditionSentence>(conditionClass, creationDataHandle);
+}
+
+void UGC_ConditionEvent::CreateConditionSentenceWithData(FGC_ConditionCreationData conditionCreationData)
+{
+	CreateConditionSentence(conditionCreationData.conditionSentenceClass, conditionCreationData.conditionsSpawnHandle);
+}
+
+void UGC_ConditionEvent::SetConditionSentence(UGC_ConditionSentence* newConditionSentence)
+{
+	GC_CHECK(conditionSentence && conditionSentence->IsValidLowLevel(), FString::Printf(TEXT("Overriding previous Condition Sentence of %s"), *GetName()));
+
+	conditionSentence = newConditionSentence;
 }
 
 FOnConditionSentenceChecked& UGC_ConditionEvent::GetOnConditionSentenceChecked()

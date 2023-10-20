@@ -41,13 +41,13 @@ T* IGC_PooledObjectInterface::GetRow(FDataTableRowHandle rowHandle)
 {
 	FString ContextString = TEXT("GetRow from PooledObjectInterface context");
 
-	GC_CHECK_AND_DO(rowHandle.DataTable, TEXT("Recieved a nullptr datatable"), {
+	GC_CHECK_AND_DO(rowHandle.DataTable == nullptr, TEXT("Recieved a nullptr datatable"), {
 		return nullptr;
 		});
 
 	T* handleRow = rowHandle.DataTable->FindRow<T>(rowHandle.RowName, ContextString, true);
 
-	GC_CHECK(handleRow, TEXT("TableRowBase class recieved doesn't match the type of the row passed in the handle"));
+	GC_CHECK(handleRow == nullptr, TEXT("TableRowBase class recieved doesn't match the type of the row passed in the handle"));
 
 	return handleRow;
 }

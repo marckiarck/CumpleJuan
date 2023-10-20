@@ -48,7 +48,7 @@ void UGC_Event::LaunchEvent(float deltaSeconds)
 		EventTick(deltaSeconds);
 
 		eventLifeTime += deltaSeconds;
-		if (eventDuration > 0.f && eventLifeTime >= eventDuration)
+		if (eventDuration >= 0.f && eventLifeTime >= eventDuration)
 		{
 			OnTimeOutEventDelegate.Broadcast(this);
 			FinishEvent();

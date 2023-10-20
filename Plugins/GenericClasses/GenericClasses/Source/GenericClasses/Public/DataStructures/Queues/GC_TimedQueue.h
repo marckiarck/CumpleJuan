@@ -74,11 +74,22 @@ public:
 						return;
 					}
 
-					currentNode = currentNode->nextNode;
+					GC_TimedNode<T>* nextNode = currentNode->nextNode;
+					if (nextNode)
+					{
+						currentNode = nextNode;
+					}
+					else
+					{
+						currentNode->nextNode = queuedNode;
+						queuedNode->previousNode = currentNode;
+						return;
+					}
 				}
 			}
 		}
 	};
+
 	void Dequeue(float timeStep, TArray<T*>& returnArray)
 	{
 		returnArray.Empty();

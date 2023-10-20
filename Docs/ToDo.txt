@@ -1,11 +1,8 @@
 Que un evento lance eventos no contempla cancelar los eventos hijos cuando se cancela o acaba uno padre
-Characters genericos
-Hacer que el spawner haga aparecer el enemigo cuando se quiera y no solo en el begin play
 Hacer que el AIController no empiece a ejecutar el behaviour tree en el begin play sino cuando se quiera
 Hacer un level loader
-Cancelar evento y gestionar la cancelación de estos
-Sistema de cache
+Cancelar evento y gestionar la cancelación de estos (de sus eventos hijos)
 Es super engorroso ir añadiendo aditionalData a todo. Se puede hacer algo para hacerlo mas agradable al uso??
 Sitemas de logs que usen el slate
-Los metodos del object pooler podrian moverse a un k2Node
 Permitir al object pooler para que se pueda spawnear actor sin pasarle un world
+Intentar que los blueprints de los eventos y las ConditionSentences sea un wrapper que permita que funcionen usando las clases padre y liberando la carga del object pooler

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "EventSystem/Events/GC_Event.h"
 #include "Conditions/GC_ConditionSentence.h"
+#include "GC_ConditionSentenceFactory.h"
 #include "GC_ConditionEvent.generated.h"
 
 
@@ -19,7 +20,9 @@ private:
 public:
 	virtual void OnEventTick(float deltaSeconds) override;
 
-	void SetConditionSentence(TSubclassOf<UGC_ConditionSentence> conditionClass);
+	void CreateConditionSentence(TSubclassOf<UGC_ConditionSentence> conditionClass, FDataTableRowHandle creationDataHandle =  FDataTableRowHandle ());
+	void CreateConditionSentenceWithData(FGC_ConditionCreationData conditionCreationData);
+	void SetConditionSentence(UGC_ConditionSentence* newConditionSentence);
 
 	FOnConditionSentenceChecked& GetOnConditionSentenceChecked();
 

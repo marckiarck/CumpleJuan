@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GC_Character.h"
+#include "ConditionSystem/Conditions/GC_ConditionSentence.h"
+#include "EventSystem/GC_EventRegister.h"
+#include "ConditionSystem/GC_ConditionSentenceFactory.h"
 #include "GC_CharacterSpawner.generated.h"
 
 UCLASS()
@@ -21,6 +24,12 @@ private:
 
 	UPROPERTY(Transient)
 		AGC_Character* spawnedCharacter;
+
+	UPROPERTY(EditAnywhere, Category="SpawnCondition", meta = (RowType = "GC_ConditionSentenceRow"))
+	FGC_ConditionCreationData conditionCreationData;
+
+	UPROPERTY(EditAnywhere, Category="SpawnEvent")
+	FGC_EventCreationData spawnEventCreationData;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -30,4 +39,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+private:
+	void SpawnCharacter();
+
+	UFUNCTION()
+	void OnSpawnConditionSuccess(UGC_Event* successConditionEvent);
 };
