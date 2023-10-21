@@ -40,6 +40,7 @@ public class GenericClassesEditor : ModuleRules
 				"BlueprintGraph",
 				"KismetCompiler",
 				"UnrealEd",
+                "ContentBrowser",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
