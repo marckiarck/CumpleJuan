@@ -10,6 +10,8 @@
 #include "EventSystem/GC_EventBlueprintFunctionLibrary.h"
 #include "K2Node_CustomEvent.h"
 
+int UK2Node_GC_BaseNode::customEventId = 0;
+
 FText UK2Node_GC_BaseNode::GetNodeTitle(ENodeTitleType::Type TitleType) const
 {
 	return FText::FromString(TEXT("TestNode"));
@@ -111,6 +113,7 @@ void UK2Node_GC_BaseNode::CreateFunctionParameterPins(UFunction* pinnedFunction,
 
 	//Delgates Pins
 	TArray<FName> functionDelegatesArray = GetFunctionDelegates(pinnedFunction);
+	int32 pinIndex = 0;
 	for (FName delegatesNameIt : functionDelegatesArray)
 	{
 		CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Exec, delegatesNameIt);
@@ -147,13 +150,18 @@ void UK2Node_GC_BaseNode::LinkFunctionParametersToPins(UFunction* pinnedFunction
 
 void UK2Node_GC_BaseNode::LinkFunctionDelegatesPins(UFunction* pinnedFunction, UK2Node_CallFunction* pinnedCallFunction, FKismetCompilerContext& CompilerContext, UEdGraph* SourceGraph, const UEdGraphSchema_K2* K2Schema)
 {
+	
 	UEdGraphPin* InternalThen = pinnedCallFunction->GetThenPin();
 	TArray<FName> delegatesArray = GetFunctionDelegates(pinnedFunction);
 	for (FName delegateNameIt : delegatesArray)
 	{
 
+		//Create event node
 		UK2Node_CustomEvent* pinnedFunctionDelegateEventNode = CompilerContext.SpawnIntermediateEventNode<UK2Node_CustomEvent>(this, pinnedCallFunction->FindPin(delegateNameIt), SourceGraph);
-		pinnedFunctionDelegateEventNode->CustomFunctionName = delegateNameIt;
+		FString eventId = FString::FromInt(++customEventId);
+		FName customEventName = delegateNameIt;
+		customEventName.AppendString(eventId);
+		pinnedFunctionDelegateEventNode->CustomFunctionName = *eventId;
 		pinnedFunctionDelegateEventNode->AllocateDefaultPins();
 
 		//Assign onEventFinish pin to event node

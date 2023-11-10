@@ -14,6 +14,9 @@ class GENERICCLASSESEDITOR_API UK2Node_GC_BaseNode : public UK2Node
 {
 	GENERATED_BODY()
 	
+private:
+	static int customEventId;
+
 public:
 	virtual FText GetNodeTitle(ENodeTitleType::Type TitleType) const override;
 	virtual FText GetTooltipText() const override;
