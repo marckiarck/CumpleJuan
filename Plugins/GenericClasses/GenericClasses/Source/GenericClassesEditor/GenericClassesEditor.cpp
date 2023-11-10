@@ -17,4 +17,4 @@ void FGenericClassesEditorModule::ShutdownModule()
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FGenericClassesEditorModule, GenericClassesDebug)
+IMPLEMENT_MODULE(FGenericClassesEditorModule, GenericClassesEditor)

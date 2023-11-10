@@ -30,8 +30,8 @@
 		},
 		{
 			"Name": "GenericClassesEditor",
-			"Type": "Editor",
-			"LoadingPhase": "Default"
+			"Type": "UncookedOnly",
+			"LoadingPhase": "PostEngineInit"
 		}
 	]
 }

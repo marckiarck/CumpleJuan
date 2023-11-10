@@ -30,7 +30,7 @@ private:
 
 	void CreateEditorComponentDataTable();
 
-	void LoadEditorComponents(const UDataTable* componentsDatatable);
+	void LoadEditorComponents(const class UGC_EditorComponentRow* componentsDatatable);
 
 	UFUNCTION()
 	void OnActorSelectionChanges(const TArray<UObject*>& selectedObjects, bool forceRefresh);

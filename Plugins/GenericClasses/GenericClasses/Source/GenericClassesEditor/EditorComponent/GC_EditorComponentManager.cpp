@@ -12,21 +12,23 @@
 #include "IContentBrowserSingleton.h"
 #include "Factories/BlueprintFactory.h"
 #include "Factories/DataTableFactory.h"
+#include "Factories/DataAssetFactory.h"
 
 
 const FString COMPONENTS_DATATABLE_PATH = FString(TEXT("/Game/EditorComponent/DT_EditorComponents"));
+const FString COMPONENTS_DATATABLE_PATH_REFERENCE = FString(TEXT("/Script/Engine.DataTable'/Game/EditorComponent/DT_EditorComponents.DT_EditorComponents'"));
 
 UGC_EditorComponentManager::UGC_EditorComponentManager()
 {
-	static ConstructorHelpers::FObjectFinder<UDataTable> componentsDatatableFinder(*COMPONENTS_DATATABLE_PATH);
-	const UDataTable* componentsDatatable = componentsDatatableFinder.Object;
-	if (componentsDatatable == nullptr)
-	{
-		return;
-		//CreateEditorComponentDataTable();
-	}
+	//static ConstructorHelpers::FObjectFinder<UDataTable> componentsDatatableFinder(*COMPONENTS_DATATABLE_PATH);
+	//const UDataTable* componentsDatatable = componentsDatatableFinder.Object;
+	//if (componentsDatatable == nullptr)
+	//{
+	//	CreateEditorComponentDataTable();
+	//	//return;
+	//}
 
-	LoadEditorComponents(componentsDatatable);
+	//LoadEditorComponents(componentsDatatable);
 
 	FLevelEditorModule& levelEditor = FModuleManager::GetModuleChecked<FLevelEditorModule>("LevelEditor");
 	levelEditor.OnActorSelectionChanged().AddUObject(this, &UGC_EditorComponentManager::OnActorSelectionChanges);
@@ -52,10 +54,11 @@ void UGC_EditorComponentManager::CreateEditorComponentDataTable()
 
 	// Create object and package
 	UPackage* package = CreatePackage(*PackageName);
-	UDataTableFactory* datatableFactory = NewObject<UDataTableFactory >(UDataTableFactory::StaticClass()); // Can omit, and a default factory will be used
-	//UObject* createdDatatable = AssetToolsModule.Get().CreateAsset(Name, PackagePath, UDataTable::StaticClass(), datatableFactory);
-	UObject* createdDatatable = datatableFactory->FactoryCreateNew(UDataTable::StaticClass(), nullptr, TEXT("DT_EditorComponents"), RF_Public, nullptr, nullptr);
-	UPackage::SavePackage(package, createdDatatable, RF_Public | RF_Standalone, *FPackageName::LongPackageNameToFilename(PackageName, FPackageName::GetAssetPackageExtension()));
+	UDataAssetFactory* dataAssetFactory = NewObject<UDataAssetFactory >(UDataAssetFactory::StaticClass()); // Can omit, and a default factory will be used
+	dataAssetFactory->DataAssetClass = UGC_EditorComponentRow::StaticClass();
+	UObject* createdDatatable = AssetToolsModule.Get().CreateAsset(Name, PackagePath, UGC_EditorComponentRow::StaticClass(), dataAssetFactory);
+	//UObject* createdDatatable = datatableFactory->FactoryCreateNew(UDataTable::StaticClass(), nullptr, TEXT("DT_EditorComponents"), RF_Public, nullptr, nullptr);
+	UPackage::Save(package, createdDatatable, RF_Public | RF_Standalone, *FPackageName::LongPackageNameToFilename(PackageName, FPackageName::GetAssetPackageExtension()));
 
 	// Inform asset registry
 	AssetRegistry.AssetCreated(createdDatatable);
@@ -66,25 +69,34 @@ void UGC_EditorComponentManager::CreateEditorComponentDataTable()
 	ContentBrowserModule.Get().SyncBrowserToAssets(Objects);
 }
 
-void UGC_EditorComponentManager::LoadEditorComponents(const UDataTable* componentsDatatable)
+void UGC_EditorComponentManager::LoadEditorComponents(const UGC_EditorComponentRow* componentsDatatable)
 {
-	FGC_EditorComponentRow* row = nullptr;
 
-	const FString contextString = TEXT("EditorComponent Context");
-	TArray<FName> rowNames = componentsDatatable->GetRowNames();
-	for (const FName rowNameIt : rowNames)
+	for (FGC_EditorComponentData editorComponentIt : componentsDatatable->editorComponents)
 	{
-		row = componentsDatatable->FindRow<FGC_EditorComponentRow>(rowNameIt, contextString);
-
-		if (row->load)
+		if (editorComponentIt.load)
 		{
-			RegisterEditorComponent(row->editorComponentClass);
+			RegisterEditorComponent(editorComponentIt.editorComponentClass);
 		}
 	}
 }
 
 void UGC_EditorComponentManager::OnActorSelectionChanges(const TArray<UObject*>& selectedObjects, bool forceRefresh)
 {
+	if (selectedObjects.Num() == 0)
+	{
+		return;
+	}
+
+	const UGC_EditorComponentRow* componentsDataAsset = Cast<UGC_EditorComponentRow>(StaticLoadObject(UGC_EditorComponentRow::StaticClass(), NULL, *COMPONENTS_DATATABLE_PATH_REFERENCE));
+	if (componentsDataAsset == nullptr)
+	{
+		CreateEditorComponentDataTable();
+		return;
+	}
+
+	LoadEditorComponents(componentsDataAsset);
+
 	for (UObject* selectedObject : selectedObjects)
 	{
 
@@ -118,7 +130,7 @@ void UGC_EditorComponentManager::OnActorSelectionChanges(const TArray<UObject*>&
 
 						FLevelEditorModule& levelEditor = FModuleManager::GetModuleChecked<FLevelEditorModule>("LevelEditor");
 						levelEditor.BroadcastComponentsEdited();
-						levelEditor.BroadcastRedrawViewports(true);
+						levelEditor.BroadcastRedrawViewports(true); 
 
 
 					}
